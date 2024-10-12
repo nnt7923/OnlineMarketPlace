@@ -118,7 +118,7 @@ public class LoginController extends HttpServlet {
             Role role = dao.getRoleByAccountId(account.getAccountId());
             session.setAttribute("role", role);
 
-            // ?i?u h??ng d?a tr?n vai tr?
+            // Điều hướng dựa trên vai trò
             if (role.getRole_name().equals("Admin")) {
                 response.sendRedirect("admin/dashboard.jsp");
             } else if (role.getRole_name().equals("Seller")) {
