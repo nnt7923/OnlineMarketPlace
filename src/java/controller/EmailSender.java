@@ -185,7 +185,7 @@ public class EmailSender extends HttpServlet {
     }
 
     private String generateRandomCode() {
-        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         StringBuilder code = new StringBuilder();
         Random rnd = new Random();
         while (code.length() < 6) {

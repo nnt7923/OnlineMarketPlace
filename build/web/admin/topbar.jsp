@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <h1>Manage Accounts</h1>
+    
     <!-- Sidebar Toggle (Topbar) -->
 
     <form class="form-inline">

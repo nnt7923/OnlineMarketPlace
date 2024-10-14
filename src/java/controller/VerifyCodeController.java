@@ -58,7 +58,7 @@ public class VerifyCodeController extends HttpServlet {
 
                 boolean addAccount = dao.add(new Account(username, password, email, phone, address, role, "active"));
                 session.removeAttribute("authCode");
-                session.setAttribute("successMessage", "Successful account registration");
+                session.setAttribute("message", "Successful account registration");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (authCode.equals(code) && flag.equalsIgnoreCase("forgotPassword")) {
                 request.getRequestDispatcher("newPassword.jsp").forward(request, response);
@@ -70,6 +70,7 @@ public class VerifyCodeController extends HttpServlet {
             response.getWriter().println("Confirmation code not found. Please try again.");
         }
     }
+
 
     private byte[] convertPathToByteArray(Path path) {
         try {

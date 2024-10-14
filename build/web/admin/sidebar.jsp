@@ -16,43 +16,29 @@
 
 <!--     Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="dashboard.jsp">
+        <a class="nav-link" href="admin/dashboard.jsp">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
 
 <!--     Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/admin/account">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/account">
             <i class="fas fa-fw fa-user"></i>
             <span>Account</span>
         </a>
-        
+    </li> 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_department" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/categories">
             <i class="fas fa-building"></i>
             <span>Category</span>
         </a>
-        <div id="collapse_department" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-
-                <a class="collapse-item" href="${pageContext.request.contextPath}/departments">List</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/departments/store">Create</a>
-            </div>
-        </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_role" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#">
             <i class="fas fa-pencil-ruler"></i>
             <span>Report</span>
         </a>
-        <div id="collapse_role" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-
-                <a class="collapse-item" href="${pageContext.request.contextPath}/roles">List</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/roles/store">Create</a>
-            </div>
-        </div>
     </li>
 <!--     Divider -->
     <hr class="sidebar-divider d-none d-md-block">

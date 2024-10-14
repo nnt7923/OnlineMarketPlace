@@ -38,7 +38,36 @@
                 <!-- Topbar -->
                 <%@include file="topbar.jsp" %>
                 <!-- End of Topbar -->
-
+                
+                <!-- add message -->
+                <%
+                        String message = (String) session.getAttribute("message");
+                        if (message != null) {
+                    %>
+                        <div class="alert alert-success">
+                            <%= message %>
+                        </div>
+                        <%
+                            session.removeAttribute("message"); // Remove it after displaying once
+                        %>
+                    <%
+                        }
+                    %>
+                    
+                    <!-- update message -->
+                    <%
+                        String successMessage = (String) session.getAttribute("successMessage");
+                        if (successMessage != null) {
+                    %>
+                        <div class="alert alert-success">
+                            <%= successMessage %>
+                        </div>
+                        <%
+                            session.removeAttribute("successMessage"); // Remove it after displaying once
+                        %>
+                    <%
+                        }
+                    %>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Manage Accounts Section -->
@@ -109,8 +138,6 @@
         <!-- End of Content Wrapper -->
         <%@include file="main-script.jsp" %>
         <!-- Footer -->
-        <%@include file="foot.jsp" %>
-        <!-- End of Footer -->
 
     </div>
     <!-- End of Page Wrapper -->
