@@ -101,9 +101,20 @@
                 <div class="row">
                     <div class="col-md-3 border-right">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-                            <span class="font-weight-bold">${account.username}</span> 
-                            <span class="text-black-50">${account.email}</span>
+                            <c:if test="${customer.customerImages != null}">
+                                <div class="avatar">
+                                    <img class="user_image" src="${customer.customerImages}" alt="" id="iUser" style="border: 1px solid #0D6EFD"/>
+                                    <input type="file" name="customerImage" id="form_file" style="display: none"/>
+                                </div>
+                            </c:if>
+                            <c:if test="${customer.customerImages == null}">
+                                <div class="avatar">
+                                    <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                                    <input type="file" name="customerImage" id="form_file" style="display: none"/>
+                                </div>
+                            </c:if>
+                            <span class="font-weight-bold" id="usernameDisplay">${account.username}</span> 
+                            <span class="text-black-50" id="emailDisplay">${account.email}</span>
                             <span> </span>
                             <a class="btn mt-3" href="orderhistory">Purchase History</a>
                         </div>
@@ -111,46 +122,113 @@
                     <div class="col-md-5 border-right">
                         <div class="p-3 py-5">
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <h4 class="text-right">Profile Settings</h4>
+                                <h4 class="text-right">YOUR PROFILES</h4>
+                                <button class="btn btn-primary" id="editButton" onclick="enableEdit()">Edit Profiles</button>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="labels">Full Name</label>
-                                    <input type="text" class="form-control" placeholder="Họ và tên: Chưa cập nhật" 
-                                           value="${account.username}" disabled> 
+                            <form id="profileForm" method="POST" action="/profiles">
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">User Name</label>
+                                        <input type="text" class="form-control" id="username" name="username" value="${account.username}" disabled> 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="labels">Gmail</label>
-                                    <input type="text" class="form-control" placeholder="Gmail: Chưa cập nhật" 
-                                           value="${account.email}" disabled>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Full Name</label>
+                                        <input type="text" class="form-control" id="fullName" name="fullName" value="${customer != null ? customer.customerName : ''}" disabled> 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="labels">Address </label>
-                                    <input type="text" class="form-control" placeholder="Địa chỉ: Chưa cập nhật" 
-                                           value="${account.address}" disabled>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label class="labels">Date of Birth</label>
+                                        <input type="date" class="form-control" id="dob" name="dob" value="${customer != null ? customer.customerDob : ''}" disabled>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="labels">Gender</label>
+                                        <select class="form-control" id="gender" name="gender" disabled>
+                                            <option value="Male" ${customer != null && customer.customerGender == 'Male' ? 'selected' : ''}>Male</option>
+                                            <option value="Female" ${customer != null && customer.customerGender == 'Female' ? 'selected' : ''}>Female</option>
+                                            <option value="Other" ${customer != null && customer.customerGender == 'Other' ? 'selected' : ''}>Other</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="labels">Phone Number</label>
-                                    <input type="text" class="form-control" placeholder="Số điện thoại: Chưa cập nhật" 
-                                           value="${account.phone}" disabled>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="${account.email}" disabled>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 mt-5 text-center">
-                            <a href="updateprofile" class="btn btn-primary profile-button" style="color: white;">Edit Information</a>
-                            <a href="changePassword.jsp" class="btn btn-primary profile-button" style="color: white;">Change Password</a>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Address</label>
+                                        <input type="text" class="form-control" id="address" name="address" value="${account.address}" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Phone Number</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="${account.phone}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mt-5 text-center">
+                                    <button type="button" class="btn btn-success profile-button" id="saveButton" onclick="saveProfile()" style="display: none;">Save</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+                                    
+        <script>
+            function enableEdit() {
+                // Cho phép chỉnh sửa các trường input và select
+                const inputs = document.querySelectorAll('#profileForm input, #profileForm select');
+                inputs.forEach(input => input.disabled = false);
+                document.getElementById('saveButton').style.display = 'block';
+                document.getElementById('editButton').style.display = 'none';
+            }
+
+            function saveProfile() {
+                const formData = new FormData(document.getElementById('profileForm'));
+
+                fetch('/OnlineMarketPlace/profiles', {
+                    method: 'POST',
+                    body: formData
+                })
+                        .then(response => {
+                            // Kiểm tra nếu nội dung phản hồi là JSON
+                            const contentType = response.headers.get("content-type");
+                            if (contentType && contentType.includes("application/json")) {
+                                return response.json();
+                            } else {
+                                throw new Error('Server không trả về JSON như mong đợi');
+                            }
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                alert("Thông tin đã được cập nhật thành công!");
+
+                                document.getElementById('usernameDisplay').textContent = formData.get('username');
+                                document.getElementById('emailDisplay').textContent = formData.get('email');
+
+                                const inputs = document.querySelectorAll('#profileForm input, #profileForm select');
+                                inputs.forEach(input => input.disabled = true);
+
+                                document.getElementById('editButton').style.display = 'block';
+                                document.getElementById('saveButton').style.display = 'none';
+                            } else {
+                                alert("Cập nhật thất bại. Vui lòng thử lại.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert("Đã xảy ra lỗi khi gửi yêu cầu. Vui lòng kiểm tra lại.");
+                        });
+            }
+        </script>
+
+
 
 
         <%@ include file="footer.jsp" %>

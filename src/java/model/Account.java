@@ -1,6 +1,7 @@
 package model;
 
 public class Account {
+
     private int accountId;
     private String username;
     private String password;
@@ -10,13 +11,24 @@ public class Account {
     private int roleId;
     private String status;
 
+    private Customer customer;
     // Getters và Setters
-
     public Account() {
     }
 
-    public Account(int accountId, String username, String password, String email, String phone, String address, int roleId, String status) {
+    public Account(int accountId, String username, String password, String email, String phone, String address, int roleId, String status, Customer customer) {
         this.accountId = accountId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.roleId = roleId;
+        this.status = status;
+        this.customer = customer;
+    }
+
+    public Account(String username, String password, String email, String phone, String address, int roleId, String status) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -90,10 +102,19 @@ public class Account {
         this.status = status;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @Override
     public String toString() {
-        return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", address=" + address + ", roleId=" + roleId + ", status=" + status + '}';
+        return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", address=" + address + ", roleId=" + roleId + ", status=" + status + ", customer=" + customer + '}';
     }
+
     
-    
+
 }

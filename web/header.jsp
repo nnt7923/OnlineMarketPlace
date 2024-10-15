@@ -23,8 +23,8 @@
                     <div class="top-link pe-2">
                         <c:if test="${account ne null}">
                             <a href="#" class="text-white">
-                                    <small class="text-white ms-2">Hello, ${account.username} </small>/
-                                </a>
+                                <small class="text-white ms-2">Hello, ${account.username} </small>/
+                            </a>
                         </c:if>
                         <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
                         <c:if test="${account eq null}">
@@ -34,21 +34,21 @@
                         </c:if>
                         <c:if test="${account ne null}">
                             <a href="${pageContext.request.contextPath}/logout" class="text-white">
-                                    <small class="text-white ms-2">Logout</small>
-                                </a>
+                                <small class="text-white ms-2">Logout</small>
+                            </a>
                         </c:if>
                     </div>
                 </div>
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.jsp" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+                    <a href="home" class="navbar-brand"><h1 class="text-primary display-6">Tech Store</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.jsp" class="nav-item nav-link active">Home</a>
+                            <a href="home" class="nav-item nav-link active">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
                             <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
@@ -64,9 +64,19 @@
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                            <a href="#" class="position-relative me-4 my-auto">
+                            <a href="cart" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                <c:if test="${sessionScope.account == null}">
+                                    <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
+                                    </c:if>
+                                    <c:if test="${sessionScope.account != null}">
+                                        <c:if test="${sessionScope.cart != null && sessionScope.cartSize != 0}">
+                                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${sessionScope.cartSize}</span>
+                                        </c:if>
+                                        <c:if test="${sessionScope.cart == null || sessionScope.cartSize == 0}">
+                                            <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
+                                        </c:if>
+                                    </c:if>
                             </a>
                             <c:choose>
                                 <c:when test="${sessionScope.account == null}">

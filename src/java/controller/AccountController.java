@@ -11,11 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-@WebServlet(name = "AccountController", urlPatterns = {"/account"})
+@WebServlet(name = "AccountController", urlPatterns = {"/account", "/admin/account"})
+
 public class AccountController extends HttpServlet {
 
     private AccountDAO accountDAO;
+    private static final Logger logger = Logger.getLogger(AccountController.class.getName());
 
     @Override
     public void init() {
@@ -29,87 +33,98 @@ public class AccountController extends HttpServlet {
             service = "listAll";
         }
 
-        switch (service) {
-            case "listAll":
-                // Lấy danh sách tất cả các Account
-                List<Account> accounts = accountDAO.listAll();
-
-                // Đặt danh sách vào request attribute
-                request.setAttribute("accounts", accounts);
-
-                // Chuyển tiếp tới JSP để hiển thị danh sách
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/manageAccount.jsp");
-                dispatcher.forward(request, response);
-                break;
-
-            case "addAccount":
-                addAccount(request, response);
-                break;
-
-            case "updateAccount":
-                updateAccount(request, response);
-                break;
-
-            case "deleteAccount":
-                deleteAccount(request, response);
-                break;
-
-            case "searchAccount":
-                searchAccount(request, response);
-                break;
-
-            case "addAccountForm":
-                showAddAccountForm(request, response);
-                break;
-
-            case "updateAccountForm":
-                showUpdateAccountForm(request, response);
-                break;
-
-            default:
-                response.sendRedirect("account?service=listAll");
-                break;
+        try {
+            switch (service) {
+                case "listAll":
+                    listAllAccounts(request, response);
+                    break;
+                case "addAccount":
+                    addAccount(request, response);
+                    break;
+                case "updateAccount":
+                    updateAccount(request, response);
+                    break;
+                case "deleteAccount":
+                    deleteAccount(request, response);
+                    break;
+                case "searchAccount":
+                    searchAccount(request, response);
+                    break;
+                case "addAccountForm":
+                    showAddAccountForm(request, response);
+                    break;
+                case "updateAccountForm":
+                    showUpdateAccountForm(request, response);
+                    break;
+                default:
+                    response.sendRedirect("account?service=listAll");
+                    break;
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error in processRequest: " + e.getMessage(), e);
+            response.sendRedirect("errorPage.jsp"); // �?i�?u hướng tới trang báo lỗi
         }
     }
 
-   
+    private void listAllAccounts(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Account> accounts = accountDAO.listAll();
+        request.setAttribute("accounts", accounts);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/manageAccount.jsp");
+        dispatcher.forward(request, response);
+    }
 
     private void addAccount(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String address = request.getParameter("address");
-        int roleID = Integer.parseInt(request.getParameter("roleID"));
-        String status = request.getParameter("status");
+        try {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String address = request.getParameter("address");
+            int roleID = Integer.parseInt(request.getParameter("roleID"));
+            String status = request.getParameter("status");
 
-        Account newAccount = new Account(0, username, password, email, phone, address, roleID, status);
-        accountDAO.add(newAccount);
-        response.sendRedirect("account?service=listAll");
+            Account newAccount = new Account(0, username, password, email, phone, address, roleID, status, null);
+            accountDAO.add(newAccount);
+            response.sendRedirect("account?service=listAll");
+        } catch (NumberFormatException e) {
+            logger.log(Level.SEVERE, "Error parsing roleID: " + e.getMessage(), e);
+            response.sendRedirect("errorPage.jsp");
+        }
     }
 
     private void updateAccount(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        int accountId = Integer.parseInt(request.getParameter("accountId"));
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String address = request.getParameter("address");
-        int roleId = Integer.parseInt(request.getParameter("roleId"));
-        String status = request.getParameter("status");
+        try {
+            int accountId = Integer.parseInt(request.getParameter("accountId"));
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            String phone = request.getParameter("phone");
+            String address = request.getParameter("address");
+            int roleId = Integer.parseInt(request.getParameter("roleId"));
+            String status = request.getParameter("status");
 
-        Account updatedAccount = new Account(accountId, username, password, email, phone, address, roleId, status);
-        accountDAO.update(updatedAccount);
-        response.sendRedirect("account?service=listAll");
+            Account updatedAccount = new Account(accountId, username, password, email, phone, address, roleId, status, null);
+            accountDAO.update(updatedAccount);
+            response.sendRedirect("account?service=listAll");
+        } catch (NumberFormatException e) {
+            logger.log(Level.SEVERE, "Error parsing roleId or accountId: " + e.getMessage(), e);
+            response.sendRedirect("errorPage.jsp");
+        }
     }
 
     private void deleteAccount(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        int accountIdToDelete = Integer.parseInt(request.getParameter("accountId"));
-        accountDAO.delete(accountIdToDelete);
-        response.sendRedirect("account?service=listAll");
+        try {
+            int accountIdToDelete = Integer.parseInt(request.getParameter("accountId"));
+            accountDAO.delete(accountIdToDelete);
+            response.sendRedirect("account?service=listAll");
+        } catch (NumberFormatException e) {
+            logger.log(Level.SEVERE, "Error parsing accountId: " + e.getMessage(), e);
+            response.sendRedirect("errorPage.jsp");
+        }
     }
 
     private void searchAccount(HttpServletRequest request, HttpServletResponse response)
@@ -129,11 +144,16 @@ public class AccountController extends HttpServlet {
 
     private void showUpdateAccountForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int accountIdToUpdate = Integer.parseInt(request.getParameter("accountId"));
-        Account accountToUpdate = accountDAO.getAccountById(accountIdToUpdate);
-        request.setAttribute("account", accountToUpdate);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/editAccount.jsp");
-        dispatcher.forward(request, response);
+        try {
+            int accountIdToUpdate = Integer.parseInt(request.getParameter("accountId"));
+            Account accountToUpdate = accountDAO.getAccountById(accountIdToUpdate);
+            request.setAttribute("account", accountToUpdate);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/editAccount.jsp");
+            dispatcher.forward(request, response);
+        } catch (NumberFormatException e) {
+            logger.log(Level.SEVERE, "Error parsing accountId: " + e.getMessage(), e);
+            response.sendRedirect("errorPage.jsp");
+        }
     }
 
     @Override

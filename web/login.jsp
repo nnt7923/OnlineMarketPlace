@@ -46,7 +46,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         </a>
                     </div>
                     <span>or use your account</span>
-                    <input type="text" name="email" placeholder="Enter email" maxlength="30" required="required" autocomplete="off" />
+                    <input type="email" name="email" placeholder="Enter email" maxlength="30" required="required" autocomplete="off" />
                     <input type="password" name="password" placeholder="Enter password" maxlength="16" required="required" autocomplete="off" />
                     <a href="#" id="forgotPasswordLink">Forgot your password?</a>
                     <button type="submit">Login</button>

@@ -29,7 +29,7 @@ public class LogoutController extends jakarta.servlet.http.HttpServlet {
 
         response.addCookie(cEmail);
         response.addCookie(cPass);
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("./home.jsp");
     }
 
     @Override

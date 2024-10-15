@@ -98,5 +98,10 @@ public class Product {
         this.brandId = brandId;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" + "productId=" + productId + ", name=" + name + ", img=" + img + ", price=" + price + ", title=" + title + ", description=" + description + ", cateID=" + cateID + ", seller_id=" + seller_id + ", brandId=" + brandId + '}';
+    }
+
     
 }

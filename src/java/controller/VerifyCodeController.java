@@ -48,7 +48,6 @@ public class VerifyCodeController extends HttpServlet {
                 session.removeAttribute("authCode");
                 request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
             } else if (authCode.equals(code) && flag.equalsIgnoreCase("register")) {
-                int id =(int) session.getAttribute("account_id");
                 String email = (String) session.getAttribute("email");
                 String phone = (String) session.getAttribute("phone");
                 String username = (String) session.getAttribute("username");
@@ -57,7 +56,7 @@ public class VerifyCodeController extends HttpServlet {
                 String address = (String) session.getAttribute("address");
                 AccountDAO dao = new AccountDAO();
 
-                boolean addAccount = dao.add(new Account(id, username, password, email, phone, address, role, "active"));
+                boolean addAccount = dao.add(new Account(username, password, email, phone, address, role, "active"));
                 session.removeAttribute("authCode");
                 session.setAttribute("message", "Successful account registration");
                 request.getRequestDispatcher("login.jsp").forward(request, response);

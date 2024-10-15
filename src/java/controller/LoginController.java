@@ -39,12 +39,12 @@ public class LoginController extends HttpServlet {
 
             Account account = accountDAO.getAccountByEmail(googleAccount.getEmail());
             if (account == null) {
-                // Tài kho?n không t?n t?i, t?o m?i
+                // T?i kho?n kh?ng t?n t?i, t?o m?i
                 account = new Account();
                 account.setUsername(googleAccount.getEmail().split("@")[0]);
                 account.setEmail(googleAccount.getEmail());
 
-                // T?o m?t kh?u ng?u nhiên cho tài kho?n Google
+                // T?o m?t kh?u ng?u nhi?n cho t?i kho?n Google
                 String randomPassword = accountDAO.generateRandomPassword();
                 account.setPassword(randomPassword);
 
@@ -52,18 +52,18 @@ public class LoginController extends HttpServlet {
                 account.setStatus("active");
                 accountDAO.addAccount(account);
 
-                // L?y l?i thông tin account m?i thêm t? DB ?? có ID chính xác
-                account = accountDAO.getAccountByEmail(googleAccount.getEmail());
+                // L?y l?i th?ng tin account m?i th?m t? DB ?? c? ID ch?nh x?c
+                account = (Account) accountDAO.getAccountByEmail(googleAccount.getEmail());
             }
 
             HttpSession session = request.getSession();
             session.setAttribute("account", account);
 
-            // L?y vai trò c?a tài kho?n t? c? s? d? li?u và l?u vào session
+            // L?y vai tr? c?a t?i kho?n t? c? s? d? li?u v? l?u v?o session
             Role role = accountDAO.getRoleByAccountId(account.getAccountId());
             
             if (role == null) {
-                // X? lý tr??ng h?p role không tìm th?y, tránh NullPointerException
+                // X? l? tr??ng h?p role kh?ng t?m th?y, tr?nh NullPointerException
                 request.setAttribute("errorMessage", "Role not found for the account.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
@@ -71,14 +71,14 @@ public class LoginController extends HttpServlet {
 
             session.setAttribute("role", role);
 
-            // ?i?u h??ng d?a trên vai trò
-            if (role.getRoleName().equals("admin")) {
+            // ?i?u h??ng d?a tr?n vai tr?
+            if (role.getRoleName().equals("Admin")) {
                 response.sendRedirect("admin/dashboard.jsp");
-            } else if (role.getRoleName().equals("seller")) {
+            } else if (role.getRoleName().equals("Seller")) {
                 response.sendRedirect("seller/dashboard.jsp");
-            } else if (role.getRoleName().equals("customer")) {
-                response.sendRedirect("./index.jsp");
-            } else if (role.getRoleName().equals("shipper")) {
+            } else if (role.getRoleName().equals("Customer")) {
+                response.sendRedirect("./home.jsp");
+            } else if (role.getRoleName().equals("Shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
         } catch (IOException e) {
@@ -118,14 +118,14 @@ public class LoginController extends HttpServlet {
             Role role = dao.getRoleByAccountId(account.getAccountId());
             session.setAttribute("role", role);
 
-            // ?i?u h??ng d?a trên vai trò
-            if (role.getRoleName().equals("admin")) {
+            // ?i?u h??ng d?a tr?n vai tr?
+            if (role.getRoleName().equals("Admin")) {
                 response.sendRedirect("admin/dashboard.jsp");
-            } else if (role.getRoleName().equals("seller")) {
+            } else if (role.getRoleName().equals("Seller")) {
                 response.sendRedirect("seller/dashboard.jsp");
-            } else if (role.getRoleName().equals("customer")) {
-                response.sendRedirect("./index.jsp");
-            } else if (role.getRoleName().equals("shipper")) {
+            } else if (role.getRoleName().equals("Customer")) {
+                response.sendRedirect("./home.jsp");
+            } else if (role.getRoleName().equals("Shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
         } else {
