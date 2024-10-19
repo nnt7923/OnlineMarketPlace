@@ -113,6 +113,7 @@ public class CategoryController extends HttpServlet {
     private void addCategory(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String cname = request.getParameter("cname");
+        String cimg = request.getParameter("cimg");
         Category category = new Category();
         category.setCname(cname);
         categoryDAO.addCategory(category);
@@ -123,7 +124,8 @@ public class CategoryController extends HttpServlet {
             throws ServletException, IOException {
         int cid = Integer.parseInt(request.getParameter("cid"));
         String cname = request.getParameter("cname");
-        Category category = new Category(cid, cname);
+        String cimg = request.getParameter("cimg");
+        Category category = new Category(cid, cname, cimg);
         categoryDAO.update(category);
         response.sendRedirect("categories");
     }

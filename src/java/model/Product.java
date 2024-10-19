@@ -7,7 +7,7 @@ public class Product {
     private double price;
     private String title;
     private String description;
-    private int cateID;
+    private int cid;
     private int seller_id;
     private int brandId;
     private int quantity;
@@ -15,26 +15,34 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productId, String name, String img, double price, String title, String description, int cateID, int seller_id, int brandId) {
+    public Product(int productId, String name, String img) {
         this.productId = productId;
         this.name = name;
         this.img = img;
-        this.price = price;
-        this.title = title;
-        this.description = description;
-        this.cateID = cateID;
-        this.seller_id = seller_id;
-        this.brandId = brandId;
     }
+    
+    
 
-    public Product(int productId, String name, String img, double price, String title, String description, int cateID, int seller_id, int brandId, int quantity) {
+//    public Product(int productId, String name, String img, double price, String title, String description, int cid, int seller_id, int brandId) {
+//        this.productId = productId;
+//        this.name = name;
+//        this.img = img;
+//        this.price = price;
+//        this.title = title;
+//        this.description = description;
+//        this.cid = cid;
+//        this.seller_id = seller_id;
+//        this.brandId = brandId;
+//    }
+
+    public Product(int productId, String name, String img, double price, String title, String description, int cid, int seller_id, int brandId, int quantity) {
         this.productId = productId;
         this.name = name;
         this.img = img;
         this.price = price;
         this.title = title;
         this.description = description;
-        this.cateID = cateID;
+        this.cid = cid;
         this.seller_id = seller_id;
         this.brandId = brandId;
         this.quantity = quantity;
@@ -98,13 +106,15 @@ public class Product {
         this.description = description;
     }
 
-    public int getCateID() {
-        return cateID;
+    public int getCid() {
+        return cid;
     }
 
-    public void setCateID(int cateID) {
-        this.cateID = cateID;
+    public void setCid(int cid) {
+        this.cid = cid;
     }
+
+    
 
     public int getSeller_id() {
         return seller_id;

@@ -13,9 +13,10 @@ public class CategoryDAO extends DBContext {
 
     // Add new Category
     public boolean addCategory(Category category) {
-        String query = "INSERT INTO Category (cname) VALUES (?)";
+        String query = "INSERT INTO Category (cname,cimg) VALUES (?,?)";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, category.getCname());
+            ps.setString(2, category.getCimg());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -30,7 +31,7 @@ public class CategoryDAO extends DBContext {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new Category(rs.getInt("cid"), rs.getString("cname"));
+                return new Category(rs.getInt("cid"), rs.getString("cname"), rs.getString("cimg"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,38 +41,41 @@ public class CategoryDAO extends DBContext {
 
     // List all Categories
     public List<Category> listAll() {
-    List<Category> categories = new ArrayList<>();
-    String query = "SELECT * FROM Category";
-    
-    try (PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+        List<Category> categories = new ArrayList<>();
+        String query = "SELECT * FROM Category";
 
-        while (rs.next()) {
-            Category category = new Category(
-                    rs.getInt("cid"),     // Getting the 'cid' field from the result set
-                    rs.getString("cname") // Getting the 'cname' field from the result set
-            );
-            categories.add(category);  // Adding the Category object to the list
+        try (PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("cid"), // Getting the 'cid' field from the result set
+                        rs.getString("cname"), // Getting the 'cname' field from the result set
+                        rs.getString("cimg")
+                );
+                categories.add(category);  // Adding the Category object to the list
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        return categories;  // Returning the list of categories
     }
-    
-    return categories;  // Returning the list of categories
-}
 
     // Update Category
     public boolean update(Category category) {
-    String query = "UPDATE Category SET cname = ? WHERE cid = ?";
-    try (PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, category.getCname());
-        ps.setInt(2, category.getCid());
-        return ps.executeUpdate() > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
+        String query = "UPDATE Category SET cname = ? , cimg = ? WHERE cid = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, category.getCname());
+            ps.setString(2, category.getCimg());
+            ps.setInt(3, category.getCid());
+            
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-    return false;
-}
 
     // Delete Category
     public boolean deleteCategory(int id) {
@@ -84,25 +88,26 @@ public class CategoryDAO extends DBContext {
         }
         return false;
     }
-    
+
     public List<Category> search(String keyword) {
-    List<Category> categories = new ArrayList<>();
-    String query = "SELECT * FROM Category WHERE cname LIKE ?";
-    try (PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, "%" + keyword + "%");  // Use wildcard for partial matching
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Category category = new Category(
-                rs.getInt("cid"),
-                rs.getString("cname")
-            );
-            categories.add(category);  // Add category to the list
+        List<Category> categories = new ArrayList<>();
+        String query = "SELECT * FROM Category WHERE cname LIKE ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, "%" + keyword + "%");  // Use wildcard for partial matching
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("cid"),
+                        rs.getString("cname"),
+                        rs.getString("cimg")
+                );
+                categories.add(category);  // Add category to the list
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return categories;  // Return the list of matching categories
     }
-    return categories;  // Return the list of matching categories
-}
 
     public static void main(String[] args) {
         CategoryDAO categoryDAO = new CategoryDAO();

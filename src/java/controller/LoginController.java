@@ -73,11 +73,11 @@ public class LoginController extends HttpServlet {
 
                 Account acc = new Account();
 
-                if (acc.getStatus().equals("inactive")) {
-                    request.setAttribute("errorAccount", "Account has been locked.");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
-                }
+//                if (acc.getStatus().equals("inactive")) {
+//                    request.setAttribute("errorAccount", "Account has been locked.");
+//                    request.getRequestDispatcher("login.jsp").forward(request, response);
+//                    return;
+//                }
 
                 // ?i?u h??ng d?a tr?n vai tr?
                 if (role.getRole_name().equals("Admin")) {

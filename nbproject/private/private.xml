@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/seller/includes/sidebar.jsp</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/src/java/controller/LogoutController.java</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/seller/includes/logout-modal.jsp</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/login.jsp</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/css/loginCSS.css</file>
+            <file>file:/D:/swp/OnlineMarketPlace/src/java/dao/ProductDAO.java</file>
+            <file>file:/D:/swp/OnlineMarketPlace/src/java/controller/HomePageController.java</file>
+            <file>file:/D:/swp/OnlineMarketPlace/src/java/model/Product.java</file>
+            <file>file:/D:/swp/OnlineMarketPlace/web/home.jsp</file>
+            <file>file:/D:/swp/OnlineMarketPlace/src/java/controller/CategoryController.java</file>
+            <file>file:/D:/swp/OnlineMarketPlace/web/header.jsp</file>
         </group>
     </open-files>
 </project-private>

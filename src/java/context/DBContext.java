@@ -28,8 +28,8 @@ public class DBContext {
     }
 
     public DBContext() {
-        this("jdbc:sqlserver://localhost:1433;databaseName=mk3;encrypt=true;trustServerCertificate=true",
-                "sa","sa");
+        this("jdbc:sqlserver://localhost:1433;databaseName=shop1;encrypt=true;trustServerCertificate=true",
+                "sa","123456");
 
     }
 

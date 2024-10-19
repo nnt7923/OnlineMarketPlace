@@ -364,19 +364,6 @@
                     <a href="#" id="forgotPasswordLink">Forgot your password?</a>
                     <button type="submit">Login</button>
                 </form>
-                    <%
-                        String errorAccount = (String) session.getAttribute("errorAccount");
-                        if (errorAccount != null) {
-                    %>
-                        <div class="alert alert-danger">
-                            <%= errorAccount %>
-                        </div>
-                        <%
-                            session.removeAttribute("errorAccount"); // Remove it after displaying once
-                        %>
-                    <%
-                        }
-                    %>
             </div>
 
             <!-- Overlay for switching between login and registration -->

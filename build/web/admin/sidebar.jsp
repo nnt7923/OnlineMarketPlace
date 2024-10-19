@@ -35,6 +35,12 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/brands">
+            <i class="fas fa-building"></i>
+            <span>Brand</span>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link collapsed" href="#">
             <i class="fas fa-pencil-ruler"></i>
             <span>Report</span>
