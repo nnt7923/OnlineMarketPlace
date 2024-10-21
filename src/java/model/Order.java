@@ -1,25 +1,32 @@
 package model;
 
+import java.util.Date;
+import java.util.List;
+
 public class Order {
     private int orderId;
-    private int accountId;
+    private Customer customer;
     private double totalPrice;
     private String note;
-    private String createDate;
-    private int shippingId;
-    private int customerId;
-
+    private Date ordertime;
+    private Shipping shipping;
+    private List <OrderDetail> orderDetail;
+    private Status status;
+    private String payment;
+    
     public Order() {
     }
 
-    public Order(int orderId, int accountId, double totalPrice, String note, String createDate, int shippingId, int customerId) {
+    public Order(int orderId, Customer customer, double totalPrice, String note, Date ordertime, Shipping shipping, List<OrderDetail> orderDetail, Status status, String payment) {
         this.orderId = orderId;
-        this.accountId = accountId;
+        this.customer = customer;
         this.totalPrice = totalPrice;
         this.note = note;
-        this.createDate = createDate;
-        this.shippingId = shippingId;
-        this.customerId = customerId;
+        this.ordertime = ordertime;
+        this.shipping = shipping;
+        this.orderDetail = orderDetail;
+        this.status = status;
+        this.payment = payment;
     }
 
     public int getOrderId() {
@@ -30,12 +37,12 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public double getTotalPrice() {
@@ -54,29 +61,49 @@ public class Order {
         this.note = note;
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public Date getOrdertime() {
+        return ordertime;
     }
 
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
+    public void setOrdertime(Date ordertime) {
+        this.ordertime = ordertime;
     }
 
-    public int getShippingId() {
-        return shippingId;
+    public Shipping getShipping() {
+        return shipping;
     }
 
-    public void setShippingId(int shippingId) {
-        this.shippingId = shippingId;
+    public void setShipping(Shipping shipping) {
+        this.shipping = shipping;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public List<OrderDetail> getOrderDetail() {
+        return orderDetail;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setOrderDetail(List<OrderDetail> orderDetail) {
+        this.orderDetail = orderDetail;
     }
 
-    
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getPayment() {
+        return payment;
+    }
+
+    public void setPayment(String payment) {
+        this.payment = payment;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" + "orderId=" + orderId + ", customer=" + customer + ", totalPrice=" + totalPrice + ", note=" + note + ", ordertime=" + ordertime + ", shipping=" + shipping + ", orderDetail=" + orderDetail + ", status=" + status + ", payment=" + payment + '}';
+    }
+
 }
