@@ -965,6 +965,7 @@
                                     showConfirmButton: false,
                                     timer: 1500
                                 }).then(() => {
+                                    window.location.href = '${pageContext.request.contextPath}/cart';
                                 });
                             },
                             error: function (xhr, status, error) {
