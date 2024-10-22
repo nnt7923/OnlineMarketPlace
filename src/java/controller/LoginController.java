@@ -119,25 +119,18 @@ public class LoginController extends HttpServlet {
         Account account = dao.login(email, password);
 
         if (account != null) {
-            if (account.getStatus().equals("inactive")) {
-                // Redirect to login page and show error message for inactive account
-                request.setAttribute("errorMessage", "Your account is inactive.");
-                request.setAttribute("emailLogin", email);  // To retain the email on the login page
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;  // Stop further execution
-            }
-
-            // Account is active, proceed with login
             HttpSession session = request.getSession();
+            session.setAttribute("account_id", account.getAccountId());
             session.setAttribute("account", account);
 
             Role role = dao.getRoleByAccountId(account.getAccountId());
             session.setAttribute("role", role);
 
-            // Redirect based on the role
+            // ?i?u h??ng d?a tr?n vai tr?
             if (role.getRole_name().equals("Admin")) {
                 response.sendRedirect("admin/dashboard.jsp");
             } else if (role.getRole_name().equals("Seller")) {
+                session.setAttribute("seller_id", account.getAccountId());
                 response.sendRedirect("seller/dashboard.jsp");
             } else if (role.getRole_name().equals("Customer")) {
                 response.sendRedirect("./home.jsp");
@@ -145,9 +138,8 @@ public class LoginController extends HttpServlet {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
         } else {
-            // Invalid email or password, show error
             request.setAttribute("errorMessage", "Invalid email or password.");
-            request.setAttribute("emailLogin", email);  // Retain email in the login form
+            request.setAttribute("emailLogin", email);
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

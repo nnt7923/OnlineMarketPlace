@@ -62,6 +62,24 @@ public class CategoryDAO extends DBContext {
         return categories;  // Returning the list of categories
     }
 
+        public List<Category> listAllNoImg() {
+        List<Category> categories = new ArrayList<>();
+        String query = "SELECT * FROM Category";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Category category = new Category(
+                    rs.getInt("cid"),          // Lấy mã danh mục
+                    rs.getString("cname"),     // Lấy tên danh mục
+                    null                       // Không lấy cimg vì không cần thiết
+                );
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;  // Trả về danh sách category
+    }
     // Update Category
     public boolean update(Category category) {
         String query = "UPDATE Category SET cname = ? , cimg = ? WHERE cid = ?";

@@ -40,4 +40,24 @@ public class SellerDAO extends DBContext {
         }
         return false;
     }
+    
+        // Lấy seller_id từ account_id
+    public int getSellerIdByAccountId(int accountId) throws SQLException {
+        String sql = "SELECT seller_id FROM Seller WHERE account_id = ?";
+        
+        try (Connection conn = new DBContext().conn;
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+             
+            ps.setInt(1, accountId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("seller_id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return -1; // Nếu không tìm thấy seller_id
+    }
 }
