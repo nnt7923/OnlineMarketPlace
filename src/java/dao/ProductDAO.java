@@ -132,29 +132,31 @@ public void addProductFromForm(Product product, int accountId) throws SQLExcepti
     }
 
     // Hàm thêm chi tiết sản phẩm vào ProductDetails
-    public void addProductDetails(ProductDetails productDetails) throws SQLException {
-        String sql = "INSERT INTO ProductDetails (product_id, pdname, pdprice_discount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+public void addProductDetails(ProductDetails productDetails) throws SQLException {
+    String sql = "INSERT INTO ProductDetails (product_id, pdname, pdprice_discount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Lấy tên sản phẩm từ bảng Product dựa vào product_id
-        String pdname = getProductNameByProductId(productDetails.getProductId());
+    // Lấy tên sản phẩm từ bảng Product dựa vào product_id
+    String pdname = getProductNameByProductId(productDetails.getProductId());
 
-        try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, productDetails.getProductId());
-            ps.setString(2, pdname); // pdname tự động lấy từ bảng Product
-            ps.setDouble(3, productDetails.getPdpriceDiscount());
-            ps.setString(4, productDetails.getPdcolor());
-            ps.setString(5, productDetails.getPdimg());
-            ps.setString(6, productDetails.getPdcriteria());
-            ps.setInt(7, productDetails.getPdquantity());
-            ps.setString(8, productDetails.getPddescribe());
-            ps.setString(9, productDetails.getPdspecification());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
+    try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, productDetails.getProductId());
+        ps.setString(2, pdname); // pdname tự động lấy từ bảng Product
+        ps.setDouble(3, productDetails.getPdpriceDiscount());
+        ps.setString(4, productDetails.getPdcolor());
+        ps.setString(5, productDetails.getPdimg());  // Chuỗi đường dẫn ảnh
+        ps.setString(6, productDetails.getPdcriteria());
+        ps.setInt(7, productDetails.getPdquantity());
+        ps.setString(8, productDetails.getPddescribe());
+        ps.setString(9, productDetails.getPdspecification());
+        ps.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw e;
     }
+}
+
+
     // Hàm lấy tất cả các chi tiết sản phẩm từ ProductDetails
 
     public List<ProductDetails> getAllProductDetails() throws SQLException {

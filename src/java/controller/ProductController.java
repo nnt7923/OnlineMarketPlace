@@ -154,13 +154,13 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
             // Lấy sellerId từ session
             HttpSession session = request.getSession(false);
             if (session == null) {
-                request.setAttribute("errorMessage", "Please log in again.");
+                request.setAttribute("errorMessage", "Please, log in again.");
                 response.sendRedirect("login.jsp");
                 return;
             }
             Integer accountId = (Integer) session.getAttribute("account_id");
             if (accountId == null) {
-                request.setAttribute("errorMessage", "Please log in again.");
+                request.setAttribute("errorMessage", "Please, log in again.");
                 response.sendRedirect("login.jsp");
                 return;
             }
@@ -292,45 +292,75 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
     }
 
     // Xử lý thêm chi tiết sản phẩm
-    private void addProductDetail(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        if (request.getMethod().equalsIgnoreCase("POST")) {
-            try {
-                String productIdStr = request.getParameter("product_id");
-                String pdpriceDiscountStr = request.getParameter("pdprice_discount");
-                String pdcolor = request.getParameter("pdcolor");
-                String pdimg = request.getParameter("pdimg");
-                String pdcriteria = request.getParameter("pdcriteria");
-                String pdquantityStr = request.getParameter("pdquantity");
-                String pddescribe = request.getParameter("pddescribe");
-                String pdspecification = request.getParameter("pdspecification");
+private void addProductDetail(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    if (request.getMethod().equalsIgnoreCase("POST")) {
+        try {
+            // Lấy thông tin chi tiết sản phẩm từ form
+            String productIdStr = request.getParameter("product_id");
+            String pdpriceDiscountStr = request.getParameter("pdprice_discount");
+            String pdcolor = request.getParameter("pdcolor");
+            String pdcriteria = request.getParameter("pdcriteria");
+            String pdquantityStr = request.getParameter("pdquantity");
+            String pddescribe = request.getParameter("pddescribe");
+            String pdspecification = request.getParameter("pdspecification");
 
-                // Kiểm tra giá trị đầu vào
-                if (productIdStr == null || pdpriceDiscountStr == null || pdquantityStr == null) {
-                    request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin.");
-                    showAddProductDetailForm(request, response);
-                    return;
-                }
-
-                // Chuyển đổi giá trị nhập vào
-                int productId = Integer.parseInt(productIdStr);
-                double pdpriceDiscount = Double.parseDouble(pdpriceDiscountStr);
-                int pdquantity = Integer.parseInt(pdquantityStr);
-
-                // Tạo đối tượng ProductDetails và thêm vào cơ sở dữ liệu
-                ProductDetails productDetails = new ProductDetails(productId, productId, pdimg, pdpriceDiscount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification);
-                productDAO.addProductDetails(productDetails);
-
-                request.setAttribute("successMessage", "Thêm chi tiết sản phẩm thành công.");
+            // Kiểm tra đầu vào
+            if (productIdStr == null || pdpriceDiscountStr == null || pdquantityStr == null) {
+                request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin.");
                 showAddProductDetailForm(request, response);
-            } catch (NumberFormatException e) {
-                request.setAttribute("errorMessage", "Lỗi: " + e.getMessage());
-                showAddProductDetailForm(request, response);
+                return;
             }
-        } else {
+
+            // Chuyển đổi giá trị nhập vào
+            int productId = Integer.parseInt(productIdStr);
+            double pdpriceDiscount = Double.parseDouble(pdpriceDiscountStr);
+            int pdquantity = Integer.parseInt(pdquantityStr);
+
+            // Xử lý upload nhiều ảnh
+            Part[] fileParts = request.getParts().stream().filter(part -> "img".equals(part.getName())).toArray(Part[]::new);
+            StringBuilder imgPaths = new StringBuilder();
+
+            // Đường dẫn để lưu ảnh trên server
+            String uploadPath = getServletContext().getRealPath("/uploads");
+
+            // Kiểm tra và tạo thư mục nếu chưa tồn tại
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            for (Part filePart : fileParts) {
+                if (filePart.getSize() > 0) {
+                    String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+                    filePart.write(uploadPath + File.separator + fileName);
+                    imgPaths.append("uploads/").append(fileName).append(","); // Lưu đường dẫn ảnh
+                }
+            }
+
+            // Xóa dấu phẩy cuối cùng
+            if (imgPaths.length() > 0) {
+                imgPaths.setLength(imgPaths.length() - 1);
+            }
+
+            // Tạo đối tượng chi tiết sản phẩm
+            ProductDetails productDetails = new ProductDetails(0, productId, pdcolor, pdpriceDiscount, pdcolor, imgPaths.toString(), pdcriteria, pdquantity, pddescribe, pdspecification);
+            productDAO.addProductDetails(productDetails);
+
+            request.setAttribute("successMessage", "Thêm chi tiết sản phẩm thành công.");
+            showAddProductDetailForm(request, response);
+        } catch (NumberFormatException e) {
+            request.setAttribute("errorMessage", "Lỗi định dạng số: " + e.getMessage());
+            showAddProductDetailForm(request, response);
+        } catch (SQLException e) {
+            request.setAttribute("errorMessage", "Lỗi cơ sở dữ liệu: " + e.getMessage());
             showAddProductDetailForm(request, response);
         }
+    } else {
+        showAddProductDetailForm(request, response);
     }
+}
+
 protected void listProductDetails(HttpServletRequest request, HttpServletResponse response)
         throws SQLException, ServletException, IOException {
     HttpSession session = request.getSession();
