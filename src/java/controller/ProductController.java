@@ -516,10 +516,24 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
 
 
     private void deleteProductDetail(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+            throws SQLException, IOException, ServletException {
         int pdId = Integer.parseInt(request.getParameter("pd_id"));
+
+    try {
+        // Xóa sản phẩm từ database
         productDAO.deleteProductDetails(pdId);
-        response.sendRedirect("product?action=list");
+
+        // Sử dụng forward thay vì sendRedirect để chuyển tiếp đến danh sách sản phẩm
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product?service=list");
+        dispatcher.forward(request, response);
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+
+        // Nếu có lỗi, hiển thị trang lỗi
+        request.setAttribute("errorMessage", "Lỗi khi xóa sản phẩm: " + e.getMessage());
+        request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+    }
     }
 
     private void showEditDetailForm(HttpServletRequest request, HttpServletResponse response)
