@@ -1,254 +1,129 @@
-<%@page import="java.util.List"%>
-<%@page import="model.Account"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="model.Role" %>
 <!DOCTYPE html>
-<html lang="vi">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Dashboard</title>
-        <style>
-            /* Reset m?c ??nh */
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
+<html lang="en">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-            body {
-                font-family: 'Arial', sans-serif;
-                background-color: #f4f4f4;
-            }
+    <%
+    Role role = (Role) session.getAttribute("role");
+    if (role == null || !"Admin".equals(role.getRole_name())) {
+        response.sendRedirect(request.getContextPath() + "/403.jsp");
+        return;
+    }
+%>
+    
+    <%@include file="header.jsp" %>
+    <body id="page-top">
 
-            /* Header */
-            header {
-                background-color: #64c14a;
-                color: white;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 20px;
-            }
+        <!-- Page Wrapper -->
+        <div id="wrapper">
 
-            header .logo h1 {
-                font-size: 24px;
-                font-weight: bold;
-            }
+            <!-- Sidebar -->
+            <%@include file="sidebar.jsp" %>
 
-            header .user-info {
-                display: flex;
-                align-items: center;
-            }
+            <!-- End of Sidebar -->
 
-            header .user-info span {
-                margin-right: 20px;
-            }
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
 
-            header .user-info .logout-btn {
-                background-color: #fff;
-                color: #64c14a;
-                padding: 5px 15px;
-                border-radius: 4px;
-                text-decoration: none;
-                transition: background-color 0.3s ease;
-            }
+                <!-- Main Content -->
+                <div id="content">
 
-            header .user-info .logout-btn:hover {
-                background-color: #eaeaea;
-            }
+                    <!-- Topbar -->
+                    <%@include file="topbar.jsp" %>
+                    <!-- End of Topbar -->
 
-            /* Sidebar */
-            .sidebar {
-                width: 250px;
-                background-color: #333;
-                color: white;
-                position: fixed;
-                height: 100vh;
-                padding: 20px 0;
-            }
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
 
-            .sidebar ul {
-                list-style: none;
-                padding-left: 0;
-            }
 
-            .sidebar ul li {
-                margin: 15px 0;
-            }
+                        <!-- Content Row -->
+                        <div class="row">
 
-            .sidebar ul li a {
-                color: white;
-                text-decoration: none;
-                font-size: 18px;
-                display: block;
-                padding: 10px;
-                transition: background-color 0.3s;
-            }
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Account</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">9</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fa-regular fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-            .sidebar ul li a:hover {
-                background-color: #575757;
-            }
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                    Category</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">2</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fa-solid fa-list"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-            /* Main content */
-            .content {
-                margin-left: 250px;
-                padding: 40px;
-            }
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                </div>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Report</div>-
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="progress progress-sm mr-2">
+                                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fa-regular fa-flag"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            .content section {
-                display: none; /* ?n m?c ??nh */
-                margin-bottom: 40px;
-            }
+                </div>
 
-            .content h2 {
-                font-size: 28px;
-                color: #333;
-                margin-bottom: 15px;
-            }
-
-            .content p {
-                font-size: 16px;
-                color: #666;
-            }
-
-            @media (max-width: 768px) {
-                .sidebar {
-                    width: 100%;
-                    height: auto;
-                    position: relative;
-                }
-
-                .content {
-                    margin-left: 0;
-                    padding: 20px;
-                }
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Header -->
-        <header>
-            <div class="logo">
-                <h1>Fruitables Dashboard</h1>
             </div>
-            <div class="user-info">
-                <span>Admin</span>
-                <c:if test="${account ne null}">
-                    <a href="${pageContext.request.contextPath}/logout" class="text-white">
-                        <button class="btn btn-success" class="text-white ms-2">Logout</button>
-                    </a>
-                </c:if>
-            </div>
-        </header>
+            <!-- End of Main Content -->
+            <%@include file="main-script.jsp" %>
+            <!-- Footer -->
+            <%@include file="foot.jsp" %>
+            <!-- End of Footer -->
 
-        <!-- Sidebar -->
-        <nav class="sidebar">
-            <ul>
-                <li><a href="#manageCategories" data-section="manageCategories">Manage Categories</a></li>
-                <li><a href="account?service=listAll" data-section="manageAccounts">Manage Accounts</a></li>
-                <li><a href="#reports" data-section="reports">Reports</a></li>
-            </ul>
-        </nav>
+        </div>
+        <!-- End of Content Wrapper -->
 
-        <!-- Main Content -->
-        <main class="content">
-            <section id="manageCategories">
-                <h2>Manage Categories</h2>
-                <p>Here you can manage product categories.</p>
-            </section>
-
-            <section id="accounts">
-                <h2>Manage Accounts</h2>
-
-                <form action="account?service=listAll" method="get">
-                    <input type="text" name="keyword" placeholder="Search by username">
-                    <input type="hidden" name="service" value="searchAccount">
-                    <button type="submit">Search</button>
-                </form>
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Role ID</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%
-                            List<Account> accounts = (List<Account>) request.getAttribute("accounts");
-                            if (accounts != null && !accounts.isEmpty()) {
-                                for (Account account : accounts) {
-                        %>
-                        <tr>
-                            <td><%= account.getAccountId()%></td>
-                            <td><%= account.getUsername()%></td>
-                            <td><%= account.getPassword()%></td>
-                            <td><%= account.getEmail()%></td>
-                            <td><%= account.getPhone()%></td>
-                            <td><%= account.getAddress()%></td>
-                            <td><%= account.getRoleId()%></td>
-                            <td><%= account.getStatus()%></td>
-                            <td>
-                                <a href="account?service=updateAccountForm&accountId=<%= account.getAccountId()%>">Edit</a>
-                                <a href="account?service=deleteAccount&accountId=<%= account.getAccountId()%>" onclick="return confirm('Are you sure?')">Delete</a>
-                            </td>
-                        </tr>
-                        <%
-                            }
-                        } else {
-                        %>
-                        <tr>
-                            <td colspan="8">No accounts found.</td>
-                        </tr>
-                        <%
-                            }
-                        %>
-                    </tbody>
-                </table>
-                <a href="account?service=addAccountForm">Add New Account</a>
-            </section>
-
-            <section id="reports">
-                <h2>Reports</h2>
-                <p>View all the reports here.</p>
-            </section>
-        </main>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const sections = document.querySelectorAll('section');
-                const links = document.querySelectorAll('.sidebar ul li a');
+    
+    <!-- End of Page Wrapper -->
 
 
-                // ?n t?t c? c?c section
-                sections.forEach(section => section.style.display = 'none');
 
-                // Hi?n th? section ??u ti?n
-                document.querySelector('#manageCategories').style.display = 'block';
+</body>
 
-                // X? l? s? ki?n khi nh?n v?o li?n k?t trong sidebar
-
-                links.forEach(link => {
-                    link.addEventListener('click', function (e) {
-                        const sectionID = link.getAttribute('data-section');
-                        if (sectionID !== "manageAccounts") {
-                            e.preventDefault();
-                            sections.forEach(section => section.style.display = 'none');
-                            // Hi?n th? section ???c ch?n
-                            const targetSection = document.getElementById(sectionID);
-                            targetSection.style.display = 'block';
-                        } else {
-                            window.location.href = "account?service=listAll"; // ?i?u h??ng ??n servlet Manage Accounts
-                        }
-                    });
-                });
-            });
-        </script>
-    </body>
 </html>
+

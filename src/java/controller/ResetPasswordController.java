@@ -83,10 +83,10 @@ public class ResetPasswordController extends HttpServlet {
         session.removeAttribute("email_reset");
 
         if (!PasswordValidator.isValidPassword(newPassword)) {
-            session.setAttribute("errormessage", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số");
+            session.setAttribute("errormessage", "It must contain at least 8 characters, including at least 1 uppercase letter, 1 lowercase letter, and 1 number.");
             response.sendRedirect("newPassword.jsp");
         } else {
-            session.setAttribute("message", "Reset Password Successfully!");
+            session.setAttribute("successMessage", "Reset Password Successfully!");
             response.sendRedirect("login.jsp");
         }
     }

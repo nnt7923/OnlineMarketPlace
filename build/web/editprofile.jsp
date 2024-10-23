@@ -123,7 +123,7 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-md-12">
-                                            <label for="username">Full Name</label>
+                                            <label for="username">Username</label>
                                             <input type="text" class="form-control" id="username" name="username" value="${account.username}" required>
                                         </div>
                                     </div>

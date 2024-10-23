@@ -54,9 +54,6 @@
                             <h4 class="text-light mb-3">Shop Info</h4>
                             <a class="btn-link" href="">About Us</a>
                             <a class="btn-link" href="">Contact Us</a>
-                            <a class="btn-link" href="">Privacy Policy</a>
-                            <a class="btn-link" href="">Terms & Condition</a>
-                            <a class="btn-link" href="">Return Policy</a>
                             <a class="btn-link" href="">FAQs & Help</a>
                         </div>
                     </div>
@@ -66,7 +63,6 @@
                             <a class="btn-link" href="">My Account</a>
                             <a class="btn-link" href="">Shop details</a>
                             <a class="btn-link" href="">Shopping Cart</a>
-                            <a class="btn-link" href="">Wishlist</a>
                             <a class="btn-link" href="">Order History</a>
                             <a class="btn-link" href="">International Orders</a>
                         </div>

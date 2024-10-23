@@ -285,6 +285,21 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    public String getStatusById(int id) {
+        String sql = "SELECT status FROM Account WHERE account_id = ?";
+        try ( PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("status");  // Ch? l?y c?t status
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;  // Tr? v? null n?u kh�ng t�m th?y
+    }
+
     public int updatePassword(String newPassword, String email) {
         String sql = "UPDATE Account SET password = ? WHERE email = ?";
 
@@ -300,7 +315,7 @@ public class AccountDAO extends DBContext {
             return 0;
         }
     }
-    
+
     public void updateAccountInfo(int accountId, String username, String email, String phone, String address) {
         String query = "UPDATE Account SET username = ?, email = ?, phone = ?, address = ? WHERE account_id = ?";
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {

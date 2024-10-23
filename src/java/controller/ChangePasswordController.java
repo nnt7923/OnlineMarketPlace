@@ -17,46 +17,55 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // L?y thông tin ng??i dùng t? session
+        // Get user account from session
         HttpSession session = request.getSession(false);
         Account account = (Account) session.getAttribute("account");
 
         if (account == null) {
-            // N?u ch?a ??ng nh?p, chuy?n v? trang ??ng nh?p
+            // If user is not logged in, redirect to login page
             response.sendRedirect("login.jsp");
             return;
         }
 
-        // L?y d? li?u t? form
+        // Retrieve form data
         String currentPassword = request.getParameter("currentPassword");
         String newPassword = request.getParameter("newPassword");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        // So sánh tr?c ti?p m?t kh?u hi?n t?i v?i m?t kh?u trong tài kho?n
+        // Check if current password matches the user's actual password
         if (!account.getPassword().equals(currentPassword)) {
             request.setAttribute("errorMessage", "Current password is incorrect!");
             request.getRequestDispatcher("changePassword.jsp").forward(request, response);
             return;
         }
 
-        // Ki?m tra m?t kh?u m?i và xác nh?n m?t kh?u có trùng kh?p không
+        // Check if new password matches the confirm password
         if (!newPassword.equals(confirmPassword)) {
             request.setAttribute("errorMessage", "New password and confirm password do not match!");
             request.getRequestDispatcher("changePassword.jsp").forward(request, response);
             return;
         }
 
-        // C?p nh?t m?t kh?u m?i
+        // Validate the new password before updating
+        if (!PasswordValidator.isValidPassword(newPassword)) {
+            request.setAttribute("errorMessage", "It must be at least 8 characters long, and contain at least 1 uppercase letter, 1 lowercase letter, and 1 number.");
+            request.getRequestDispatcher("changePassword.jsp").forward(request, response);
+            return;
+        }
+
+        // If all checks pass, update the password in the database
         AccountDAO dao = new AccountDAO();
         int result = dao.updatePassword(newPassword, account.getEmail());
 
-        if (!PasswordValidator.isValidPassword(newPassword)) {
-            request.setAttribute("errorMessage", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số.");
-            request.getRequestDispatcher("changePassword.jsp").forward(request, response);
-        } else {
+        if (result > 0) {
+            // Update password in session if successful
+            account.setPassword(newPassword);
+            session.setAttribute("account", account);
             request.setAttribute("successMessage", "Password changed successfully!");
             request.getRequestDispatcher("profile.jsp").forward(request, response);
-            
+        } else {
+            request.setAttribute("errorMessage", "Error updating password. Please try again.");
+            request.getRequestDispatcher("changePassword.jsp").forward(request, response);
         }
     }
 }

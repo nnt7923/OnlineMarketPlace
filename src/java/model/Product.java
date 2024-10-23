@@ -10,6 +10,7 @@ public class Product {
     private int cateID;
     private int seller_id;
     private int brandId;
+    private int quantity;
 
     public Product() {
     }
@@ -25,6 +26,29 @@ public class Product {
         this.seller_id = seller_id;
         this.brandId = brandId;
     }
+
+    public Product(int productId, String name, String img, double price, String title, String description, int cateID, int seller_id, int brandId, int quantity) {
+        this.productId = productId;
+        this.name = name;
+        this.img = img;
+        this.price = price;
+        this.title = title;
+        this.description = description;
+        this.cateID = cateID;
+        this.seller_id = seller_id;
+        this.brandId = brandId;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    
+    
 
     public int getProductId() {
         return productId;

@@ -1,4 +1,3 @@
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -15,12 +14,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.mail.*;
 import javax.mail.internet.*;
 import model.Account;
@@ -34,7 +32,6 @@ import validation.PasswordValidator;
 public class EmailSender extends HttpServlet {
 
 //    private static final String PHONE_NUMBER_REGEX = "^0\\d{9}$";
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -68,15 +65,18 @@ public class EmailSender extends HttpServlet {
 //                request.getRequestDispatcher("login.jsp").forward(request, response);
 //                return;
 //            }
-             if (!PasswordValidator.isValidPassword(password)) {
-                session.setAttribute("errorMessage", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số");
-                    request.getRequestDispatcher("register.jsp").forward(request, response);
-                    return;
-            } 
+            if (!PasswordValidator.isValidPassword(password)) {
+                request.setAttribute("errorMessage", "It must contain at least 8 characters, including at least 1 uppercase letter, 1 lowercase letter, and 1 number.");
+                setAttributes(request, username, password, email, phone, address, role);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
+            }
+
             // check exist email
             for (Account account : list) {
                 if (email.equals(account.getEmail())) {
-                    session.setAttribute("message", "Email already exists!!!");
+                    request.setAttribute("errorMessage", "Email already exists!!!");
+                    setAttributes(request, username, password, email, phone, address, role);
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     return;
                 }
@@ -86,6 +86,24 @@ public class EmailSender extends HttpServlet {
             session.setAttribute("email_reset", email);
         } else if (flag.equalsIgnoreCase("forgotPassword")) {
             email_forgot = request.getParameter("email_forgot");
+
+            // Check if the email exists in the system using getAccountByEmail method
+            Account account = null;
+            try {
+                account = dao.getAccountByEmail(email_forgot);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle error, maybe redirect to an error page
+            }
+
+            if (account == null) {
+                // If the email does not exist, show an error message and do not proceed with OTP
+                request.setAttribute("errorMessage", "Email does not exist in the system!");
+                setAttributes(request, username, password, email, phone, address, role);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
+            }
+
             session.setAttribute("flag", flag);
             session.setAttribute("email_reset", email_forgot);
         }
@@ -97,15 +115,15 @@ public class EmailSender extends HttpServlet {
 
         if (emailSent && flag.equalsIgnoreCase("register")) {
             // Save the confirmation code and send to session
-            session.setAttribute("authCode", code);
-            session.setAttribute("codeGeneratedTime", System.currentTimeMillis());
+            request.setAttribute("authCode", code);
+            request.setAttribute("codeGeneratedTime", System.currentTimeMillis());
 
-            session.setAttribute("email", email);
-            session.setAttribute("phone", phone);
-            session.setAttribute("username", username);
-            session.setAttribute("role", role);
-            session.setAttribute("password", password);
-            session.setAttribute("address", address);
+            request.setAttribute("email", email);
+            request.setAttribute("phone", phone);
+            request.setAttribute("username", username);
+            request.setAttribute("role", role);
+            request.setAttribute("password", password);
+            request.setAttribute("address", address);
 
             // sendRedirect verify page
             response.sendRedirect("verifyCode.jsp");
@@ -119,12 +137,19 @@ public class EmailSender extends HttpServlet {
         }
 
     }
+    private void setAttributes(HttpServletRequest request, String username, String password, String email, String phone, String address, int role) {
+    request.setAttribute("username", username);
+    request.setAttribute("password", password);
+    request.setAttribute("email", email);
+    request.setAttribute("phone", phone);
+    request.setAttribute("address", address);
+    request.setAttribute("role", role);
+}
 
     private boolean sendEmail(String recipient, String code) throws UnsupportedEncodingException {
         // email account information
-        String email = "truongnnhe172873@fpt.edu.vn";
-//        String password = "Truong2003";
-        String appPassword = "davx eoar hfjw rsux";
+        String email = "noreplyonlyread@gmail.com";
+        String appPassword = "soej fvbi oicy choa";
         String smtpHost = "smtp.gmail.com";
         int smtpPort = 587;
 
@@ -144,7 +169,7 @@ public class EmailSender extends HttpServlet {
 
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(email, "Admin"));
+            message.setFrom(new InternetAddress(email, "FireflyShop"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             message.setSubject("Verification");
             message.setText("Your verification code is: " + code);
