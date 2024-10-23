@@ -378,25 +378,16 @@ private void deleteProduct(HttpServletRequest request, HttpServletResponse respo
         // Xóa sản phẩm từ database
         productDAO.deleteProduct(productId);
 
-        // Kiểm tra xem phản hồi đã được cam kết hay chưa
-        if (!response.isCommitted()) {
-            // Nếu chưa, chuyển hướng về danh sách sản phẩm
-            response.sendRedirect("product?service=listProductsBySeller");
-            return; // Dừng xử lý thêm sau khi đã chuyển hướng
-        } else {
-            // Nếu phản hồi đã được cam kết, chỉ trả về thông báo trạng thái
-            response.getWriter().println("Product deleted successfully, but response was already committed.");
-        }
+        // Sử dụng forward thay vì sendRedirect để chuyển tiếp đến danh sách sản phẩm
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product?service=listProductsBySeller");
+        dispatcher.forward(request, response);
+
     } catch (SQLException e) {
         e.printStackTrace();
-        
-        // Đặt thông báo lỗi và chuyển tiếp đến trang lỗi
-        if (!response.isCommitted()) {
-            request.setAttribute("errorMessage", "Lỗi khi xóa sản phẩm: " + e.getMessage());
-            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
-        } else {
-            response.getWriter().println("Error occurred, but response was already committed.");
-        }
+
+        // Nếu có lỗi, hiển thị trang lỗi
+        request.setAttribute("errorMessage", "Lỗi khi xóa sản phẩm: " + e.getMessage());
+        request.getRequestDispatcher("errorPage.jsp").forward(request, response);
     }
 }
 
