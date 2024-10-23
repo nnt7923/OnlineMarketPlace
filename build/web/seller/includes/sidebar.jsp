@@ -38,7 +38,8 @@
 
                 <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=addProduct">Add Product</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=addProductDetail">Add Product Detail</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=list">List
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=listProductsBySeller">List</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=list">List Product Details</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/departments/store">Create</a>
             </div
         </div>

@@ -50,17 +50,17 @@ public class ProductController extends HttpServlet {
 
         try {
             switch (service) {
-                case "listAll":
-//                    listAllProducts(request, response);
+                case "listProductsBySeller":
+                    listProductsBySeller(request, response);
                     break;
                 case "addProduct":
                     addProduct(request, response);
                     break;
-//                case "updateProduct":
-//                    updateProduct(request, response);
-//                    break;
-//                case "deleteProduct":
-//                    deleteProduct(request, response);
+                case "updateProduct":
+                    showEditForm(request, response);
+                    break;
+                case "deleteProduct":
+                    deleteProduct(request, response);
 //                    break;
 //                case "searchProduct":
 //                    searchProduct(request, response);
@@ -242,6 +242,166 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
         RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/addProduct.jsp");
         dispatcher.forward(request, response);
     }
+// Hiển thị danh sách sản phẩm của người bán
+private void listProductsBySeller(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    HttpSession session = request.getSession();
+    Integer accountId = (Integer) session.getAttribute("account_id");
+
+    if (accountId == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
+    try {
+        // Lấy seller_id từ accountId
+        int sellerId = sellerDAO.getSellerIdByAccountId(accountId);
+
+        // Lấy danh sách sản phẩm của seller
+        List<Product> products = productDAO.getProductsBySellerId(sellerId);
+
+        // Đặt danh sách sản phẩm vào request attribute để truyền đến JSP
+        request.setAttribute("products", products);
+
+        // Chuyển tiếp đến trang JSP hiển thị danh sách sản phẩm
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/listProducts.jsp");
+        dispatcher.forward(request, response);
+    } catch (SQLException e) {
+        e.printStackTrace();
+        request.setAttribute("errorMessage", "Lỗi khi lấy dữ liệu sản phẩm.");
+        response.sendRedirect("errorPage.jsp");
+    }
+}
+protected void listProductDetails(HttpServletRequest request, HttpServletResponse response)
+        throws SQLException, ServletException, IOException {
+    HttpSession session = request.getSession();
+    Integer accountId = (Integer) session.getAttribute("account_id");
+
+    if (accountId == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
+    try {
+        // Lấy seller_id từ accountId
+        int sellerId = sellerDAO.getSellerIdByAccountId(accountId);
+
+        // Lấy danh sách chi tiết sản phẩm của seller dựa vào sellerId
+        List<ProductDetails> productDetailsList = productDAO.getProductDetailsBySellerId(sellerId);
+
+        // Đặt danh sách sản phẩm chi tiết vào request attribute để truyền đến JSP
+        request.setAttribute("productDetailsList", productDetailsList);
+
+        // Chuyển tiếp đến trang JSP hiển thị danh sách chi tiết sản phẩm
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/productDetailList.jsp");
+        dispatcher.forward(request, response);
+    } catch (SQLException e) {
+        e.printStackTrace();
+        request.setAttribute("errorMessage", "Lỗi khi lấy dữ liệu sản phẩm.");
+        response.sendRedirect("errorPage.jsp");
+    }
+}
+
+// Hiển thị form chỉnh sửa sản phẩm
+// Hiển thị form chỉnh sửa sản phẩm
+private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    int productId = Integer.parseInt(request.getParameter("productId"));
+            CategoryDAO categoryDAO = new CategoryDAO();
+        BrandDAO brandDAO = new BrandDAO();
+    try {
+        Product existingProduct = productDAO.getProductById(productId); // Lấy sản phẩm từ database
+        List<Category> categories = categoryDAO.listAllNoImg(); // Lấy danh sách danh mục
+        List<Brand> brands = brandDAO.listAll(); // Lấy danh sách thương hiệu
+
+        request.setAttribute("product", existingProduct);
+        request.setAttribute("categories", categories); // Đặt danh sách danh mục
+        request.setAttribute("brands", brands); // Đặt danh sách thương hiệu
+
+        // Chuyển tiếp đến trang JSP chỉnh sửa sản phẩm
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/editProduct.jsp");
+        dispatcher.forward(request, response);
+    } catch (SQLException e) {
+        e.printStackTrace();
+        request.setAttribute("errorMessage", "Lỗi khi lấy dữ liệu sản phẩm.");
+        response.sendRedirect("errorPage.jsp");
+    }
+}
+
+
+// Cập nhật sản phẩm
+// Cập nhật sản phẩm
+private void updateProduct(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    try {
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        String name = request.getParameter("name");
+        double price = Double.parseDouble(request.getParameter("price"));
+        String title = request.getParameter("title");
+        int cateID = Integer.parseInt(request.getParameter("cateID"));
+        int brandId = Integer.parseInt(request.getParameter("brand_id"));
+
+        // Xử lý ảnh tải lên
+        Part filePart = request.getPart("img");
+        String imgPath = null;
+        if (filePart != null && filePart.getSize() > 0) {
+            String realPath = getServletContext().getRealPath("/uploads");
+            String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+            filePart.write(realPath + File.separator + fileName);
+            imgPath = "uploads/" + fileName;
+        } else {
+            // Nếu không có ảnh mới, giữ lại ảnh cũ
+            imgPath = request.getParameter("currentImg");
+        }
+
+        // Cập nhật sản phẩm vào database
+//        Product product = new Product(productId, name, price, title, cateID, brandId, imgPath);
+        Product product = new Product(productId, name, price, title, cateID, brandId, cateID, imgPath);
+        productDAO.updateProduct(product);
+
+        // Chuyển hướng về trang danh sách sản phẩm
+        response.sendRedirect("product?service=listProduct");
+    } catch (SQLException e) {
+        e.printStackTrace();
+        request.setAttribute("errorMessage", "Lỗi khi cập nhật sản phẩm: " + e.getMessage());
+        showEditForm(request, response);
+    }
+}
+
+
+
+// Xóa sản phẩm
+private void deleteProduct(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    int productId = Integer.parseInt(request.getParameter("productId"));
+    try {
+        // Xóa sản phẩm từ database
+        productDAO.deleteProduct(productId);
+
+        // Kiểm tra xem phản hồi đã được cam kết hay chưa
+        if (!response.isCommitted()) {
+            // Nếu chưa, chuyển hướng về danh sách sản phẩm
+            response.sendRedirect("product?service=listProductsBySeller");
+            return; // Dừng xử lý thêm sau khi đã chuyển hướng
+        } else {
+            // Nếu phản hồi đã được cam kết, chỉ trả về thông báo trạng thái
+            response.getWriter().println("Product deleted successfully, but response was already committed.");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        
+        // Đặt thông báo lỗi và chuyển tiếp đến trang lỗi
+        if (!response.isCommitted()) {
+            request.setAttribute("errorMessage", "Lỗi khi xóa sản phẩm: " + e.getMessage());
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response);
+        } else {
+            response.getWriter().println("Error occurred, but response was already committed.");
+        }
+    }
+}
+
+
+
 
 //    private void showUpdateProductForm(HttpServletRequest request, HttpServletResponse response)
 //            throws ServletException, IOException {
@@ -361,35 +521,7 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
     }
 }
 
-protected void listProductDetails(HttpServletRequest request, HttpServletResponse response)
-        throws SQLException, ServletException, IOException {
-    HttpSession session = request.getSession();
-    Integer accountId = (Integer) session.getAttribute("account_id");
 
-    if (accountId == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-
-    try {
-        // Lấy seller_id từ accountId
-        int sellerId = sellerDAO.getSellerIdByAccountId(accountId);
-
-        // Lấy danh sách chi tiết sản phẩm của seller dựa vào sellerId
-        List<ProductDetails> productDetailsList = productDAO.getProductDetailsBySellerId(sellerId);
-
-        // Đặt danh sách sản phẩm chi tiết vào request attribute để truyền đến JSP
-        request.setAttribute("productDetailsList", productDetailsList);
-
-        // Chuyển tiếp đến trang JSP hiển thị danh sách chi tiết sản phẩm
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/productDetailList.jsp");
-        dispatcher.forward(request, response);
-    } catch (SQLException e) {
-        e.printStackTrace();
-        request.setAttribute("errorMessage", "Lỗi khi lấy dữ liệu sản phẩm.");
-        response.sendRedirect("errorPage.jsp");
-    }
-}
 
 
     private void deleteProductDetail(HttpServletRequest request, HttpServletResponse response)
@@ -399,7 +531,7 @@ protected void listProductDetails(HttpServletRequest request, HttpServletRespons
         response.sendRedirect("product?action=list");
     }
 
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+    private void showEditDetailForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         int pdId = Integer.parseInt(request.getParameter("pd_id"));
         ProductDetails existingProductDetail = productDAO.getProductDetailsById(pdId);  // Thêm phương thức này vào DAO

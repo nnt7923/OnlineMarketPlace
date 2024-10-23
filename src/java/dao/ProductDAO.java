@@ -85,8 +85,30 @@ public void addProductFromForm(Product product, int accountId) throws SQLExcepti
         throw e;
     }
 }
-
-
+public Product getProductById(int productId) throws SQLException {
+    String query = "SELECT * FROM Product WHERE product_id = ?";
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setInt(1, productId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new Product(
+                rs.getInt("product_id"),
+                rs.getString("name"),
+                rs.getDouble("price"),
+                rs.getString("title"),
+                rs.getString("img")
+            );
+        }
+    }
+    return null;
+}
+public void deleteProduct(int productId) throws SQLException {
+    String query = "DELETE FROM Product WHERE product_id = ?";
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setInt(1, productId);
+        ps.executeUpdate();
+    }
+}
     // Method to get product name based on product_id
     public String getProductNameByProductId(int productId) throws SQLException {
         String sql = "SELECT name FROM Product WHERE product_id = ?";
@@ -107,7 +129,7 @@ public void addProductFromForm(Product product, int accountId) throws SQLExcepti
     // Method to get products by seller_id
     public List<Product> getProductsBySellerId(int sellerId) throws SQLException {
         List<Product> productList = new ArrayList<>();
-        String sql = "SELECT product_id, name, img FROM Product WHERE seller_id = ?";
+        String sql = "SELECT product_id, name, img,price FROM Product WHERE seller_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, sellerId);
             ResultSet rs = ps.executeQuery();
@@ -115,7 +137,7 @@ public void addProductFromForm(Product product, int accountId) throws SQLExcepti
                 Product product = new Product(
                         rs.getInt("product_id"),
                         rs.getString("name"),
-                        0,  // price not provided in this query
+                         rs.getDouble("price"),  // price not provided in this query
                         null,  // title not provided in this query
                         0,  // cid
                         0,  // brandId
@@ -130,6 +152,20 @@ public void addProductFromForm(Product product, int accountId) throws SQLExcepti
         }
         return productList;
     }
+// Cập nhật sản phẩm
+public void updateProduct(Product product) throws SQLException {
+    String query = "UPDATE Product SET name = ?, price = ?, title = ?, cateID = ?, brand_id = ?, img = ? WHERE product_id = ?";
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
+        ps.setString(1, product.getName());
+        ps.setDouble(2, product.getPrice());
+        ps.setString(3, product.getTitle());
+        ps.setInt(4, product.getCid());  // Cập nhật danh mục
+        ps.setInt(5, product.getBrandId());  // Cập nhật thương hiệu
+        ps.setString(6, product.getImg());   // Cập nhật đường dẫn ảnh
+        ps.setInt(7, product.getProductId()); // Điều kiện WHERE cho product_id
+        ps.executeUpdate();
+    }
+}
 
     // Hàm thêm chi tiết sản phẩm vào ProductDetails
 public void addProductDetails(ProductDetails productDetails) throws SQLException {
