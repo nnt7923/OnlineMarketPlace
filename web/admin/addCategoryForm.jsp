@@ -40,9 +40,13 @@
                                 <!-- Hidden action field -->
                                 <input type="hidden" name="action" value="add">
 
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-4">
                                     <label for="cname">Category Name</label>
                                     <input type="text" class="form-control" id="cname" name="cname" required>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="cimg">Category Images</label>
+                                    <input type="text" class="form-control" id="cimg" name="cimg" required>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Add Category</button>

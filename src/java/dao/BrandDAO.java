@@ -27,7 +27,7 @@ public class BrandDAO extends DBContext {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new Brand(rs.getInt("brandId"), rs.getString("brandName"));
+                return new Brand(rs.getInt("brand_id"), rs.getString("brandName"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
