@@ -166,7 +166,7 @@
                                         String activeClass = (i == 0) ? "active" : "";
                                 %>
                                 <div class="carousel-item <%= activeClass %>">
-                                    <img src="<%= products.get(i).getImg() %>" 
+                                    <img src="img/banner-ads/banner-ads-<%= i+1 %>.jpg" 
                                          class="d-block w-100 rounded"
                                          alt="Product slide"
                                          style="width: 600px; height: 400px; object-fit: cover;">
@@ -473,12 +473,11 @@
         <div class="container-fluid py-5">
             <div class="container py-5">
                 <div class="text-center mx-auto mb-5" style="max-width: 700px;">
-                    <h1 class="display-4">Bestseller Products</h1>
-                    <p>Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.</p>
+                    <h1 class="display-4">New Products</h1>
                 </div>
                 <div class="row g-4">
                     <% 
-                                List<Product> pd = (List<Product>) request.getAttribute("bestSeller");
+                                List<Product> pd = (List<Product>) request.getAttribute("newProduct");
                                     for (int i=0;i<pd.size();i++) {
                     %>
                     <div class="col-lg-6 col-xl-4">

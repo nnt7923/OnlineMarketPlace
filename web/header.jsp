@@ -28,12 +28,12 @@
                         </c:if>
                         <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
                         <c:if test="${account eq null}">
-                            <a href="login.jsp" class="text-white">
+                            <a href="login" class="text-white">
                                 <small class="text-white ms-2">Login</small>
                             </a>
                         </c:if>
                         <c:if test="${account ne null}">
-                            <a href="${pageContext.request.contextPath}/logout" class="text-white">
+                            <a href="logout" class="text-white">
                                     <small class="text-white ms-2">Logout</small>
                                 </a>
                         </c:if>

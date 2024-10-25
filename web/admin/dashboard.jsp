@@ -6,13 +6,6 @@
 <html lang="en">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <%
-    Role role = (Role) session.getAttribute("role");
-    if (role == null || !"Admin".equals(role.getRole_name())) {
-        response.sendRedirect(request.getContextPath() + "/403.jsp");
-        return;
-    }
-%>
     
     <%@include file="header.jsp" %>
     <body id="page-top">
@@ -112,8 +105,7 @@
             <!-- End of Main Content -->
             <%@include file="main-script.jsp" %>
             <!-- Footer -->
-            <%@include file="foot.jsp" %>
-            <!-- End of Footer -->
+            
 
         </div>
         <!-- End of Content Wrapper -->

@@ -9,7 +9,7 @@
 <body>
     <div class="container mt-5">
         <h2 class="mb-4">Brand List</h2>
-        <a href="addBrand.jsp" class="btn btn-primary mb-3">Add New Brand</a>
+        <a href="brands?action=addForm" class="btn btn-primary mb-3">Add New Brand</a>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -24,8 +24,8 @@
                         <td>${brand.brandId}</td>
                         <td>${brand.brandName}</td>
                         <td>
-                            <a href="brands?action=updateForm&id=${brand.brandId}" class="btn btn-warning">Edit</a>
-                            <a href="brands?action=deleteBrand&id=${brand.brandId}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                            <a href="brands?action=updateForm&brand_id=${brand.brandId}" class="btn btn-warning">Edit</a>
+                            <a href="brands?action=deleteBrand&brand_id=${brand.brandId}" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>

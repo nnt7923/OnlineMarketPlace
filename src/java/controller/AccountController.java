@@ -58,7 +58,7 @@ public class AccountController extends HttpServlet {
                 case "updateAccountForm":
                     showUpdateAccountForm(request, response);
                     break;
-                case "showDashboard":
+                case "dashboard":
                     showDashboard(request, response);
                 default:
                     response.sendRedirect("account?service=listAll");
@@ -157,7 +157,7 @@ public class AccountController extends HttpServlet {
     
     private void showDashboard(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("./dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
     }
 
     private void showAddAccountForm(HttpServletRequest request, HttpServletResponse response)

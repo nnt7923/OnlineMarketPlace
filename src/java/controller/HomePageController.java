@@ -68,8 +68,8 @@ public class HomePageController extends HttpServlet {
         request.setAttribute("advertise", listProduct);
         
         
-        List<Product> bestSeller = productDAO.bestSeller();
-        request.setAttribute("bestSeller", bestSeller);
+        List<Product> newProduct = productDAO.newProduct();
+        request.setAttribute("newProduct", newProduct);
         
         request.getRequestDispatcher("home.jsp").forward(request, response);
 
