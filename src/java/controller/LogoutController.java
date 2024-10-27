@@ -5,6 +5,7 @@
 package controller;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,7 +21,9 @@ public class LogoutController extends jakarta.servlet.http.HttpServlet {
    
     protected void processRequest(jakarta.servlet.http.HttpServletRequest request, jakarta.servlet.http.HttpServletResponse response)
     throws jakarta.servlet.ServletException, IOException {
-        request.getSession().setAttribute("account", null);
+        String contextPath = request.getContextPath();
+        HttpSession Session = request.getSession();
+        Session.invalidate();
         Cookie cEmail = new Cookie("email", "");
         Cookie cPass = new Cookie("password", "");
 
@@ -29,7 +32,7 @@ public class LogoutController extends jakarta.servlet.http.HttpServlet {
 
         response.addCookie(cEmail);
         response.addCookie(cPass);
-        response.sendRedirect("./home.jsp");
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     @Override

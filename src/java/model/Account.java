@@ -10,7 +10,6 @@ public class Account {
     private String address;
     private int roleId;
     private String status;
-
     private Customer customer;
     // Getters và Setters
     public Account() {

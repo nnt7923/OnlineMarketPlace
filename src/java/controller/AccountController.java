@@ -8,13 +8,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import validation.PasswordValidator;
 
-@WebServlet(name = "AccountController", urlPatterns = {"/account", "/admin/account"})
+@WebServlet(name = "AccountController", urlPatterns = {"/account"})
 
 public class AccountController extends HttpServlet {
 
@@ -56,6 +58,8 @@ public class AccountController extends HttpServlet {
                 case "updateAccountForm":
                     showUpdateAccountForm(request, response);
                     break;
+                case "dashboard":
+                    showDashboard(request, response);
                 default:
                     response.sendRedirect("account?service=listAll");
                     break;
@@ -85,9 +89,21 @@ public class AccountController extends HttpServlet {
             int roleID = Integer.parseInt(request.getParameter("roleID"));
             String status = request.getParameter("status");
 
+
+            HttpSession session = request.getSession();
+
+            if (!PasswordValidator.isValidPassword(password)) {
+                session.setAttribute("errorMessage", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thư�?ng và 1 số");
+                response.sendRedirect("addAccount.jsp");
+                return;
+            } 
+
             Account newAccount = new Account(0, username, password, email, phone, address, roleID, status, null);
+            
             accountDAO.add(newAccount);
+
             response.sendRedirect("account?service=listAll");
+            session.setAttribute("message", "Account added successful");
         } catch (NumberFormatException e) {
             logger.log(Level.SEVERE, "Error parsing roleID: " + e.getMessage(), e);
             response.sendRedirect("errorPage.jsp");
@@ -106,9 +122,12 @@ public class AccountController extends HttpServlet {
             int roleId = Integer.parseInt(request.getParameter("roleId"));
             String status = request.getParameter("status");
 
+            HttpSession session = request.getSession();
+            
             Account updatedAccount = new Account(accountId, username, password, email, phone, address, roleId, status, null);
             accountDAO.update(updatedAccount);
             response.sendRedirect("account?service=listAll");
+            session.setAttribute("successMessage","Updated succesfully");
         } catch (NumberFormatException e) {
             logger.log(Level.SEVERE, "Error parsing roleId or accountId: " + e.getMessage(), e);
             response.sendRedirect("errorPage.jsp");
@@ -134,6 +153,11 @@ public class AccountController extends HttpServlet {
         request.setAttribute("accounts", searchedAccounts);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/manageAccount.jsp");
         dispatcher.forward(request, response);
+    }
+    
+    private void showDashboard(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("admin/dashboard.jsp").forward(request, response);
     }
 
     private void showAddAccountForm(HttpServletRequest request, HttpServletResponse response)

@@ -113,8 +113,8 @@
                 <input type="submit" value="Reset Password" id="submitButton">
             </div>
             <div class="notice-message">
-                <h4>${status}</h4>
-                <h4>${errorMessage}</h4>
+                <h4>${message}</h4>
+                <h4>${errormessage}</h4>
             </div>
         </form>
     </div>              

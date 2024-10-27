@@ -71,6 +71,7 @@ public class VerifyCodeController extends HttpServlet {
         }
     }
 
+
     private byte[] convertPathToByteArray(Path path) {
         try {
             return Files.readAllBytes(path);

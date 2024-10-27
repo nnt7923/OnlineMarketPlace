@@ -52,7 +52,7 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
-    // Thï¿½m ng??i dï¿½ng m?i vï¿½o c? s? d? li?u
+    // Th?m ng??i d?ng m?i v?o c? s? d? li?u
     public void addAccount(Account account) throws SQLException {
         String query = "INSERT INTO Account (username, email, password, role_id, status) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {
@@ -67,7 +67,7 @@ public class AccountDAO extends DBContext {
         }
     }
 
-    // T?o m?t kh?u ng?u nhiï¿½n
+    // T?o m?t kh?u ng?u nhi?n
     public String generateRandomPassword() {
         int length = 10;
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -79,13 +79,13 @@ public class AccountDAO extends DBContext {
         return password.toString();
     }
 
-    // X? lï¿½ ??ng nh?p Google
+    // X? l? ??ng nh?p Google
     public void handleGoogleLogin(GoogleAccount googleAccount) throws SQLException {
         AccountDAO accountDAO = new AccountDAO();
         Account existingAccount = accountDAO.getAccountByEmail(googleAccount.getEmail());
 
         if (existingAccount != null) {
-            // Ng??i dï¿½ng ?ï¿½ cï¿½ trong h? th?ng
+            // Ng??i d?ng ?? c? trong h? th?ng
             System.out.println("User already exists: " + existingAccount.getEmail());
         } else {
             System.out.println("New Google user, creating account: " + googleAccount.getEmail());
@@ -101,7 +101,7 @@ public class AccountDAO extends DBContext {
         }
     }
 
-    // L?y tï¿½i kho?n theo email
+    // L?y t?i kho?n theo email
     public Account getAccountByEmail(String email) throws SQLException {
         String query = "SELECT * FROM Account WHERE email = ?";
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {
@@ -152,7 +152,7 @@ public class AccountDAO extends DBContext {
                         customer.setCustomerGender(rs.getString("customer_gender"));
                         customer.setCustomerImages(rs.getString("customer_images"));
 
-                        // G?n ??i t??ng customer vào account
+                        // G?n ??i t??ng customer v?o account
                         account.setCustomer(customer);
                     }
                     return account;
@@ -183,7 +183,7 @@ public class AccountDAO extends DBContext {
         return -1;
     }
 
-    // Li?t kï¿½ t?t c? tï¿½i kho?n
+    // Li?t k? t?t c? t?i kho?n
     public List<Account> listAll() {
         List<Account> accounts = new ArrayList<>();
         String query = "SELECT * FROM Account";
@@ -207,7 +207,7 @@ public class AccountDAO extends DBContext {
         return accounts;
     }
 
-    // Thï¿½m tï¿½i kho?n m?i
+    // Th?m t?i kho?n m?i
     public boolean add(Account account) {
         String query = "INSERT INTO Account (username, password, email, phone, address, role_id, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -225,7 +225,7 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    // Xï¿½a tï¿½i kho?n theo id
+    // X?a t?i kho?n theo id
     public boolean delete(int id) {
         String query = "DELETE FROM Account WHERE account_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -237,7 +237,7 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    // C?p nh?t tï¿½i kho?n
+    // C?p nh?t t?i kho?n
     public boolean update(Account account) {
         String query = "UPDATE Account SET username = ?, password = ?, email = ?, phone = ?, address = ?, role_id = ?, status = ? WHERE account_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -256,7 +256,7 @@ public class AccountDAO extends DBContext {
         return false;
     }
 
-    // Tï¿½m ki?m tï¿½i kho?n theo tï¿½n ng??i dï¿½ng
+    // T?m ki?m t?i kho?n theo t?n ng??i d?ng
     public List<Account> search(String keyword) {
         List<Account> accounts = new ArrayList<>();
         String query = "SELECT * FROM Account WHERE username LIKE ?";
@@ -281,7 +281,7 @@ public class AccountDAO extends DBContext {
         return accounts;
     }
 
-    // L?y tï¿½i kho?n theo id
+    // L?y t?i kho?n theo id
     public Account getAccountById(int id) {
         String query = "SELECT * FROM Account WHERE account_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -417,10 +417,10 @@ public class AccountDAO extends DBContext {
             ps.setString(2, account.getEmail());
             ps.setString(3, account.getPhone());
             ps.setString(4, account.getAddress());
-            ps.setInt(5, account.getAccountId()); // Thi?t l?p giá tr? cho account_id
+            ps.setInt(5, account.getAccountId()); // Thi?t l?p gi? tr? cho account_id
 
             int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0; // Tr? v? true n?u có dòng nào b? ?nh h??ng
+            return rowsAffected > 0; // Tr? v? true n?u c? d?ng n?o b? ?nh h??ng
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
