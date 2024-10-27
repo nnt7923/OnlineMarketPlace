@@ -36,9 +36,12 @@
         <div id="collapse_department" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
 
-                <a class="collapse-item" href="${pageContext.request.contextPath}/departments">List</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=addProduct">Add Product</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=addProductDetail">Add Product Detail</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=listProductsBySeller">List</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=list">List Product Details</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/departments/store">Create</a>
-            </div>
+            </div
         </div>
     </li>
     <li class="nav-item">

@@ -4,7 +4,7 @@
 <ul class="navbar-nav navbar-seller sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!--     Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.jsp">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="account?service=dashboard">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -16,7 +16,7 @@
 
 <!--     Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="admin/dashboard.jsp">
+        <a class="nav-link" href="account?service=dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -32,6 +32,12 @@
         <a class="nav-link collapsed" href="${pageContext.request.contextPath}/categories">
             <i class="fas fa-building"></i>
             <span>Category</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/brands">
+            <i class="fas fa-building"></i>
+            <span>Brand</span>
         </a>
     </li>
     <li class="nav-item">

@@ -23,6 +23,7 @@ public class LoginController extends HttpServlet {
 
         String code = request.getParameter("code");
         String error = request.getParameter("error");
+        String contextPath = request.getContextPath();
 
         if (error != null) {
             request.setAttribute("errorMessage", "Authorization failed or cancelled.");
@@ -73,19 +74,19 @@ public class LoginController extends HttpServlet {
 
                 Account acc = new Account();
 
-                if (acc.getStatus().equals("inactive")) {
-                    request.setAttribute("errorAccount", "Account has been locked.");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                    return;
-                }
+//                if (acc.getStatus().equals("inactive")) {
+//                    request.setAttribute("errorAccount", "Account has been locked.");
+//                    request.getRequestDispatcher("login.jsp").forward(request, response);
+//                    return;
+//                }
 
                 // ?i?u h??ng d?a tr?n vai tr?
                 if (role.getRole_name().equals("Admin")) {
-                    response.sendRedirect("admin/dashboard.jsp");
+                    response.sendRedirect("account?service=dashboard");
                 } else if (role.getRole_name().equals("Seller")) {
                     response.sendRedirect("seller/dashboard.jsp");
                 } else if (role.getRole_name().equals("Customer")) {
-                    response.sendRedirect("./home.jsp");
+                    response.sendRedirect(contextPath + "/home");
                 } else if (role.getRole_name().equals("Shipper")) {
                     response.sendRedirect("shipper/dashboard.jsp");
                 }
@@ -95,7 +96,7 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } else {
-            response.sendRedirect("login.jsp");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
@@ -112,6 +113,8 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String contextPath = request.getContextPath();
+        
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -119,35 +122,27 @@ public class LoginController extends HttpServlet {
         Account account = dao.login(email, password);
 
         if (account != null) {
-            if (account.getStatus().equals("inactive")) {
-                // Redirect to login page and show error message for inactive account
-                request.setAttribute("errorMessage", "Your account is inactive.");
-                request.setAttribute("emailLogin", email);  // To retain the email on the login page
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-                return;  // Stop further execution
-            }
-
-            // Account is active, proceed with login
             HttpSession session = request.getSession();
+            session.setAttribute("account_id", account.getAccountId());
             session.setAttribute("account", account);
 
             Role role = dao.getRoleByAccountId(account.getAccountId());
             session.setAttribute("role", role);
 
-            // Redirect based on the role
+            // ?i?u h??ng d?a tr?n vai tr?
             if (role.getRole_name().equals("Admin")) {
-                response.sendRedirect("admin/dashboard.jsp");
+                response.sendRedirect("account?service=dashboard");
             } else if (role.getRole_name().equals("Seller")) {
+                session.setAttribute("seller_id", account.getAccountId());
                 response.sendRedirect("seller/dashboard.jsp");
             } else if (role.getRole_name().equals("Customer")) {
-                response.sendRedirect("./home.jsp");
+                response.sendRedirect(contextPath + "/home");
             } else if (role.getRole_name().equals("Shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }
         } else {
-            // Invalid email or password, show error
             request.setAttribute("errorMessage", "Invalid email or password.");
-            request.setAttribute("emailLogin", email);  // Retain email in the login form
+            request.setAttribute("emailLogin", email);
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

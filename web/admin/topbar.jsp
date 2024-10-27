@@ -47,7 +47,7 @@
         </li>
 
         <c:if test="${account ne null}">
-            <button class="btn btn-danger" onclick="window.location.href = '${pageContext.request.contextPath}/logout'">
+            <button class="btn btn-danger" onclick="window.location.href = 'logout'">
                 <small class="text-white">Logout</small>
             </button>
         </c:if>
