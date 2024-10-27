@@ -595,3 +595,11 @@ BEGIN
         DELETE FROM [dbo].[Seller] WHERE [account_id] = @account_id;
     END
 END
+
+-- run before
+ALTER TABLE ProductDetails
+DROP CONSTRAINT FK_ProductDetails_Product;
+-- after 
+ALTER TABLE ProductDetails
+ADD CONSTRAINT FK_ProductDetails_Product FOREIGN KEY (product_id)
+    REFERENCES Product(product_id) ON DELETE CASCADE;
