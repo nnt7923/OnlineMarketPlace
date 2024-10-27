@@ -26,6 +26,14 @@ public class Product {
         this.img = img;
     }
 
+    public Product(int productId, String name, String img) {
+        this.productId = productId;
+        this.name = name;
+        this.img = img;
+    }
+    
+    
+
     public Product(int productId, String name, double price, String title, String img) {
         this.productId = productId;
         this.name = name;

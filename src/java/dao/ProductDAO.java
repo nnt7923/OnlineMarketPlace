@@ -12,26 +12,20 @@ public class ProductDAO extends DBContext {
     public List<Product> advertiseProduct() {
         List<Product> list = new ArrayList<>();
         String query = """
-                       select p.[name], p.img, p.product_id, SUM(od.quantity) as [best seller]
-                       from Product p
-                       join OrderDetail od on od.productid = p.product_id
-                       join Orders o on o.order_id = od.order_id
-                       group by p.[name], p.img, p.product_id
-                       having SUM(od.quantity) > 5
+                       select pd.pdname, pd.pdimg, pd.product_id, SUM(od.quantity) as [hot product]
+                                              from ProductDetails pd
+                                              join OrderDetail od on od.pd_id = pd.pd_id
+                                              join Orders o on o.order_id = od.order_id
+                                              group by pd.pdname, pd.pdimg, pd.product_id
+                                              having SUM(od.quantity) > 5
                        """;
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Product product = new Product(
-                        rs.getInt("product_id"),
-                        rs.getString("name"),
-                        0,  // No price provided in this query
-                        null,  // No title provided in this query
-                        0,  // No cid
-                        0,  // No brandId
-                        0,  // No sellerId
-                        rs.getString("img")
-                );
+                        rs.getInt("product_id"), 
+                        rs.getString("pdname"), 
+                        rs.getString("pdimg"));
                 list.add(product);
             }
         } catch (SQLException e) {
@@ -41,7 +35,7 @@ public class ProductDAO extends DBContext {
     }
 
     // Method to get best-selling products (latest 3 products)
-    public List<Product> bestSeller() {
+    public List<Product> newProduct() {
         List<Product> list = new ArrayList<>();
         String query = """
                        select top 3 * 
@@ -375,7 +369,7 @@ public ProductDetails getProductDetailsById(int pdId) throws SQLException {
 
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
-        List<Product> products = productDAO.bestSeller();
+        List<Product> products = productDAO.newProduct();
         for (Product product : products) {
             System.out.println(product.getName());
         }

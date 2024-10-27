@@ -23,6 +23,7 @@ public class LoginController extends HttpServlet {
 
         String code = request.getParameter("code");
         String error = request.getParameter("error");
+        String contextPath = request.getContextPath();
 
         if (error != null) {
             request.setAttribute("errorMessage", "Authorization failed or cancelled.");
@@ -81,11 +82,11 @@ public class LoginController extends HttpServlet {
 
                 // ?i?u h??ng d?a tr?n vai tr?
                 if (role.getRole_name().equals("Admin")) {
-                    response.sendRedirect("admin/dashboard.jsp");
+                    response.sendRedirect("account?service=dashboard");
                 } else if (role.getRole_name().equals("Seller")) {
                     response.sendRedirect("seller/dashboard.jsp");
                 } else if (role.getRole_name().equals("Customer")) {
-                    response.sendRedirect("./home.jsp");
+                    response.sendRedirect(contextPath + "/home");
                 } else if (role.getRole_name().equals("Shipper")) {
                     response.sendRedirect("shipper/dashboard.jsp");
                 }
@@ -95,7 +96,7 @@ public class LoginController extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } else {
-            response.sendRedirect("login.jsp");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 
@@ -112,6 +113,8 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String contextPath = request.getContextPath();
+        
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -128,12 +131,12 @@ public class LoginController extends HttpServlet {
 
             // ?i?u h??ng d?a tr?n vai tr?
             if (role.getRole_name().equals("Admin")) {
-                response.sendRedirect("admin/dashboard.jsp");
+                response.sendRedirect("account?service=dashboard");
             } else if (role.getRole_name().equals("Seller")) {
                 session.setAttribute("seller_id", account.getAccountId());
                 response.sendRedirect("seller/dashboard.jsp");
             } else if (role.getRole_name().equals("Customer")) {
-                response.sendRedirect("./home.jsp");
+                response.sendRedirect(contextPath + "/home");
             } else if (role.getRole_name().equals("Shipper")) {
                 response.sendRedirect("shipper/dashboard.jsp");
             }

@@ -82,9 +82,7 @@
 
                 <%@include file="includes/main-script.jsp" %>
 
-                <!-- Footer -->
-                <%@include file="includes/footer.jsp" %>
-                <!-- End of Footer -->
+                
 
             </div>
             <!-- End of Content Wrapper -->

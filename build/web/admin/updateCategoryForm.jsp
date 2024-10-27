@@ -45,6 +45,11 @@
                                     <label for="cname">Category Name</label>
                                     <input type="text" class="form-control" id="cname" name="cname" value="${category.cname}" required>
                                 </div>
+                                
+                                <div class="form-group mb-3">
+                                    <label for="cimg">Category Images</label>
+                                    <input type="text" class="form-control" id="cimg" name="cimg" value="${category.cimg}" required>
+                                </div>
 
                                 <button type="submit" class="btn btn-primary">Update Category</button>
                                 <a href="categories" class="btn btn-secondary">Cancel</a>

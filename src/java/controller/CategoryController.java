@@ -116,6 +116,7 @@ public class CategoryController extends HttpServlet {
         String cimg = request.getParameter("cimg");
         Category category = new Category();
         category.setCname(cname);
+        category.setCimg(cimg);
         categoryDAO.addCategory(category);
         response.sendRedirect("categories");
     }
