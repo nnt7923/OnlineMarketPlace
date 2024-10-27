@@ -21,7 +21,7 @@
                 padding: 0;
             }
             h2 {
-                color: #28a745; /* Màu xanh lá cây đậm */
+                color: #28a745; /* Dark green color */
                 font-weight: bold;
                 margin-bottom: 20px;
             }
@@ -49,12 +49,12 @@
                 color: #28a745;
             }
             input[type="text"]:focus, input[type="number"]:focus, select:focus {
-                border-color: #28a745; /* Màu xanh lá khi focus */
+                border-color: #28a745; /* Green border on focus */
                 outline: none;
-                box-shadow: 0 0 5px rgba(40, 167, 69, 0.3); /* Hiệu ứng viền xanh lá */
+                box-shadow: 0 0 5px rgba(40, 167, 69, 0.3); /* Green border effect */
             }
             button[type="submit"] {
-                background-color: #28a745; /* Nút màu xanh lá */
+                background-color: #28a745; /* Green button */
                 color: white;
                 padding: 12px 20px;
                 margin-top: 20px;
@@ -66,7 +66,7 @@
                 transition: background-color 0.3s ease;
             }
             button[type="submit"]:hover {
-                background-color: #218838; /* Màu xanh lá đậm hơn khi hover */
+                background-color: #218838; /* Darker green on hover */
             }
             .form-group {
                 margin-bottom: 20px;
@@ -75,12 +75,12 @@
     </head>
     <body id="page-top">
 
-        <!-- Kiểm tra và hiển thị thông báo thành công -->
+        <!-- Success message alert -->
         <c:if test="${not empty successMessage}">
             <script>
                 Swal.fire({
                     icon: 'success',
-                    title: 'Thành công',
+                    title: 'Success',
                     text: '${successMessage}',
                     showClass: {
                         popup: 'animate__animated animate__fadeInDown',
@@ -95,12 +95,12 @@
             </script>
         </c:if>
 
-        <!-- Kiểm tra và hiển thị thông báo lỗi -->
+        <!-- Error message alert -->
         <c:if test="${not empty errorMessage}">
             <script>
                 Swal.fire({
                     icon: 'error',
-                    title: 'Lỗi',
+                    title: 'Error',
                     text: '${errorMessage}',
                     showClass: {
                         popup: 'animate__animated animate__fadeInDown',
@@ -134,29 +134,29 @@
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
 
-                        <h2>Thêm Sản Phẩm</h2>
+                        <h2>Add Product</h2>
 
-                        <!-- Form thêm sản phẩm -->
+                        <!-- Product Addition Form -->
                         <form action="product?service=addProduct" method="post" enctype="multipart/form-data" >
                             <div class="form-group">
-                                <label for="name">Tên sản phẩm:</label>
+                                <label for="name">Product Name:</label>
                                 <input type="text" id="name" name="name" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="price">Giá:</label>
+                                <label for="price">Price:</label>
                                 <input type="number" id="price" name="price" step="0.01" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="title">Tiêu đề:</label>
+                                <label for="title">Title:</label>
                                 <input type="text" id="title" name="title" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="category">Danh mục:</label>
+                                <label for="category">Category:</label>
                                 <select id="category" name="cateID" required>
-                                    <option value="">-- Chọn danh mục --</option>
+                                    <option value="">-- Select Category --</option>
                                     <c:forEach var="category" items="${categories}">
                                         <option value="${category.cid}">${category.cname}</option>
                                     </c:forEach>
@@ -164,9 +164,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="brand">Thương hiệu:</label>
+                                <label for="brand">Brand:</label>
                                 <select id="brand" name="brand_id" required>
-                                    <option value="">-- Chọn thương hiệu --</option>
+                                    <option value="">-- Select Brand --</option>
                                     <c:forEach var="brand" items="${brands}">
                                         <option value="${brand.brandId}">${brand.brandName}</option>
                                     </c:forEach>
@@ -174,14 +174,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="img">Đường dẫn ảnh sản phẩm:</label>
-                                <input type="file" id="img" name="img"  required>
+                                <label for="img">Product Image Path:</label>
+                                <input type="file" id="img" name="img" required>
                             </div>
 
-                            <button type="submit">Thêm sản phẩm</button>
+                            <button type="submit">Add Product</button>
                         </form>
-
-
 
                     </div>
                     <!-- End of Main Content -->
