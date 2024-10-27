@@ -77,25 +77,19 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-<<<<<<<< HEAD:web/shop.jsp
                             <a href="home.jsp" class="nav-item nav-link">Home</a>
-========
                             <a href="home" class="nav-item nav-link">Home</a>
->>>>>>>> main:build/web/shop.jsp
                             <a href="shop.jsp" class="nav-item nav-link active">Shop</a>
                             <a href="shop-detail.jsp" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
-<<<<<<<< HEAD:web/shop.jsp
                                     <a href="cart.html" class="dropdown-item">Cart</a>
                                     <a href="chackout.html" class="dropdown-item">Chackout</a>
                                     <a href="404.html" class="dropdown-item">404 Page</a>
-========
                                     <a href="cart.jsp" class="dropdown-item">Cart</a>
                                     <a href="checkout.jsp" class="dropdown-item">Checkout</a>
 <!--                                    <a href="404.html" class="dropdown-item">404 Page</a>-->
->>>>>>>> main:build/web/shop.jsp
                                 </div>
                             </div>
 <!--                            <a href="contact.html" class="nav-item nav-link">Contact</a>-->
@@ -569,15 +563,12 @@
                         <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
                     </div>
                     <div class="col-md-6 my-auto text-center text-md-end text-white">
-<<<<<<<< HEAD:web/shop.jsp
                         <!--/*** This template is free as long as you keep the below author?s credit link/attribution link/backlink. ***/-->
                         <!--/*** If you'd like to use the template without the below author?s credit link/attribution link/backlink, ***/-->
                         <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
-========
                         /*** This template is free as long as you keep the below author?s credit link/attribution link/backlink. ***/
                         /*** If you'd like to use the template without the below author?s credit link/attribution link/backlink, ***/
                         /*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/
->>>>>>>> main:build/web/shop.jsp
                         Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
                     </div>
                 </div>
