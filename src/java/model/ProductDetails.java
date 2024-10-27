@@ -1,18 +1,21 @@
 package model;
 
+import java.util.Arrays;
+
 public class ProductDetails {
     private int pdId;
     private int productId;
     private String pdname;
     private double pdpriceDiscount;
     private String pdcolor;
-    private String pdimg;
+    private String[] pdimg;  // Changed to an array of image paths
     private String pdcriteria;
     private int pdquantity;
     private String pddescribe;
     private String pdspecification;
 
-    public ProductDetails(int pdId, int productId, String pdname, double pdpriceDiscount, String pdcolor, String pdimg, String pdcriteria, int pdquantity, String pddescribe, String pdspecification) {
+    // Full Constructor
+    public ProductDetails(int pdId, int productId, String pdname, double pdpriceDiscount, String pdcolor, String[] pdimg, String pdcriteria, int pdquantity, String pddescribe, String pdspecification) {
         this.pdId = pdId;
         this.productId = productId;
         this.pdname = pdname;
@@ -25,8 +28,29 @@ public class ProductDetails {
         this.pdspecification = pdspecification;
     }
 
-    
-    // Getters và Setters
+    public ProductDetails(int pdId, int productId, String pdcolor, double pdpriceDiscount, String[] pdimg, String pdcriteria, int pdquantity, String pddescribe, String pdspecification) {
+        this.pdId = pdId;
+        this.productId = productId;
+        this.pdcolor = pdcolor;
+        this.pdpriceDiscount = pdpriceDiscount;
+        this.pdimg = pdimg;  // Comma-separated list of image paths
+        this.pdcriteria = pdcriteria;
+        this.pdquantity = pdquantity;
+        this.pddescribe = pddescribe;
+        this.pdspecification = pdspecification;
+    }
+
+    // Constructor with fewer fields
+    public ProductDetails(int pdId, int productId, String pdcolor, double pdpriceDiscount, int pdquantity, String pddescribe) {
+        this.pdId = pdId;
+        this.productId = productId;
+        this.pdcolor = pdcolor;
+        this.pdpriceDiscount = pdpriceDiscount;
+        this.pdquantity = pdquantity;
+        this.pddescribe = pddescribe;
+    }
+
+    // Getters and Setters
     public int getPdId() {
         return pdId;
     }
@@ -67,11 +91,11 @@ public class ProductDetails {
         this.pdcolor = pdcolor;
     }
 
-    public String getPdimg() {
+    public String[] getPdimg() {
         return pdimg;
     }
 
-    public void setPdimg(String pdimg) {
+    public void setPdimg(String[] pdimg) {
         this.pdimg = pdimg;
     }
 
@@ -106,4 +130,6 @@ public class ProductDetails {
     public void setPdspecification(String pdspecification) {
         this.pdspecification = pdspecification;
     }
+
+
 }
