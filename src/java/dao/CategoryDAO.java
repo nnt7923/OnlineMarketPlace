@@ -62,16 +62,16 @@ public class CategoryDAO extends DBContext {
         return categories;  // Returning the list of categories
     }
 
-        public List<Category> listAllNoImg() {
+    public List<Category> listAllNoImg() {
         List<Category> categories = new ArrayList<>();
         String query = "SELECT * FROM Category";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Category category = new Category(
-                    rs.getInt("cid"),          // Lấy mã danh mục
-                    rs.getString("cname"),     // Lấy tên danh mục
-                    null                       // Không lấy cimg vì không cần thiết
+                        rs.getInt("cid"), // Lấy mã danh mục
+                        rs.getString("cname"), // Lấy tên danh mục
+                        null // Không lấy cimg vì không cần thiết
                 );
                 categories.add(category);
             }
@@ -80,6 +80,7 @@ public class CategoryDAO extends DBContext {
         }
         return categories;  // Trả về danh sách category
     }
+
     // Update Category
     public boolean update(Category category) {
         String query = "UPDATE Category SET cname = ? , cimg = ? WHERE cid = ?";
@@ -87,7 +88,7 @@ public class CategoryDAO extends DBContext {
             ps.setString(1, category.getCname());
             ps.setString(2, category.getCimg());
             ps.setInt(3, category.getCid());
-            
+
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -125,6 +126,21 @@ public class CategoryDAO extends DBContext {
             e.printStackTrace();
         }
         return categories;  // Return the list of matching categories
+    }
+
+    // Check for Duplicate Category by Name
+    public boolean isDuplicateCategory(String cname) {
+        String query = "SELECT COUNT(*) FROM Category WHERE cname = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, cname);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;  // If count is greater than 0, then a duplicate exists
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static void main(String[] args) {

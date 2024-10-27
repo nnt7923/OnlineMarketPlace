@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
+@WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -40,12 +41,12 @@ public class LoginController extends HttpServlet {
 
                 Account account = accountDAO.getAccountByEmail(googleAccount.getEmail());
                 if (account == null) {
-                    // T?i kho?n kh?ng t?n t?i, t?o m?i
+                    // Create a new account if it does not exist
                     account = new Account();
                     account.setUsername(googleAccount.getEmail().split("@")[0]);
                     account.setEmail(googleAccount.getEmail());
 
-                    // T?o m?t kh?u ng?u nhi?n cho t?i kho?n Google
+                    // Generate a random password for the Google account
                     String randomPassword = accountDAO.generateRandomPassword();
                     account.setPassword(randomPassword);
 
@@ -53,18 +54,21 @@ public class LoginController extends HttpServlet {
                     account.setStatus("active");
                     accountDAO.addAccount(account);
 
-                    // L?y l?i th?ng tin account m?i th?m t? DB ?? c? ID ch?nh x?c
-                    account = (Account) accountDAO.getAccountByEmail(googleAccount.getEmail());
+                    // Retrieve the newly added account from DB to get accurate ID
+                    account = accountDAO.getAccountByEmail(googleAccount.getEmail());
+                } else if (account.getStatus().equals("inactive")) {
+                    request.setAttribute("errorMessage", "Account has been locked.");
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    return;
                 }
 
                 HttpSession session = request.getSession();
                 session.setAttribute("account", account);
 
-                // L?y vai tr? c?a t?i kho?n t? c? s? d? li?u v? l?u v?o session
+                // Get the account role and store in session
                 Role role = accountDAO.getRoleByAccountId(account.getAccountId());
 
                 if (role == null) {
-                    // X? l? tr??ng h?p role kh?ng t?m th?y, tr?nh NullPointerException
                     request.setAttribute("errorMessage", "Role not found for the account.");
                     request.getRequestDispatcher("login.jsp").forward(request, response);
                     return;
@@ -72,15 +76,7 @@ public class LoginController extends HttpServlet {
 
                 session.setAttribute("role", role);
 
-                Account acc = new Account();
-
-//                if (acc.getStatus().equals("inactive")) {
-//                    request.setAttribute("errorAccount", "Account has been locked.");
-//                    request.getRequestDispatcher("login.jsp").forward(request, response);
-//                    return;
-//                }
-
-                // ?i?u h??ng d?a tr?n vai tr?
+                // Redirect based on role
                 if (role.getRole_name().equals("Admin")) {
                     response.sendRedirect("account?service=dashboard");
                 } else if (role.getRole_name().equals("Seller")) {
@@ -122,6 +118,13 @@ public class LoginController extends HttpServlet {
         Account account = dao.login(email, password);
 
         if (account != null) {
+            if (account.getStatus().equals("inactive")) {
+                request.setAttribute("errorMessage", "Account has been locked.");
+                request.setAttribute("emailLogin", email);
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
+            }
+
             HttpSession session = request.getSession();
             session.setAttribute("account_id", account.getAccountId());
             session.setAttribute("account", account);
@@ -129,7 +132,7 @@ public class LoginController extends HttpServlet {
             Role role = dao.getRoleByAccountId(account.getAccountId());
             session.setAttribute("role", role);
 
-            // ?i?u h??ng d?a tr?n vai tr?
+            // Redirect based on role
             if (role.getRole_name().equals("Admin")) {
                 response.sendRedirect("account?service=dashboard");
             } else if (role.getRole_name().equals("Seller")) {
