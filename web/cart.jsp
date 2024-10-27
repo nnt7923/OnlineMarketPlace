@@ -198,14 +198,19 @@
         </script>
         <script>
             function addToCart(productId, productDetailId, productCriteria, quantity = 1) {
-                const inputField = document.getElementById(`quantity-${productDetailId}`);
+                var inputField = document.getElementById(`quantity-`+productDetailId);
                 if (inputField) {
-                    const currentQuantity = parseInt(inputField.value);
-                    const maxQuantity = parseInt(inputField.getAttribute("data-max"));
+                    var currentQuantity = parseInt(inputField.value);
+                    var maxQuantity = parseInt(inputField.getAttribute("data-max"));
 
                     // Kiểm tra nếu số lượng vượt quá mức tối đa
                     if (currentQuantity + quantity > maxQuantity) {
-                        alert("Số lượng sản phẩm đã đạt đến mức tối đa.");
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Can not be added!',
+                            text: 'reached maximum in stock.',
+                            confirmButtonText: 'OK'
+                        });
                         return;
                     }
                 }

@@ -287,21 +287,21 @@
                             <input type="hidden" id="updateOrderId" name="orderId">
                             <input type="hidden" name="action" value="update">
                             <div class="mb-3">
-                                <label for="updateRecipientName" class="form-label">Tên người nhận</label>
+                                <label for="updateRecipientName" class="form-label">Recipient name</label>
                                 <input type="text" class="form-control" id="updateRecipientName" name="recipientName" required>
                                 <span style="color:red" id="updateRecipientNameError" class="error-message"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="updateDeliveryAddress" class="form-label">Địa chỉ nhận hàng</label>
+                                <label for="updateDeliveryAddress" class="form-label">Delivery address</label>
                                 <input type="text" class="form-control" id="updateDeliveryAddress" name="deliveryAddress" required>
                                 <span style="color:red" id="updateDeliveryAddressError" class="error-message"></span>
                             </div>
                             <div class="mb-3">
-                                <label for="updateDeliveryPhone" class="form-label">Số điện thoại nhận hàng</label>
+                                <label for="updateDeliveryPhone" class="form-label">Phone number to receive goods</label>
                                 <input type="text" class="form-control" id="updateDeliveryPhone" name="deliveryPhone" required>
                                 <span style="color:red" id="updateDeliveryPhoneError" class="error-message"></span>
                             </div>
-                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </form>
                     </div>
 
@@ -327,6 +327,7 @@
                                                         var updateDeliveryAddress = document.getElementById('updateDeliveryAddress');
                                                         var updateDeliveryAddressError = document.getElementById('updateDeliveryAddressError');
 
+                                                        // Hàm kiểm tra khoảng trắng đầu/cuối
                                                         function validateNoSpacesStartEnd(input, errorElement) {
                                                             if (input && errorElement) {
                                                                 if (input.value.startsWith(' ') || input.value.endsWith(' ')) {
@@ -340,9 +341,10 @@
                                                             return true;
                                                         }
 
+                                                        // Hàm kiểm tra số điện thoại
                                                         function isValidPhoneNumber(input, errorElement) {
+                                                            const phoneRegex = /^0\d{9}$/;
                                                             if (input && errorElement) {
-                                                                const phoneRegex = /^0\d{9}$/;
                                                                 if (!phoneRegex.test(input.value)) {
                                                                     errorElement.textContent = "Số điện thoại phải bắt đầu bằng số 0 và có đúng 10 chữ số!";
                                                                     return false;
@@ -354,9 +356,10 @@
                                                             return true;
                                                         }
 
+                                                        // Hàm kiểm tra địa chỉ
                                                         function isValidAddress(input, errorElement) {
+                                                            const addressRegex = /^[^,]+(,[^,]+)+$/;  // Điều kiện yêu cầu ít nhất một dấu phẩy trở lên
                                                             if (input && errorElement) {
-                                                                const addressRegex = /^[^,]+(,[^,]+)*$/;
                                                                 if (!addressRegex.test(input.value)) {
                                                                     errorElement.textContent = "Địa chỉ phải bao gồm số nhà, khu, phố và cách nhau bởi dấu phẩy!";
                                                                     return false;
@@ -368,6 +371,8 @@
                                                             return true;
                                                         }
 
+
+                                                        // Sự kiện khi người dùng nhập
                                                         updateRecipientName.addEventListener('input', function () {
                                                             validateNoSpacesStartEnd(updateRecipientName, updateRecipientNameError);
                                                         });
@@ -380,6 +385,7 @@
                                                             isValidAddress(updateDeliveryAddress, updateDeliveryAddressError);
                                                         });
 
+                                                        // Xử lý khi submit form
                                                         updateForm.addEventListener('submit', function (event) {
                                                             var isRecipientNameValid = validateNoSpacesStartEnd(updateRecipientName, updateRecipientNameError);
                                                             var isDeliveryPhoneValid = isValidPhoneNumber(updateDeliveryPhone, updateDeliveryPhoneError);
@@ -387,9 +393,19 @@
 
                                                             if (!isRecipientNameValid || !isDeliveryPhoneValid || !isDeliveryAddressValid) {
                                                                 event.preventDefault();
+
+                                                                // Thông báo lỗi tùy theo trường hợp cụ thể
+                                                                if (!isRecipientNameValid) {
+                                                                    swal('Lỗi', 'Vui lòng kiểm tra lại tên người nhận! Không được chứa khoảng trắng ở đầu hoặc cuối.', 'error');
+                                                                } else if (!isDeliveryPhoneValid) {
+                                                                    swal('Lỗi', 'Vui lòng kiểm tra lại số điện thoại! Số điện thoại phải bắt đầu bằng số 0 và có đúng 10 chữ số.', 'error');
+                                                                } else if (!isDeliveryAddressValid) {
+                                                                    swal('Lỗi', 'Vui lòng kiểm tra lại địa chỉ! Địa chỉ phải bao gồm số nhà, khu, phố và cách nhau bởi dấu phẩy.', 'error');
+                                                                }
                                                             }
                                                         });
                                                     });
+
         </script>
         <script>
             document.getElementById('updateOrderForm').addEventListener('submit', function (event) {
@@ -432,20 +448,21 @@
                         url: '${pageContext.request.contextPath}/orderhistory', // Đảm bảo đường dẫn đúng
                         data: formData,
                         success: function (response) {
-                            // Khi thành công, ẩn modal và hiển thị thông báo thành công
+                            console.log("Success callback called"); // Kiểm tra xem callback này có được gọi không
                             $('#updateOrderModal').modal('hide');
-                            swal({
-                                title: 'Thành công!',
-                                text: 'Đơn hàng đã được cập nhật thành công.',
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Order has been updated successfully.',
                                 icon: 'success',
                                 button: 'OK'
                             }).then(() => {
                                 location.reload();
                             });
-                        },
+                        }
+                        ,
                         error: function (error) {
                             console.error(error);
-                            swal('Lỗi', 'Có lỗi xảy ra khi cập nhật đơn hàng', 'error');
+                            Swal.fire('Lỗi', 'Có lỗi xảy ra khi cập nhật đơn hàng', 'error');
                         }
                     });
                 }
