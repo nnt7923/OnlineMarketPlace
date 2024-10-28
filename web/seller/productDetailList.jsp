@@ -53,22 +53,22 @@
                         <tbody>
                             <c:forEach var="productDetail" items="${productDetailsList}">
                                 <tr>
-                                    <td>${productDetail.pdId}</td>
-                                    <td>${productDetail.pdname}</td>
-                                    <td>${productDetail.pdpriceDiscount}</td>
-                                    <td>${productDetail.pdcolor}</td>
-                                    <td><img src="${productDetail.pdimg}" alt="Product Image" width="100"></td>
-                                    <td>${productDetail.pdcriteria}</td>
-                                    <td>${productDetail.pdquantity}</td>
-                                    <td>${productDetail.pddescribe}</td>
-                                    <td>${productDetail.pdspecification}</td>
+                                    <td>${productDetail.id}</td>
+                                    <td>${productDetail.name}</td>
+                                    <td>${productDetail.priceDiscount}</td>
+                                    <td>${productDetail.color}</td>
+                                    <td><img src="${productDetail.image}" alt="Product Image" width="100"></td>
+                                    <td>${productDetail.criteria}</td>
+                                    <td>${productDetail.quantity}</td>
+                                    <td>${productDetail.describe}</td>
+                                    <td>${productDetail.specification}</td>
                                     <td>
                                         <form action="product?service=updateProductDetailForm" method="post" style="display:inline-block;">
-                                            <input type="hidden" name="pd_id" value="${productDetail.pdId}">
+                                            <input type="hidden" name="pd_id" value="${productDetail.id}">
                                             <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to edit this product?')">Edit</button>
                                         </form>
                                         <form action="product?service=delete" method="post" style="display:inline-block;">
-                                            <input type="hidden" name="pd_id" value="${productDetail.pdId}">
+                                            <input type="hidden" name="pd_id" value="${productDetail.id}">
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
                                         </form>
                                     </td>

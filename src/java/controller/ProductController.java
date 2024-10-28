@@ -132,13 +132,13 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
 
             // Xử lý hình ảnh
             String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
-            String uploadPath = getServletContext().getRealPath("/") + "uploads";
+            String uploadPath = getServletContext().getRealPath("/") + "images";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
             }
             filePart.write(uploadPath + File.separator + fileName);
-            String imgPath = "uploads/" + fileName;
+            String imgPath =  fileName;
 
             // Kiểm tra dữ liệu đầu vào
             if (name == null || name.trim().isEmpty() || priceStr == null || priceStr.trim().isEmpty() ||
@@ -170,7 +170,7 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
             int sellerId = sellerDAO.getSellerIdByAccountId(accountId);
 
             // Tạo đối tượng Product
-            Product product = new Product(0, name, price, title, cateID, brandId, sellerId, imgPath);
+            Product product = new Product(0, name, imgPath, price, title, cateID, sellerId, brandId);
             productDAO.addProductFromForm(product, accountId);
 
             // Thông báo thành công
@@ -236,7 +236,7 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
         BrandDAO brandDAO = new BrandDAO();
         List<Category> categories = categoryDAO.listAllNoImg();
         List<Brand> brands = brandDAO.listAll();
-        // Đặt dữ liệu vào request attribute để truyền đến JSP
+        // �?ặt dữ liệu vào request attribute để truy�?n đến JSP
         request.setAttribute("categories", categories);
         request.setAttribute("brands", brands);
         // Chuyển tiếp tới trang addProduct.jsp
@@ -255,7 +255,7 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
 //        // Lấy danh sách chi tiết sản phẩm theo productId
 //        List<ProductDetails> productDetailsList = productDAO.getProductDetailsByProductId(productId);
 //
-//        // Tạo HTML để trả về cho AJAX
+//        // Tạo HTML để trả v�? cho AJAX
 //        StringBuilder htmlResponse = new StringBuilder();
 //        htmlResponse.append("<h3>Chi tiết sản phẩm:</h3>");
 //        htmlResponse.append("<table border='1' cellpadding='5' cellspacing='0' width='100%'>");
@@ -273,7 +273,7 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
 //
 //        htmlResponse.append("</tbody></table>");
 //
-//        // Trả về HTML qua response
+//        // Trả v�? HTML qua response
 //        response.setContentType("text/html");
 //        response.getWriter().write(htmlResponse.toString());
 //
@@ -286,26 +286,18 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
         throws ServletException, IOException {
     int productId = Integer.parseInt(request.getParameter("productId"));
 
-    try {
-        // Lấy danh sách chi tiết sản phẩm theo productId
-        List<ProductDetails> productDetailsList = productDAO.getProductDetailsByProductId(productId);
-
-        // Đưa danh sách vào request
-        request.setAttribute("productDetailsList", productDetailsList);
-
-        // Chuyển hướng sang trang JSP
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/productDetails.jsp");
-        dispatcher.forward(request, response);
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi lấy dữ liệu sản phẩm.");
-    }
+    // Lấy danh sách chi tiết sản phẩm theo productId
+    List<ProductDetails> productDetailsList = productDAO.getProductDetailsByProductId(productId);
+    // �?ưa danh sách vào request
+    request.setAttribute("productDetailsList", productDetailsList);
+    // Chuyển hướng sang trang JSP
+    RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/productDetails.jsp");
+    dispatcher.forward(request, response);
 }
 
 
 
-// Hiển thị danh sách sản phẩm của người bán
+// Hiển thị danh sách sản phẩm của ngư�?i bán
 private void listProductsBySeller(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     HttpSession session = request.getSession();
@@ -323,7 +315,7 @@ private void listProductsBySeller(HttpServletRequest request, HttpServletRespons
         // Lấy danh sách sản phẩm của seller
         List<Product> products = productDAO.getProductsBySellerId(sellerId);
 
-        // Đặt danh sách sản phẩm vào request attribute để truyền đến JSP
+        // �?ặt danh sách sản phẩm vào request attribute để truy�?n đến JSP
         request.setAttribute("products", products);
 
         // Chuyển tiếp đến trang JSP hiển thị danh sách sản phẩm
@@ -352,7 +344,7 @@ protected void listProductDetails(HttpServletRequest request, HttpServletRespons
         // Lấy danh sách chi tiết sản phẩm của seller dựa vào sellerId
         List<ProductDetails> productDetailsList = productDAO.getProductDetailsBySellerId(sellerId);
 
-        // Đặt danh sách sản phẩm chi tiết vào request attribute để truyền đến JSP
+        // �?ặt danh sách sản phẩm chi tiết vào request attribute để truy�?n đến JSP
         request.setAttribute("productDetailsList", productDetailsList);
 
         // Chuyển tiếp đến trang JSP hiển thị danh sách chi tiết sản phẩm
@@ -378,8 +370,8 @@ private void showEditForm(HttpServletRequest request, HttpServletResponse respon
         List<Brand> brands = brandDAO.listAll(); // Lấy danh sách thương hiệu
 
         request.setAttribute("product", existingProduct);
-        request.setAttribute("categories", categories); // Đặt danh sách danh mục
-        request.setAttribute("brands", brands); // Đặt danh sách thương hiệu
+        request.setAttribute("categories", categories); // �?ặt danh sách danh mục
+        request.setAttribute("brands", brands); // �?ặt danh sách thương hiệu
 
         // Chuyển tiếp đến trang JSP chỉnh sửa sản phẩm
         RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/editProduct.jsp");
@@ -408,10 +400,10 @@ private void updateProduct(HttpServletRequest request, HttpServletResponse respo
         Part filePart = request.getPart("img");
         String imgPath;
         if (filePart != null && filePart.getSize() > 0) {
-            String realPath = getServletContext().getRealPath("/uploads");
+            String realPath = getServletContext().getRealPath("/images");
             String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
             filePart.write(realPath + File.separator + fileName);
-            imgPath = "uploads/" + fileName;
+            imgPath =  fileName;
         } else {
             imgPath = request.getParameter("currentImg"); // Use existing image if no new image uploaded
         }
@@ -426,7 +418,7 @@ private void updateProduct(HttpServletRequest request, HttpServletResponse respo
         System.out.println("Image path: " + imgPath);
 
         // Update the product in the database
-        Product product = new Product(productId, name, price, title, cid, brandId, 0, imgPath);
+        Product product = new Product(productId, name, imgPath, price, title, cid, 0, brandId);
         productDAO.updateProduct(product);
 
         // Redirect to product list after successful update
@@ -535,12 +527,12 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
 
             // Convert input values
             int productId = Integer.parseInt(productIdStr);
-            double pdpriceDiscount = Double.parseDouble(pdpriceDiscountStr);
+            float pdpriceDiscount = Float.parseFloat(pdpriceDiscountStr);
             int pdquantity = Integer.parseInt(pdquantityStr);
 
-            // Process multiple image uploads
+            // Process multiple image images
             List<String> imgPaths = new ArrayList<>();
-            String uploadPath = getServletContext().getRealPath("/uploads");
+            String uploadPath = getServletContext().getRealPath("/images");
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
@@ -550,7 +542,7 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
                 if ("pdimg".equals(filePart.getName()) && filePart.getSize() > 0) {
                     String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
                     filePart.write(uploadPath + File.separator + fileName);
-                    imgPaths.add("uploads/" + fileName); // Add each image path to the list
+                    imgPaths.add( fileName); // Add each image path to the list
                 }
             }
 
@@ -561,7 +553,8 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             String pdname = productDAO.getProductNameByProductId(productId);
 
             // Create ProductDetails object with image array
-            ProductDetails productDetails = new ProductDetails(0, productId, pdname, pdpriceDiscount, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
+            Product product = new Product(productId, null, null);
+            ProductDetails productDetails = new ProductDetails(0, product, pdname, pdpriceDiscount, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
             productDAO.addProductDetails(productDetails);
 
             request.setAttribute("successMessage", "Thêm chi tiết sản phẩm thành công.");
@@ -640,9 +633,9 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             String pddescribe = request.getParameter("pddescribe");
             String pdspecification = request.getParameter("pdspecification");
 
-            // Process multiple image uploads
+            // Process multiple image images
             List<String> imgPaths = new ArrayList<>();
-            String uploadPath = getServletContext().getRealPath("/uploads");
+            String uploadPath = getServletContext().getRealPath("/images");
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdirs();
 
@@ -650,16 +643,16 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
                 if ("pdimg".equals(filePart.getName()) && filePart.getSize() > 0) {
                     String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
                     filePart.write(uploadPath + File.separator + fileName);
-                    imgPaths.add("uploads/" + fileName);
+                    imgPaths.add( fileName);
                 }
             }
 
             String[] imgPathsArray = imgPaths.toArray(new String[0]);
-            ProductDetails productDetails = new ProductDetails(pdId, pdId, pdcolor, pdpriceDiscount, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
+            ProductDetails productDetails = new ProductDetails(pdId, null, null, pdId, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
             productDAO.updateProductDetails(productDetails);
 
             request.setAttribute("successMessage", "Product details updated successfully.");
-            response.sendRedirect("product?service=listProductDetails");
+            response.sendRedirect("product?service=list");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Error while updating product details: " + e.getMessage());

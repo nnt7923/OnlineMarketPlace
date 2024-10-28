@@ -102,6 +102,21 @@ public class BrandDAO extends DBContext {
         return brands;  // Return the list of matching brands
     }
 
+    // Check if a brand name already exists in the database
+    public boolean checkDuplicate(String brandName) {
+        String query = "SELECT COUNT(*) AS count FROM Brand WHERE brandName = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, brandName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count") > 0; // If count > 0, duplicate exists
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // No duplicate found
+    }
+
     public static void main(String[] args) {
         BrandDAO brandDAO = new BrandDAO();
         List<Brand> brands = brandDAO.listAll();

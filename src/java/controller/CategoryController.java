@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.Category;
 
 /**
@@ -114,10 +115,22 @@ public class CategoryController extends HttpServlet {
             throws ServletException, IOException {
         String cname = request.getParameter("cname");
         String cimg = request.getParameter("cimg");
+        
+        HttpSession session = request.getSession();
+
+        // Check for duplicate category
+        if (categoryDAO.isDuplicateCategory(cname)) {
+            request.setAttribute("errorMessage", "Category name already exists.");
+            request.getRequestDispatcher("/admin/addCategoryForm.jsp").forward(request, response);
+            return;
+        }
+
         Category category = new Category();
         category.setCname(cname);
         category.setCimg(cimg);
+
         categoryDAO.addCategory(category);
+        session.setAttribute("successMessage", "Category added successful");
         response.sendRedirect("categories");
     }
 
@@ -126,8 +139,21 @@ public class CategoryController extends HttpServlet {
         int cid = Integer.parseInt(request.getParameter("cid"));
         String cname = request.getParameter("cname");
         String cimg = request.getParameter("cimg");
+        
+        HttpSession session = request.getSession();
+
+        // Check for duplicate category (excluding the current category ID)
+        Category existingCategory = categoryDAO.getCategoryById(cid);
+        if (!existingCategory.getCname().equals(cname) && categoryDAO.isDuplicateCategory(cname)) {
+            request.setAttribute("errorMessage", "Category name already exists.");
+            request.setAttribute("category", existingCategory);
+            request.getRequestDispatcher("/admin/updateCategoryForm.jsp").forward(request, response);
+            return;
+        }
+
         Category category = new Category(cid, cname, cimg);
         categoryDAO.update(category);
+        session.setAttribute("successMessage", "Category updated successful");
         response.sendRedirect("categories");
     }
 

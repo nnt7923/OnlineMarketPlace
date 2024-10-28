@@ -66,7 +66,7 @@ public class AccountController extends HttpServlet {
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in processRequest: " + e.getMessage(), e);
-            response.sendRedirect("errorPage.jsp"); // Điều hướng tới trang báo lỗi
+            response.sendRedirect("errorPage.jsp"); // �?i�?u hướng tới trang báo lỗi
         }
     }
 
@@ -93,12 +93,12 @@ public class AccountController extends HttpServlet {
             HttpSession session = request.getSession();
 
             if (!PasswordValidator.isValidPassword(password)) {
-                session.setAttribute("errorMessage", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thường và 1 số");
+                session.setAttribute("errorMessage", "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm ít nhất 1 chữ hoa, 1 chữ thư�?ng và 1 số");
                 response.sendRedirect("addAccount.jsp");
                 return;
             } 
 
-            Account newAccount = new Account(0, username, password, email, phone, address, roleID, status);
+            Account newAccount = new Account(0, username, password, email, phone, address, roleID, status, null);
             
             accountDAO.add(newAccount);
 
@@ -124,7 +124,7 @@ public class AccountController extends HttpServlet {
 
             HttpSession session = request.getSession();
             
-            Account updatedAccount = new Account(accountId, username, password, email, phone, address, roleId, status);
+            Account updatedAccount = new Account(accountId, username, password, email, phone, address, roleId, status, null);
             accountDAO.update(updatedAccount);
             response.sendRedirect("account?service=listAll");
             session.setAttribute("successMessage","Updated succesfully");

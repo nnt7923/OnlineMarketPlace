@@ -35,6 +35,17 @@
                     <div class="row">
                         <div class="col-md-8 offset-md-2">
                             <h2 class="mb-4">Add New Brand</h2>
+                            
+                            <c:if test="${not empty success}">
+                                <div class="alert alert-success">
+                                    ${success}
+                                </div>
+                            </c:if>
+                            <c:if test="${not empty error}">
+                                <div class="alert alert-danger">
+                                    ${error}
+                                </div>
+                            </c:if>
                             <form action="brands" method="post">
                                 <!-- Hidden action field -->
                                 <input type="hidden" name="action" value="add">

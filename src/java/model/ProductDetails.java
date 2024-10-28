@@ -1,135 +1,130 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package model;
 
 import java.util.Arrays;
 
+/**
+ *
+ * @author Admin
+ */
 public class ProductDetails {
-    private int pdId;
-    private int productId;
-    private String pdname;
-    private double pdpriceDiscount;
-    private String pdcolor;
-    private String[] pdimg;  // Changed to an array of image paths
-    private String pdcriteria;
-    private int pdquantity;
-    private String pddescribe;
-    private String pdspecification;
+    private int id;
+    private Product product;
+    private String name;
+    private float priceDiscount;
+    private String color;
+    private String[] image;
+    private String criteria;
+    private int quantity;
+    private String describe;
+    private String specification;
 
-    // Full Constructor
-    public ProductDetails(int pdId, int productId, String pdname, double pdpriceDiscount, String pdcolor, String[] pdimg, String pdcriteria, int pdquantity, String pddescribe, String pdspecification) {
-        this.pdId = pdId;
-        this.productId = productId;
-        this.pdname = pdname;
-        this.pdpriceDiscount = pdpriceDiscount;
-        this.pdcolor = pdcolor;
-        this.pdimg = pdimg;
-        this.pdcriteria = pdcriteria;
-        this.pdquantity = pdquantity;
-        this.pddescribe = pddescribe;
-        this.pdspecification = pdspecification;
+    public ProductDetails() {
     }
 
-    public ProductDetails(int pdId, int productId, String pdcolor, double pdpriceDiscount, String[] pdimg, String pdcriteria, int pdquantity, String pddescribe, String pdspecification) {
-        this.pdId = pdId;
-        this.productId = productId;
-        this.pdcolor = pdcolor;
-        this.pdpriceDiscount = pdpriceDiscount;
-        this.pdimg = pdimg;  // Comma-separated list of image paths
-        this.pdcriteria = pdcriteria;
-        this.pdquantity = pdquantity;
-        this.pddescribe = pddescribe;
-        this.pdspecification = pdspecification;
+    public ProductDetails(int id, Product product, String name, float priceDiscount, String color, String[] image, String criteria, int quantity, String describe, String specification) {
+        this.id = id;
+        this.product = product;
+        this.name = name;
+        this.priceDiscount = priceDiscount;
+        this.color = color;
+        this.image = image;
+        this.criteria = criteria;
+        this.quantity = quantity;
+        this.describe = describe;
+        this.specification = specification;
     }
 
-    // Constructor with fewer fields
-    public ProductDetails(int pdId, int productId, String pdcolor, double pdpriceDiscount, int pdquantity, String pddescribe) {
-        this.pdId = pdId;
-        this.productId = productId;
-        this.pdcolor = pdcolor;
-        this.pdpriceDiscount = pdpriceDiscount;
-        this.pdquantity = pdquantity;
-        this.pddescribe = pddescribe;
+    public int getId() {
+        return id;
     }
 
-    // Getters and Setters
-    public int getPdId() {
-        return pdId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setPdId(int pdId) {
-        this.pdId = pdId;
+    public Product getProduct() {
+        return product;
     }
 
-    public int getProductId() {
-        return productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public String getName() {
+        return name;
     }
 
-    public String getPdname() {
-        return pdname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setPdname(String pdname) {
-        this.pdname = pdname;
+    public float getPriceDiscount() {
+        return priceDiscount;
     }
 
-    public double getPdpriceDiscount() {
-        return pdpriceDiscount;
+    public void setPriceDiscount(float priceDiscount) {
+        this.priceDiscount = priceDiscount;
     }
 
-    public void setPdpriceDiscount(double pdpriceDiscount) {
-        this.pdpriceDiscount = pdpriceDiscount;
+    public String getColor() {
+        return color;
     }
 
-    public String getPdcolor() {
-        return pdcolor;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public void setPdcolor(String pdcolor) {
-        this.pdcolor = pdcolor;
+    public String[] getImage() {
+        return image;
     }
 
-    public String[] getPdimg() {
-        return pdimg;
+    public void setImage(String[] image) {
+        this.image = image;
     }
 
-    public void setPdimg(String[] pdimg) {
-        this.pdimg = pdimg;
+    public String getCriteria() {
+        return criteria;
     }
 
-    public String getPdcriteria() {
-        return pdcriteria;
+    public void setCriteria(String criteria) {
+        this.criteria = criteria;
     }
 
-    public void setPdcriteria(String pdcriteria) {
-        this.pdcriteria = pdcriteria;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public int getPdquantity() {
-        return pdquantity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public void setPdquantity(int pdquantity) {
-        this.pdquantity = pdquantity;
+    public String getDescribe() {
+        return describe;
     }
 
-    public String getPddescribe() {
-        return pddescribe;
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 
-    public void setPddescribe(String pddescribe) {
-        this.pddescribe = pddescribe;
+    public String getSpecification() {
+        return specification;
     }
 
-    public String getPdspecification() {
-        return pdspecification;
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 
-    public void setPdspecification(String pdspecification) {
-        this.pdspecification = pdspecification;
+    @Override
+    public String toString() {
+        return "ProductDetails{" + "id=" + id + ", product=" + product + ", name=" + name + ", priceDiscount=" + priceDiscount + ", color=" + color + ", image=" + Arrays.toString(image) + ", criteria=" + criteria + ", quantity=" + quantity + ", describe=" + describe + ", specification=" + specification + '}';
     }
 
+    
 
+        
+    
 }

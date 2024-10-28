@@ -134,58 +134,65 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
 
-                    <h2>Add Product</h2>
 
-                    <!-- Product Addition Form -->
-                    <form action="product?service=addProduct" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="name"><i class="fa fa-tag"></i> Product Name:</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                       <div class="form-group">
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+                        <h2>Add Product</h2>
+
+                        <!-- Product Addition Form -->
+                        <form action="product?service=addProduct" method="post" enctype="multipart/form-data" >
+                            <div class="form-group">
+                                <label for="name">Product Name:</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+
+                                                   <div class="form-group">
     <label for="price"><i class="fa fa-dollar-sign"></i> Price:</label>
     <input type="text" id="price" name="price" inputmode="decimal" pattern="\d+(\.\d{1,2})?" required>
 </div>
 
-                        <div class="form-group">
-                            <label for="title"><i class="fa fa-heading"></i> Title:</label>
-                            <input type="text" id="title" name="title" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="category"><i class="fa fa-list"></i> Category:</label>
-                            <select id="category" name="cateID" required>
-                                <option value="">-- Select Category --</option>
-                                <c:forEach var="category" items="${categories}">
-                                    <option value="${category.cid}">${category.cname}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="brand"><i class="fa fa-industry"></i> Brand:</label>
-                            <select id="brand" name="brand_id" required>
-                                <option value="">-- Select Brand --</option>
-                                <c:forEach var="brand" items="${brands}">
-                                    <option value="${brand.brandId}">${brand.brandName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="img"><i class="fa fa-image"></i> Product Image:</label>
-                            <input type="file" id="img" name="img" accept="image/*" onchange="previewImage(event)" required>
-                            <img id="image-preview" class="image-preview" src="#" alt="Image Preview" style="display:none;">
-                        </div>
-                        <button type="submit">Add Product</button>
-                    </form>
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <input type="text" id="title" name="title" required>
+                            </div>
 
-                </div>
-                <!-- End of Main Content -->
+                            <div class="form-group">
+                                <label for="category">Category:</label>
+                                <select id="category" name="cateID" required>
+                                    <option value="">-- Select Category --</option>
+                                    <c:forEach var="category" items="${categories}">
+                                        <option value="${category.cid}">${category.cname}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
 
-                <%@include file="includes/main-script.jsp" %>
-                
-            </div>
-            <!-- End of Content Wrapper -->
+                            <div class="form-group">
+                                <label for="brand">Brand:</label>
+                                <select id="brand" name="brand_id" required>
+                                    <option value="">-- Select Brand --</option>
+                                    <c:forEach var="brand" items="${brands}">
+                                        <option value="${brand.brandId}">${brand.brandName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="img">Product Image Path:</label>
+                                <input type="file" id="img" name="img" required>
+                            </div>
+
+                            <button type="submit">Add Product</button>
+                        </form>
+
+                    </div>
+                    <!-- End of Main Content -->
+
+                    <%@include file="includes/main-script.jsp" %>
+
+
+
 
         </div>
         <!-- End of Page Wrapper -->
