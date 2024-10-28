@@ -2,9 +2,8 @@ package model;
 
 public class OrderDetail {
     private int orderId;
-    private int productId;
+    private int pdId;
     private String productName;
-    private String productImage;
     private double productPrice;
     private int quantity;
 
@@ -13,11 +12,10 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderId, int productId, String productName, String productImage, double productPrice, int quantity) {
+    public OrderDetail(int orderId, int pdId, String productName, double productPrice, int quantity) {
         this.orderId = orderId;
-        this.productId = productId;
+        this.pdId = pdId;
         this.productName = productName;
-        this.productImage = productImage;
         this.productPrice = productPrice;
         this.quantity = quantity;
     }
@@ -30,12 +28,12 @@ public class OrderDetail {
         this.orderId = orderId;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getPdId() {
+        return pdId;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setPdId(int pdId) {
+        this.pdId = pdId;
     }
 
     public String getProductName() {
@@ -46,14 +44,7 @@ public class OrderDetail {
         this.productName = productName;
     }
 
-    public String getProductImage() {
-        return productImage;
-    }
-
-    public void setProductImage(String productImage) {
-        this.productImage = productImage;
-    }
-
+    
     public double getProductPrice() {
         return productPrice;
     }
@@ -69,5 +60,10 @@ public class OrderDetail {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" + "orderId=" + orderId + ", pdId=" + pdId + ", productName=" + productName + ", productPrice=" + productPrice + ", quantity=" + quantity + '}';
+    }
+
 }

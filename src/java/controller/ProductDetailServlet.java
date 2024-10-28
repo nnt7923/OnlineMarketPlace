@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Product;
 
 @WebServlet(name = "ProductDetailServlet", urlPatterns = {"/productDetail","/seller/productDetail"})
 @MultipartConfig(
@@ -84,18 +85,9 @@ public class ProductDetailServlet extends HttpServlet {
             // Convert the list of image paths to an array
             String[] imgPathsArray = imgPaths.toArray(new String[0]);
 
+            Product product = new Product(productId, null, null);
             // Create ProductDetails object with the array of image paths
-            ProductDetails productDetails = new ProductDetails(
-                0,  // New record, so ID is 0
-                productId,
-                pdcolor,
-                pdpriceDiscount,
-                imgPathsArray,  // Array of image paths
-                pdcriteria,
-                pdquantity,
-                pddescribe,
-                pdspecification
-            );
+            ProductDetails productDetails = new ProductDetails(productId, product, pdname, productId, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
 
             // Call DAO to add product details to the database
             productDAO.addProductDetails(productDetails);

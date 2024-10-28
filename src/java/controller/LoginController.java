@@ -76,7 +76,14 @@ public class LoginController extends HttpServlet {
 
                 session.setAttribute("role", role);
 
-                // Redirect based on role
+                Account acc = new Account();
+
+//                if (acc.getStatus().equals("inactive")) {
+//                    request.setAttribute("errorAccount", "Account has been locked.");
+//                    request.getRequestDispatcher("login.jsp").forward(request, response);
+//                    return;
+//                }
+                // ?i?u h??ng d?a tr?n vai tr?
                 if (role.getRole_name().equals("Admin")) {
                     response.sendRedirect("account?service=dashboard");
                 } else if (role.getRole_name().equals("Seller")) {
@@ -110,7 +117,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String contextPath = request.getContextPath();
-        
+
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 

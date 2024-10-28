@@ -62,7 +62,7 @@ public class ChangePasswordController extends HttpServlet {
             account.setPassword(newPassword);
             session.setAttribute("account", account);
             request.setAttribute("successMessage", "Password changed successfully!");
-            request.getRequestDispatcher("profile.jsp").forward(request, response);
+            request.getRequestDispatcher("profiles.jsp").forward(request, response);
         } else {
             request.setAttribute("errorMessage", "Error updating password. Please try again.");
             request.getRequestDispatcher("changePassword.jsp").forward(request, response);

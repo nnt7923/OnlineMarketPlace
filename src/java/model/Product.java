@@ -3,27 +3,27 @@ package model;
 public class Product {
     private int productId;
     private String name;
+    private String img; 
     private double price;
     private String title;
-    private int cid;  // changed from 'cid' to 'categoryId' for clarity
-    private int brandId;
+    private int cid; 
     private int sellerId;
-    private String img;  // added the img field
+    private int brandId;
 
     // Default constructor
 
     public Product() {
     }
 
-    public Product(int productId, String name, double price, String title, int cid, int brandId, int sellerId, String img) {
+    public Product(int productId, String name, String img, double price, String title, int cid, int sellerId, int brandId) {
         this.productId = productId;
         this.name = name;
+        this.img = img;
         this.price = price;
         this.title = title;
         this.cid = cid;
-        this.brandId = brandId;
         this.sellerId = sellerId;
-        this.img = img;
+        this.brandId = brandId;
     }
     
     public Product(int productId, String name, String img, double price, String title, int cid, int sellerId, int brandId) {
@@ -36,6 +36,8 @@ public class Product {
         this.sellerId = sellerId;
         this.brandId = brandId;
     }
+
+    
 
     public Product(int productId, String name, String img) {
         this.productId = productId;
@@ -117,7 +119,10 @@ public class Product {
         this.img = img;
     }
 
-
+    @Override
+    public String toString() {
+        return "Product{" + "productId=" + productId + ", name=" + name + ", img=" + img + ", price=" + price + ", title=" + title + ", cid=" + cid + ", brandId=" + brandId + ", sellerId=" + sellerId + '}';
+    }
 
 
 }

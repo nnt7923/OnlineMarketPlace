@@ -1,27 +1,28 @@
 package model;
 
+import java.util.Date;
+
 public class Customer {
     private int customerId;
     private String customerName;
-    private String email;
-    private String phone;
-    private String address;
     private String customerType;
     private int accountId;
-
-    // Getters và Setters
+    private Date customerDob;
+    private String customerGender;
+    private String customerImages;
+    
 
     public Customer() {
     }
 
-    public Customer(int customerId, String customerName, String email, String phone, String address, String customerType, int accountId) {
+    public Customer(int customerId, String customerName, String customerType, int accountId, Date customerDob, String customerGender, String customerImages) {
         this.customerId = customerId;
         this.customerName = customerName;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
         this.customerType = customerType;
         this.accountId = accountId;
+        this.customerDob = customerDob;
+        this.customerGender = customerGender;
+        this.customerImages = customerImages;
     }
 
     public int getCustomerId() {
@@ -40,30 +41,6 @@ public class Customer {
         this.customerName = customerName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getCustomerType() {
         return customerType;
     }
@@ -79,5 +56,37 @@ public class Customer {
     public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
+
+    public Date getCustomerDob() {
+        return customerDob;
+    }
+
+    public void setCustomerDob(Date customerDob) {
+        this.customerDob = customerDob;
+    }
+
+    public String getCustomerGender() {
+        return customerGender;
+    }
+
+    public void setCustomerGender(String customerGender) {
+        this.customerGender = customerGender;
+    }
+
+    public String getCustomerImages() {
+        return customerImages;
+    }
+
+    public void setCustomerImages(String customerImages) {
+        this.customerImages = customerImages;
+    }
+
+    
+
+    @Override
+    public String toString() {
+        return "Customer{" + "customerId=" + customerId + ", customerName=" + customerName + ", customerType=" + customerType + ", accountId=" + accountId + ", customerDob=" + customerDob + ", customerGender=" + customerGender + ", customerImages=" + customerImages + '}';
+    }
+
     
 }
