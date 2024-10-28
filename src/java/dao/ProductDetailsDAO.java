@@ -278,7 +278,7 @@ public class ProductDetailsDAO extends DBContext {
 
         String sql = "WITH CTE AS (\n"
                 + "SELECT p.product_id, p.name, p.img, p.price, p.title, pd.pddescribe, pd.pdspecification, \n"
-                + "p.cateID, pd.pdprice_discount,pd.pd_id,pd.pdcolor, pd.pdcriteria,\n"
+                + "p.cid, pd.pdprice_discount,pd.pd_id,pd.pdcolor, pd.pdcriteria,\n"
                 + "ROW_NUMBER() OVER (PARTITION BY p.product_id ORDER BY p.product_id) AS row_num\n"
                 + "FROM Product p\n"
                 + "LEFT JOIN ProductDetails pd ON p.product_id = pd.product_id\n"
@@ -298,9 +298,9 @@ public class ProductDetailsDAO extends DBContext {
                 String productImage = rs.getString("img");
                 double productPrice = rs.getDouble("price");
                 String productTitle = rs.getString("title");
-                int cateID = rs.getInt("cateID");
+                int cid = rs.getInt("cid");
 
-                Product product = new Product(productId, productName, productImage, productPrice, productTitle, cateID, 0, 0);
+                Product product = new Product(productId, productName, productImage, productPrice, productTitle, cid, 0, 0);
 
                 int productDetailId = rs.getInt("pd_id");
                 float priceDiscount = rs.getFloat("pdprice_discount");

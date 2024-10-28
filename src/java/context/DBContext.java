@@ -28,8 +28,8 @@ public class DBContext {
     }
 
     public DBContext() {
-        this("jdbc:sqlserver://NGUIENP\\SQLEXPRESS:1433;databaseName=mk5;encrypt=true;trustServerCertificate=true",
-                "nguyenp","123");
+        this("jdbc:sqlserver://localhost:1433;databaseName=mk5;encrypt=true;trustServerCertificate=true",
+                "sa","123456");
 
     }
 
