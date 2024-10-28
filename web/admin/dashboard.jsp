@@ -1,96 +1,121 @@
-<%-- 
-    Document   : dashboard
-    Created on : Sep 19, 2024, 4:41:59 PM
-    Author     : phuvu
---%>
 
-<%@ page import="model.Account" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    Account account = (Account) session.getAttribute("account");
-    if (account == null || account.getRoleId() != 1) {
-        response.sendRedirect("../login.jsp");
-        return;
-    }
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="model.Role" %>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Admin Dashboard</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    </head>
-    <body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-        <div class="container-fluid">
-            <h1 class="my-4 text-center">Admin Dashboard</h1>
+    
+    <%@include file="header.jsp" %>
+    <body id="page-top">
 
-            <!-- Navigation menu -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="account?action=list">Qu?n lý Tài kho?n</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="product?action=list">Qu?n lý S?n ph?m</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="category?action=list">Qu?n lý Danh m?c</a>
-                    </li>
-                </ul>
-            </nav>
+        <!-- Page Wrapper -->
+        <div id="wrapper">
 
-            <!-- Dashboard Content -->
-            <div class="row">
-                <!-- Product Section -->
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3>Qu?n lý S?n ph?m</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Hi?n t?i có <strong>${productCount}</strong> s?n ph?m.</p>
-                            <a href="product?action=list" class="btn btn-primary">Xem s?n ph?m</a>
-                            <a href="product?action=add" class="btn btn-success">Thêm s?n ph?m</a>
+            <!-- Sidebar -->
+            <%@include file="sidebar.jsp" %>
+
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <%@include file="topbar.jsp" %>
+                    <!-- End of Topbar -->
+
+                    <!-- Begin Page Content -->
+                    <div class="container-fluid">
+
+
+                        <!-- Content Row -->
+                        <div class="row">
+
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Account</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">9</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fa-regular fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                    Category</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">2</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fa-solid fa-list"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                </div>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">Report</div>-
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="progress progress-sm mr-2">
+                                                            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fa-regular fa-flag"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
-                <!-- Category Section -->
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3>Qu?n lý Danh m?c</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Hi?n t?i có <strong>${categoryCount}</strong> danh m?c.</p>
-                            <a href="category?action=list" class="btn btn-primary">Xem danh m?c</a>
-                            <a href="category?action=add" class="btn btn-success">Thêm danh m?c</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account Section -->
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3>Qu?n lý Tài kho?n</h3>
-                        </div>
-                        <div class="card-body">
-                            <p>Hi?n t?i có <strong>${accountCount}</strong> tài kho?n.</p>
-                            <a href="account?action=list" class="btn btn-primary">Xem tài kho?n</a>
-                            <a href="account?action=add" class="btn btn-success">Thêm tài kho?n</a>
-                        </div>
-                    </div>
-                </div>
             </div>
+            <!-- End of Main Content -->
+            <%@include file="main-script.jsp" %>
+            <!-- Footer -->
+            
+
         </div>
+        <!-- End of Content Wrapper -->
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
+    
+    <!-- End of Page Wrapper -->
+
+
+
+</body>
+
 </html>
-
-
 

@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import validation.PasswordValidator;
 
 /**
  *
@@ -75,18 +76,17 @@ public class ResetPasswordController extends HttpServlet {
             throws ServletException, IOException {
         AccountDAO dao = new AccountDAO();
         HttpSession session = request.getSession();
-
         String newPassword = request.getParameter("newPassword");
         String email_reset = (String) session.getAttribute("email_reset");
 
         int resetPassword = dao.resetPassword(newPassword, email_reset);
         session.removeAttribute("email_reset");
 
-        if (resetPassword > 0) {
-            session.setAttribute("message", "Reset Password Successfully!");
-            response.sendRedirect("login.jsp");
+        if (!PasswordValidator.isValidPassword(newPassword)) {
+            session.setAttribute("errormessage", "It must contain at least 8 characters, including at least 1 uppercase letter, 1 lowercase letter, and 1 number.");
+            response.sendRedirect("newPassword.jsp");
         } else {
-            session.setAttribute("message", "I am Rikon, my father is Richa!");
+            session.setAttribute("successMessage", "Reset Password Successfully!");
             response.sendRedirect("login.jsp");
         }
     }
