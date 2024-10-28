@@ -144,8 +144,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="price">Price:</label>
-                                <input type="number" id="price" name="price" step="0.01" required>
+                                <label for="price"><i class="fa fa-dollar-sign"></i> Price:</label>
+                                <input type="text" id="price" name="price" inputmode="decimal" pattern="\d+(\.\d{1,2})?" required>
                             </div>
 
                             <div class="form-group">
@@ -186,7 +186,7 @@
 
                     <%@include file="includes/main-script.jsp" %>
 
-                
+
 
                 </div>
                 <!-- End of Content Wrapper -->
