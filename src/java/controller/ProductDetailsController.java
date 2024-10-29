@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import dao.FeedbackDAO;
 import dao.ProductDetailsDAO;
 import java.io.IOException;
 import java.util.List;
@@ -10,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Feedback;
 import model.ProductDetails;
 
 /**
@@ -17,6 +19,8 @@ import model.ProductDetails;
  * @author Admin
  */
 public class ProductDetailsController extends HttpServlet {
+
+    private FeedbackDAO feedbackDAO = new FeedbackDAO();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,7 +45,8 @@ public class ProductDetailsController extends HttpServlet {
         String criteria = request.getParameter("criteria");
 
         ProductDetailsDAO db = new ProductDetailsDAO();
-        ProductDetails productDetailDTO = db.getProductDetailByColorAndCriteria(pid, color, criteria);
+        ProductDetails productDetailDTO = db.getProductDetailByColorAndCriteria(pid
+                , color, criteria);
 
         if (productDetailDTO != null) {
             String json = new Gson().toJson(productDetailDTO);
@@ -56,11 +61,11 @@ public class ProductDetailsController extends HttpServlet {
 
     private void handleCriteriaRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pdid = request.getParameter("pid");
+        String pid = request.getParameter("pid");
         String criteria = request.getParameter("criteria");
 
         ProductDetailsDAO db = new ProductDetailsDAO();
-        List<ProductDetails> productDetails = db.getProductDetailsByPidAndCriteria(pdid, criteria);
+        List<ProductDetails> productDetails = db.getProductDetailsByPidAndCriteria(pid, criteria);
 
         String json = new Gson().toJson(productDetails);
         response.setContentType("application/json");
@@ -81,9 +86,11 @@ public class ProductDetailsController extends HttpServlet {
         Set<String> uniqueCriteria = productDetails.stream()
                 .map(dto -> dto.getCriteria())
                 .collect(Collectors.toSet());
-
+        List<Feedback> feedbacks = feedbackDAO.getFeedbackByProduct(pd.getProduct().getProductId());
+        request.setAttribute("feedbacks", feedbacks);
         request.setAttribute("allCriteria", allCriteria);
         request.setAttribute("productDetail", pd);
+        request.setAttribute("pid", pid);
         request.setAttribute("productDetails", productDetails);
         request.setAttribute("uniqueCriteria", uniqueCriteria);
         request.getRequestDispatcher("./productdetails.jsp").forward(request, response);

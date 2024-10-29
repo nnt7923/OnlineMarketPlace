@@ -4,10 +4,17 @@ public class Category {
     private int cid;
     private String cname;
     private String cimg;
-
+    private int productCount;
+    
     public Category() {
     }
-
+    
+    public Category(int cid, String cname, int productCount) {
+        this.cid = cid;
+        this.cname = cname;
+        this.productCount = productCount;
+    }
+    
     public Category(int cid, String cname, String cimg) {
         this.cid = cid;
         this.cname = cname;
@@ -42,6 +49,14 @@ public class Category {
 
     public void setCname(String cname) {
         this.cname = cname;
+    }
+    
+    public int getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(int productCount) {
+        this.productCount = productCount;
     }
 
     

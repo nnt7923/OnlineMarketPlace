@@ -11,6 +11,28 @@ import java.util.List;
 
 public class CategoryDAO extends DBContext {
 
+    public List<Category> getAllCategories() {
+        List<Category> categories = new ArrayList<>();
+        String query = "SELECT c.cid, c.cname, COUNT(p.product_id) AS productCount "
+                + "FROM Category c "
+                + "LEFT JOIN Product p ON c.cid = p.cid "
+                + "GROUP BY c.cid, c.cname";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Category category = new Category(
+                        rs.getInt("cid"),
+                        rs.getString("cname"), 
+                        rs.getInt("productCount")
+                );
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;  
+    }
+
     // Add new Category
     public boolean addCategory(Category category) {
         String query = "INSERT INTO Category (cname,cimg) VALUES (?,?)";
@@ -78,7 +100,7 @@ public class CategoryDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return categories;  // Trả về danh sách category
+        return categories;  // Trả v�? danh sách category
     }
 
     // Update Category

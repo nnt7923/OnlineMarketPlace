@@ -71,11 +71,11 @@ public class VoucherDAO extends DBContext{
     
     public List<Voucher> listAll() {
         List<Voucher> vouchers = new ArrayList<>();
-        String query = "SELECT * FROM Voucher";  // Câu lệnh SQL để lấy tất cả voucher
+        String query = "SELECT * FROM Voucher"; 
         try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ResultSet rs = ps.executeQuery();  // Thực thi câu lệnh SQL
+            ResultSet rs = ps.executeQuery();  
             while (rs.next()) {
-                // Tạo đối tượng Voucher từ ResultSet
+                
                 Voucher voucher = new Voucher(
                         rs.getInt("voucher_id"),
                         rs.getString("code"),
@@ -85,12 +85,12 @@ public class VoucherDAO extends DBContext{
                         rs.getString("status"),
                         rs.getDate("expiryDate")
                 );
-                vouchers.add(voucher);  // Thêm đối tượng vào danh sách
+                vouchers.add(voucher);  
             }
         } catch (SQLException e) {
-            e.printStackTrace();  // In ra lỗi nếu có
+            e.printStackTrace();  
         }
-        return vouchers;  // Trả về danh sách các voucher
+        return vouchers;  
     }
     
     public static void main(String[] args) {
