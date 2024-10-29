@@ -194,7 +194,7 @@
 
                         </div>
                         <div class="order-history-filter">
-                            <input type="date" class="form-control" style="width: 200px;" id="orderDate">
+<!--                            <input type="date" class="form-control" style="width: 200px;" id="orderDate">-->
                             <div>
                                 <a href="${pageContext.request.contextPath}/orderhistory" 
                                    class="btn ${statusId == -1 ? 'btn-outline-primary' : 'btn-outline-secondary'}">ALL</a>

@@ -49,7 +49,7 @@ public class OrderController extends HttpServlet {
         shipping.setName(recipientName);
         shipping.setPhone(deliveryPhone);
         shipping.setAddress(deliveryAddress);
-        shipping.setStatus("Pending");
+        shipping.setStatus("Awaiting Confirmation");
 
         Order order = new Order();
         order.setCustomer(customer);
