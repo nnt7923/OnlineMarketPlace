@@ -363,8 +363,8 @@ public class ProductDetailsDAO extends DBContext {
 
     public static void main(String[] args) {
         ProductDetailsDAO pd = new ProductDetailsDAO();
-        ProductDetails product = pd.getProductDetailByColorAndCriteria("1", "H", "128GB");
-        System.out.println(product);
+        ProductDetails product = pd.getProductByPid("1");
+       // System.out.println(product.get);
 
         List<ProductDetails> list = pd.getProductDetailsByPidAndCriteria("1", "128GB");
         for (ProductDetails pr : list) {

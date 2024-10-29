@@ -410,21 +410,18 @@ public class AccountDAO extends DBContext {
         return phones;
     }
 
-    public boolean updateAccount(Account account) {
-        String sql = "UPDATE Account SET username = ?, email = ?, phone = ?, address = ? WHERE account_id = ?";
-        try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, account.getUsername());
-            ps.setString(2, account.getEmail());
-            ps.setString(3, account.getPhone());
-            ps.setString(4, account.getAddress());
-            ps.setInt(5, account.getAccountId()); // Thi?t l?p gi? tr? cho account_id
-
-            int rowsAffected = ps.executeUpdate();
-            return rowsAffected > 0; // Tr? v? true n?u c? d?ng n?o b? ?nh h??ng
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    public void updateAccountInfo(int accountId, String username, String email, String phone, String address) {
+        String query = "UPDATE Account SET username = ?, email = ?, phone = ?, address = ? WHERE account_id = ?";
+        try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, phone);
+            ps.setString(4, address);
+            ps.setInt(5, accountId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return false;
     }
 
     public static void main(String[] args) {

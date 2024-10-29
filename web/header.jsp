@@ -116,7 +116,7 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="home" class="nav-item nav-link active">Home</a>
-                            <a href="shop.jsp" class="nav-item nav-link">Shop</a>
+                            <a href="shop" class="nav-item nav-link">Shop</a>
                             <a href="shop-detail.jsp" class="nav-item nav-link">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -154,7 +154,7 @@
                                     </a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="profiles.jsp" class="my-auto">
+                                    <a href="profile.jsp" class="my-auto">
                                         <i class="fas fa-user fa-2x"></i>
                                     </a>
                                 </c:otherwise>
