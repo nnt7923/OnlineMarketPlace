@@ -90,7 +90,7 @@ public class VoucherDAO extends DBContext{
         } catch (SQLException e) {
             e.printStackTrace();  // In ra lỗi nếu có
         }
-        return vouchers;  // Trả về danh sách các voucher
+        return vouchers; 
     }
     
     public static void main(String[] args) {

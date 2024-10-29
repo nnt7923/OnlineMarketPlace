@@ -4,7 +4,7 @@
 <ul class="navbar-nav navbar-seller sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!--     Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home.jsp">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/seller/dashboard">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>

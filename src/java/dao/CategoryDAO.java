@@ -78,7 +78,7 @@ public class CategoryDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return categories;  // Trả về danh sách category
+        return categories; 
     }
 
     // Update Category

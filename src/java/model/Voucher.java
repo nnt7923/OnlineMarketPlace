@@ -5,13 +5,13 @@ import java.util.Date;
 
 public class Voucher {
 
-    private int id;                  // ID của voucher
-    private String code;             // Mã voucher
-    private String description;      // Mô tả voucher
-    private double discountAmount;    // Số tiền giảm giá
-    private double minOrderValue;    // Giá trị đơn hàng tối thiểu để sử dụng voucher
-    private String status;           // Trạng thái voucher (active, inactive)
-    private Date expiryDate;         // Ngày hết hạn voucher
+    private int id;                 
+    private String code;             
+    private String description;     
+    private double discountAmount;    
+    private double minOrderValue;    
+    private String status;           
+    private Date expiryDate;         
 
     // Constructor
     public Voucher(int id, String code, String description, double discountAmount,
