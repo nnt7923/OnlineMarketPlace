@@ -310,7 +310,7 @@
                 cursor: pointer;
             }
         </style>
-    </style>
+    
 </head>
 
 <body>

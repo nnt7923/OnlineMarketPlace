@@ -132,13 +132,13 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
 
             // Xử lý hình ảnh
             String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
-            String uploadPath = getServletContext().getRealPath("/") + "uploads";
+            String uploadPath = getServletContext().getRealPath("/") + "images";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
             }
             filePart.write(uploadPath + File.separator + fileName);
-            String imgPath = "uploads/" + fileName;
+            String imgPath =  fileName;
 
             // Kiểm tra dữ liệu đầu vào
             if (name == null || name.trim().isEmpty() || priceStr == null || priceStr.trim().isEmpty() ||
@@ -286,21 +286,13 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
         throws ServletException, IOException {
     int productId = Integer.parseInt(request.getParameter("productId"));
 
-    try {
-        // Lấy danh sách chi tiết sản phẩm theo productId
-        List<ProductDetails> productDetailsList = productDAO.getProductDetailsByProductId(productId);
-
-        // �?ưa danh sách vào request
-        request.setAttribute("productDetailsList", productDetailsList);
-
-        // Chuyển hướng sang trang JSP
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/productDetails.jsp");
-        dispatcher.forward(request, response);
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi lấy dữ liệu sản phẩm.");
-    }
+    // Lấy danh sách chi tiết sản phẩm theo productId
+    List<ProductDetails> productDetailsList = productDAO.getProductDetailsByProductId(productId);
+    // �?ưa danh sách vào request
+    request.setAttribute("productDetailsList", productDetailsList);
+    // Chuyển hướng sang trang JSP
+    RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/productDetails.jsp");
+    dispatcher.forward(request, response);
 }
 
 
@@ -408,10 +400,10 @@ private void updateProduct(HttpServletRequest request, HttpServletResponse respo
         Part filePart = request.getPart("img");
         String imgPath;
         if (filePart != null && filePart.getSize() > 0) {
-            String realPath = getServletContext().getRealPath("/uploads");
+            String realPath = getServletContext().getRealPath("/images");
             String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
             filePart.write(realPath + File.separator + fileName);
-            imgPath = "uploads/" + fileName;
+            imgPath =  fileName;
         } else {
             imgPath = request.getParameter("currentImg"); // Use existing image if no new image uploaded
         }
@@ -538,9 +530,9 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             float pdpriceDiscount = Float.parseFloat(pdpriceDiscountStr);
             int pdquantity = Integer.parseInt(pdquantityStr);
 
-            // Process multiple image uploads
+            // Process multiple image images
             List<String> imgPaths = new ArrayList<>();
-            String uploadPath = getServletContext().getRealPath("/uploads");
+            String uploadPath = getServletContext().getRealPath("/images");
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
@@ -550,7 +542,7 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
                 if ("pdimg".equals(filePart.getName()) && filePart.getSize() > 0) {
                     String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
                     filePart.write(uploadPath + File.separator + fileName);
-                    imgPaths.add("uploads/" + fileName); // Add each image path to the list
+                    imgPaths.add( fileName); // Add each image path to the list
                 }
             }
 
@@ -641,9 +633,9 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             String pddescribe = request.getParameter("pddescribe");
             String pdspecification = request.getParameter("pdspecification");
 
-            // Process multiple image uploads
+            // Process multiple image images
             List<String> imgPaths = new ArrayList<>();
-            String uploadPath = getServletContext().getRealPath("/uploads");
+            String uploadPath = getServletContext().getRealPath("/images");
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdirs();
 
@@ -651,7 +643,7 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
                 if ("pdimg".equals(filePart.getName()) && filePart.getSize() > 0) {
                     String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
                     filePart.write(uploadPath + File.separator + fileName);
-                    imgPaths.add("uploads/" + fileName);
+                    imgPaths.add( fileName);
                 }
             }
 
@@ -660,7 +652,7 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             productDAO.updateProductDetails(productDetails);
 
             request.setAttribute("successMessage", "Product details updated successfully.");
-            response.sendRedirect("product?service=listProductDetails");
+            response.sendRedirect("product?service=list");
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Error while updating product details: " + e.getMessage());

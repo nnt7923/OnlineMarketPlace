@@ -134,43 +134,43 @@
 
                     <!-- Product Detail Edit Form -->
                     <form action="product?service=update" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="pd_id" value="${productDetail.pdId}">
+                        <input type="hidden" name="pd_id" value="${productDetail.id}">
 
                         <div class="form-group">
                             <label for="pdprice_discount">Discount Price:</label>
-                            <input type="text" id="pdprice_discount" name="pdprice_discount" value="${productDetail.pdpriceDiscount}">
+                            <input type="text" id="pdprice_discount" name="pdprice_discount" value="${productDetail.priceDiscount}">
                         </div>
 
                         <div class="form-group">
                             <label for="pdcolor">Color:</label>
-                            <input type="text" id="pdcolor" name="pdcolor" value="${productDetail.pdcolor}">
+                            <input type="text" id="pdcolor" name="pdcolor" value="${productDetail.color}">
                         </div>
 
                         <div class="form-group">
                             <label for="pdcriteria">Criteria:</label>
-                            <input type="text" id="pdcriteria" name="pdcriteria" value="${productDetail.pdcriteria}">
+                            <input type="text" id="pdcriteria" name="pdcriteria" value="${productDetail.criteria}">
                         </div>
 
                         <div class="form-group">
                             <label for="pdquantity">Quantity:</label>
-                            <input type="number" id="pdquantity" name="pdquantity" value="${productDetail.pdquantity}">
+                            <input type="number" id="pdquantity" name="pdquantity" value="${productDetail.quantity}">
                         </div>
 
                         <div class="form-group">
                             <label for="pddescribe">Description:</label>
-                            <textarea id="pddescribe" name="pddescribe" rows="4">${productDetail.pddescribe}</textarea>
+                            <textarea id="pddescribe" name="pddescribe" rows="4">${productDetail.describe}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="pdspecification">Specification:</label>
-                            <textarea id="pdspecification" name="pdspecification" rows="4">${productDetail.pdspecification}</textarea>
+                            <textarea id="pdspecification" name="pdspecification" rows="4">${productDetail.specification}</textarea>
                         </div>
 
                         <!-- Existing Images -->
                         <div class="form-group">
                             <label>Current Images:</label>
                             <div class="current-images">
-                                <c:forEach var="imgPath" items="${productDetail.pdimg}">
+                                <c:forEach var="imgPath" items="${productDetail.image}">
                                     <img src="${imgPath}" width="100px" alt="Current Image">
                                 </c:forEach>
                             </div>

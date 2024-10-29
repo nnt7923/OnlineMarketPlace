@@ -61,7 +61,7 @@ public class OrderDAO extends DBContext {
     public Status getDefaultStatus() {
         Status status = null;
         try {
-            String sql = "SELECT * FROM Status WHERE status_name = 'Pending'";
+            String sql = "SELECT * FROM Status WHERE status_name = 'Awaiting Confirmation'";
             PreparedStatement stm = new DBContext().conn.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
@@ -180,8 +180,8 @@ public class OrderDAO extends DBContext {
                     + "WHERE c.account_id = ?\n"
                     + "GROUP BY o.order_id, o.totalPrice, o.note, o.create_date, o.shipping_id, o.status_id, o.payment, \n"
                     + "         c.customer_id, c.customer_name, c.customer_type, c.customer_dob, c.customer_gender, c.customer_images, \n"
-                    + "         s.name, s.phone, s.address, st.status_name";
-
+                    + "         s.name, s.phone, s.address, st.status_name\n"
+                    +"ORDER BY o.order_id DESC";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, aid);
             ResultSet rs = stm.executeQuery();
@@ -267,7 +267,8 @@ public class OrderDAO extends DBContext {
                     + "WHERE c.account_id = ? AND o.status_id = ?\n"
                     + "GROUP BY o.order_id, o.totalPrice, o.note, o.create_date, o.shipping_id, o.status_id, o.payment, \n"
                     + "         c.customer_id, c.customer_name, c.customer_type, c.customer_dob, c.customer_gender, c.customer_images, \n"
-                    + "         s.name, s.phone, s.address, st.status_name";
+                    + "         s.name, s.phone, s.address, st.status_name\n"
+                    + "ORDER BY o.order_id DESC";
 
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, aid);

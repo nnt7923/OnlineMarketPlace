@@ -63,18 +63,21 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    public List<ProductDetails> getProductDetailsByProductId(int productId) throws SQLException {
+    public List<ProductDetails> getProductDetailsByProductId(int productId)  {
         List<ProductDetails> productDetailsList = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdcolor, pd.pdprice_discount, pd.pdquantity, pd.pddescribe "
                 + "FROM ProductDetails pd "
                 + "WHERE pd.product_id = ?";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try  {
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Product product = new Product(productId, null, null);
+//                Product product = new Product(productId, null, null);
+                                Product product = new Product();
+                product.setProductId(productId);
                 ProductDetails productDetails = new ProductDetails(
                         rs.getInt("pd_id"),
                         product,
@@ -91,7 +94,7 @@ public class ProductDAO extends DBContext {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw e;
+            
         }
         return productDetailsList;
     }
@@ -369,9 +372,10 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
-        List<Product> products = productDAO.newProduct();
-        for (Product product : products) {
-            System.out.println(product.getName());
+        List<ProductDetails > products = productDAO.getProductDetailsByProductId(4);
+        for (ProductDetails p : products) {
+            System.out.println(p.getProduct().getProductId());
         }
+        
     }
 }

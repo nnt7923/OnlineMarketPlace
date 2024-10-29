@@ -16,23 +16,23 @@
     <tbody>
         <c:forEach var="detail" items="${productDetailsList}">
             <tr>
-                <td>${detail.pdId}</td>
-                <td>${detail.pdcolor}</td>
+                <td>${detail.id}</td>
+                <td>${detail.color}</td>
                 <td>
-                    <fmt:formatNumber value="${detail.pdpriceDiscount}" type="currency" currencySymbol="₫" groupingUsed="true"/>
+                    <fmt:formatNumber value="${detail.priceDiscount}" type="currency" currencySymbol="₫" groupingUsed="true"/>
                 </td>
-                <td>${detail.pdquantity}</td>
-                <td>${detail.pddescribe}</td>
+                <td>${detail.quantity}</td>
+                <td>${detail.describe}</td>
                 <td>
                     <!-- Edit Button -->
                     <form action="product?service=updateProductDetailForm" method="post" style="display:inline-block;">
-                        <input type="hidden" name="pd_id" value="${detail.pdId}">
+                        <input type="hidden" name="pd_id" value="${detail.id}">
                         <button type="submit" class="btn btn-warning btn-sm">Edit</button>
                     </form>
 
                     <!-- Delete Button -->
                     <form action="product?service=delete" method="post" style="display:inline-block;">
-                        <input type="hidden" name="pd_id" value="${detail.pdId}">
+                        <input type="hidden" name="pd_id" value="${detail.id}">
                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this detail?')">Delete</button>
                     </form>
                 </td>
