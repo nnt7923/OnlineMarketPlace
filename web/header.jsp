@@ -154,7 +154,7 @@
                                     </a>
                                 </c:when>
                                 <c:otherwise>
-                                    <a href="profiles.jsp" class="my-auto">
+                                    <a href="profile.jsp" class="my-auto">
                                         <i class="fas fa-user fa-2x"></i>
                                     </a>
                                 </c:otherwise>
