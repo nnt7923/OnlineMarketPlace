@@ -5,14 +5,13 @@ import java.util.Date;
 
 public class Voucher {
 
-    private int id;                 
-    private String code;             
+    private int id;              
+    private String code;            
     private String description;     
-    private double discountAmount;    
-    private double minOrderValue;    
-    private String status;           
+    private double discountAmount;   
+    private double minOrderValue;   
+    private String status;          
     private Date expiryDate;         
-
     // Constructor
     public Voucher(int id, String code, String description, double discountAmount,
             double minOrderValue, String status, Date expiryDate) {

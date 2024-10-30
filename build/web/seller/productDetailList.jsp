@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +43,7 @@
                                 <th>Product Name</th>
                                 <th>Discount Price</th>
                                 <th>Color</th>
-                                <th>Image</th>
+<!--                                <th>Image</th>-->
                                 <th>Criteria</th>
                                 <th>Quantity</th>
                                 <th>Description</th>
@@ -55,9 +56,11 @@
                                 <tr>
                                     <td>${productDetail.id}</td>
                                     <td>${productDetail.name}</td>
-                                    <td>${productDetail.priceDiscount}</td>
+                                    <td>
+                                    <fmt:formatNumber value="${productDetail.priceDiscount}" type="currency" currencySymbol="₫" groupingUsed="true"/>
+                                    </td>
                                     <td>${productDetail.color}</td>
-                                    <td><img src="${productDetail.image}" alt="Product Image" width="100"></td>
+<!--                                    <td><img src="${productDetail.image}" alt="Product Image" width="100"></td>-->
                                     <td>${productDetail.criteria}</td>
                                     <td>${productDetail.quantity}</td>
                                     <td>${productDetail.describe}</td>

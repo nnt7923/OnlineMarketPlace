@@ -107,7 +107,6 @@
                     </div>
                 </div>
                 <%@include file="includes/main-script.jsp" %>
-                <%@include file="includes/footer.jsp" %>
             </div>
         </div>
     </div>

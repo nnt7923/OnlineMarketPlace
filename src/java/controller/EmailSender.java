@@ -70,7 +70,7 @@ public class EmailSender extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
             }
-// Check if the email already exists
+            // Check if the email already exists
             for (Account account : list) {
                 if (email.equals(account.getEmail())) {
                     request.setAttribute("errorMessage", "Email already exists!!!");
@@ -135,15 +135,15 @@ public class EmailSender extends HttpServlet {
     private void setAttributes(HttpServletRequest request, String username, String password, String email, String phone, String address, int role) {
         request.setAttribute("username", username);
         request.setAttribute("password", password);
-request.setAttribute("email", email);
+        request.setAttribute("email", email);
         request.setAttribute("phone", phone);
         request.setAttribute("address", address);
         request.setAttribute("role", role);
     }
 
     private boolean sendEmail(String recipient, String code) throws UnsupportedEncodingException {
-        String email = "truongnnhe172873@fpt.edu.vn";
-        String appPassword = "davx eoar hfjw rsux";
+        String email = "noreplyonlyread@gmail.com";
+        String appPassword = "soej fvbi oicy choa";
         String smtpHost = "smtp.gmail.com";
         int smtpPort = 587;
 

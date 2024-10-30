@@ -170,7 +170,7 @@
                                             <!-- Format price as currency -->
                                             <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫" groupingUsed="true"/>
                                         </td>
-                                        <td><img src="${pageContext.request.contextPath}/${product.img}" width="100" height="100" alt="Product Image"></td>
+                                        <td><img src="${pageContext.request.contextPath}/images/${product.img}" width="100" height="100" alt="Product Image"></td>
                                         <td>
                                             <form action="product?service=showEditForm" method="post" style="display:inline-block;">
                                                 <input type="hidden" name="productId" value="${product.productId}">

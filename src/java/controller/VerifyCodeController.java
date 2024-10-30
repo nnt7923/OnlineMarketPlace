@@ -43,8 +43,8 @@ public class VerifyCodeController extends HttpServlet {
             long currentTime = System.currentTimeMillis();
             long timeElapsed = (currentTime - codeGeneratedTime) / 1000;
 
-            if (timeElapsed > 120) {
-                request.setAttribute("message", "Verification code expired");
+            if (timeElapsed > 1200) {
+                request.setAttribute("errorMessage", "Verification code expired");
                 session.removeAttribute("authCode");
                 request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
             } else if (authCode.equals(code) && flag.equalsIgnoreCase("register")) {
@@ -58,19 +58,18 @@ public class VerifyCodeController extends HttpServlet {
 
                 boolean addAccount = dao.add(new Account(username, password, email, phone, address, role, "active"));
                 session.removeAttribute("authCode");
-                session.setAttribute("message", "Successful account registration");
+                session.setAttribute("successMessage", "Successful account registration");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (authCode.equals(code) && flag.equalsIgnoreCase("forgotPassword")) {
                 request.getRequestDispatcher("newPassword.jsp").forward(request, response);
             } else {
-                session.setAttribute("message", "Confirmation code is incorrect");
+                request.setAttribute("errorMessage", "Confirmation code is incorrect");
                 request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
             }
         } else {
             response.getWriter().println("Confirmation code not found. Please try again.");
         }
     }
-
 
     private byte[] convertPathToByteArray(Path path) {
         try {
