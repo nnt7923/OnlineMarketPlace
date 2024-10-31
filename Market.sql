@@ -1,88 +1,4 @@
-USE [master]
-GO
-/****** Object:  Database [mk5]    Script Date: 27/10/2024 12:27:13 CH ******/
-CREATE DATABASE [mk5]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'mk5', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.NTRUONG\MSSQL\DATA\mk5.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
- LOG ON 
-( NAME = N'mk5_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.NTRUONG\MSSQL\DATA\mk5_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
- WITH CATALOG_COLLATION = DATABASE_DEFAULT
-GO
-ALTER DATABASE [mk5] SET COMPATIBILITY_LEVEL = 150
-GO
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [mk5].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
-ALTER DATABASE [mk5] SET ANSI_NULL_DEFAULT OFF 
-GO
-ALTER DATABASE [mk5] SET ANSI_NULLS OFF 
-GO
-ALTER DATABASE [mk5] SET ANSI_PADDING OFF 
-GO
-ALTER DATABASE [mk5] SET ANSI_WARNINGS OFF 
-GO
-ALTER DATABASE [mk5] SET ARITHABORT OFF 
-GO
-ALTER DATABASE [mk5] SET AUTO_CLOSE OFF 
-GO
-ALTER DATABASE [mk5] SET AUTO_SHRINK OFF 
-GO
-ALTER DATABASE [mk5] SET AUTO_UPDATE_STATISTICS ON 
-GO
-ALTER DATABASE [mk5] SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-ALTER DATABASE [mk5] SET CURSOR_DEFAULT  GLOBAL 
-GO
-ALTER DATABASE [mk5] SET CONCAT_NULL_YIELDS_NULL OFF 
-GO
-ALTER DATABASE [mk5] SET NUMERIC_ROUNDABORT OFF 
-GO
-ALTER DATABASE [mk5] SET QUOTED_IDENTIFIER OFF 
-GO
-ALTER DATABASE [mk5] SET RECURSIVE_TRIGGERS OFF 
-GO
-ALTER DATABASE [mk5] SET  ENABLE_BROKER 
-GO
-ALTER DATABASE [mk5] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-ALTER DATABASE [mk5] SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-ALTER DATABASE [mk5] SET TRUSTWORTHY OFF 
-GO
-ALTER DATABASE [mk5] SET ALLOW_SNAPSHOT_ISOLATION OFF 
-GO
-ALTER DATABASE [mk5] SET PARAMETERIZATION SIMPLE 
-GO
-ALTER DATABASE [mk5] SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-ALTER DATABASE [mk5] SET HONOR_BROKER_PRIORITY OFF 
-GO
-ALTER DATABASE [mk5] SET RECOVERY FULL 
-GO
-ALTER DATABASE [mk5] SET  MULTI_USER 
-GO
-ALTER DATABASE [mk5] SET PAGE_VERIFY CHECKSUM  
-GO
-ALTER DATABASE [mk5] SET DB_CHAINING OFF 
-GO
-ALTER DATABASE [mk5] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
-GO
-ALTER DATABASE [mk5] SET TARGET_RECOVERY_TIME = 60 SECONDS 
-GO
-ALTER DATABASE [mk5] SET DELAYED_DURABILITY = DISABLED 
-GO
-ALTER DATABASE [mk5] SET ACCELERATED_DATABASE_RECOVERY = OFF  
-GO
-EXEC sys.sp_db_vardecimal_storage_format N'mk5', N'ON'
-GO
-ALTER DATABASE [mk5] SET QUERY_STORE = OFF
-GO
-USE [mk5]
-GO
-/****** Object:  Table [dbo].[Account]    Script Date: 27/10/2024 12:27:13 CH ******/
+
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -102,7 +18,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Brand]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Brand]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -116,7 +32,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cart]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Cart]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -130,7 +46,7 @@ CREATE TABLE [dbo].[Cart](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CartDetails]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[CartDetails]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -146,7 +62,7 @@ CREATE TABLE [dbo].[CartDetails](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Category]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Category]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -161,7 +77,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Customer]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -180,7 +96,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Feedback]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Feedback]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -199,7 +115,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OrderDetail]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[OrderDetail]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -217,7 +133,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orders]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -237,7 +153,7 @@ CREATE TABLE [dbo].[Orders](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Product]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Product]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -257,7 +173,7 @@ CREATE TABLE [dbo].[Product](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ProductDetails]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[ProductDetails]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -279,7 +195,7 @@ CREATE TABLE [dbo].[ProductDetails](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Role]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Role]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -293,7 +209,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Seller]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Seller]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -310,7 +226,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Shipping]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Shipping]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -327,7 +243,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Status]    Script Date: 27/10/2024 12:27:13 CH ******/
+/****** Object:  Table [dbo].[Status]    Script Date: 10/30/2024 3:24:46 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -344,7 +260,7 @@ GO
 SET IDENTITY_INSERT [dbo].[Account] ON 
 
 INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (10, N'admin', N'123', N'admin@gmail.com', N'1234567890', N'123 Admin Street', 1, N'active')
-INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (11, N'seller', N'123', N'seller@gmail.com', N'1234567891', N'123 Seller Street', 2, N'inactive')
+INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (11, N'seller', N'123', N'seller@gmail.com', N'1234567891', N'123 Seller Street', 2, N'active')
 INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (12, N'customer', N'123', N'customer@gmail.com', N'1234567892', N'123 Customer Street', 3, N'active')
 INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (13, N'shipper', N'123', N'shipper@gmail.com', N'1234567893', N'123 Shipper Street', 4, N'active')
 INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (14, N'wjbunhi', N'12345', N'wjbunhi@gmail.com', N'123456789', N'ha noi', 3, N'active')
@@ -352,6 +268,8 @@ INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], 
 INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (17, N'nguyenpqhe171272', N'96gZ2qEIwJ', N'nguyenpqhe171272@fpt.edu.vn', NULL, NULL, 3, N'active')
 INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (18, N'nguyenpq65', N'p1ADmUZQlh', N'nguyenpq65@gmail.com', NULL, NULL, 3, N'active')
 INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (19, N'anhnhhe172209', N'CfmwMsu2N3', N'anhnhhe172209@fpt.edu.vn', NULL, NULL, 3, N'active')
+INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (21, N'khanhduy583', N'Vpccw21fx', N'phamdokhanhduy5803@gmail.com', N'0987654321', N'hanoi', 3, N'active')
+INSERT [dbo].[Account] ([account_id], [username], [password], [email], [phone], [address], [role_id], [status]) VALUES (23, N'concac', N'Vpccw21fx', N'duypdkhe170542@fpt.edu.vn', N'0987654321', N'hanoi', 3, N'active')
 SET IDENTITY_INSERT [dbo].[Account] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Brand] ON 
@@ -366,6 +284,8 @@ GO
 INSERT [dbo].[Cart] ([cart_id], [account_id]) VALUES (1, 12)
 INSERT [dbo].[Cart] ([cart_id], [account_id]) VALUES (2, 17)
 GO
+INSERT [dbo].[CartDetails] ([cart_id], [pd_id], [quantity]) VALUES (1, 2, 1)
+GO
 SET IDENTITY_INSERT [dbo].[Category] ON 
 
 INSERT [dbo].[Category] ([cid], [cname], [cimg]) VALUES (1, N'Telephone', N'https://down-vn.img.susercontent.com/file/31234a27876fb89cd522d7e3db1ba5ca@resize_w320_nl.webp')
@@ -379,7 +299,43 @@ SET IDENTITY_INSERT [dbo].[Customer] ON
 INSERT [dbo].[Customer] ([customer_id], [customer_name], [customer_type], [account_id], [customer_dob], [customer_gender], [customer_images]) VALUES (4, N'', NULL, 12, NULL, N'', N'')
 INSERT [dbo].[Customer] ([customer_id], [customer_name], [customer_type], [account_id], [customer_dob], [customer_gender], [customer_images]) VALUES (5, N'', NULL, 12, NULL, N'', N'')
 INSERT [dbo].[Customer] ([customer_id], [customer_name], [customer_type], [account_id], [customer_dob], [customer_gender], [customer_images]) VALUES (7, N'Default Customer Name', N'normal', 19, NULL, N'unknown', NULL)
+INSERT [dbo].[Customer] ([customer_id], [customer_name], [customer_type], [account_id], [customer_dob], [customer_gender], [customer_images]) VALUES (8, N'khanhduy583', NULL, 21, NULL, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Customer] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Feedback] ON 
+
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (6, 12, 1, 3, CAST(N'2024-10-29' AS Date), 4, N'abvcccc')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (7, 12, 8, 1, CAST(N'2024-10-29' AS Date), 4, N'đẹp')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (8, 12, 8, 1, CAST(N'2024-10-29' AS Date), 4, N'đẹp')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (9, 12, 8, 1, CAST(N'2024-10-29' AS Date), 4, N'đẹp')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (10, 12, 1, 3, CAST(N'2024-10-29' AS Date), 4, N'dep')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (11, 21, 4, 1, CAST(N'2024-10-29' AS Date), 8, N'dien thoai deu')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (12, 21, 4, 2, CAST(N'2024-10-29' AS Date), 8, N'abc')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (13, 21, 4, 5, CAST(N'2024-10-29' AS Date), 8, N'xau')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (14, 21, 1, 5, CAST(N'2024-10-29' AS Date), 8, N'ngonnn')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (15, 21, 1, 5, CAST(N'2024-10-29' AS Date), 8, N'ngonnn')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (16, 21, 1, 5, CAST(N'2024-10-29' AS Date), 8, N'test')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (17, 21, 1, 5, CAST(N'2024-10-29' AS Date), 8, N'test2')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (18, 21, 1, 5, CAST(N'2024-10-29' AS Date), 8, N'test2')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (19, 12, 1, 5, CAST(N'2024-10-29' AS Date), 4, N'test3')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (20, 12, 1, 5, CAST(N'2024-10-29' AS Date), 4, N'test4')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (21, 12, 4, 5, CAST(N'2024-10-29' AS Date), 4, N'test1')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (22, 12, 1, 5, CAST(N'2024-10-29' AS Date), 4, N'cc')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (23, 12, 1, 5, CAST(N'2024-10-29' AS Date), 4, N'cc')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (24, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'323')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (25, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'asa')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (26, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'dsdas')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (27, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'dsadav')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (28, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'dsds')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (29, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'sdsadvcv')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (30, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'sdsdsd')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (31, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'sdsd')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (32, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'log')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (33, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'cccccccccccccccccccccccccccccccccccccccccccccccccccc')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (34, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'bvcccccc')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (35, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'zxccccczxczxczxcz')
+INSERT [dbo].[Feedback] ([feedback_id], [account_id], [product_id], [rating], [create_date], [customer_id], [feedback_content]) VALUES (36, 12, 1, 5, CAST(N'2024-10-30' AS Date), 4, N'dcmmm')
+SET IDENTITY_INSERT [dbo].[Feedback] OFF
 GO
 INSERT [dbo].[OrderDetail] ([order_id], [pd_id], [productName], [productPrice], [quantity]) VALUES (5, 2, N'Iphone 13 128GB | Chính hãng VN/A', 13590000.0000, 2)
 INSERT [dbo].[OrderDetail] ([order_id], [pd_id], [productName], [productPrice], [quantity]) VALUES (5, 4, N'Iphone 13 128GB | Chính hãng VN/A', 13590000.0000, 1)
@@ -396,6 +352,8 @@ INSERT [dbo].[OrderDetail] ([order_id], [pd_id], [productName], [productPrice], 
 INSERT [dbo].[OrderDetail] ([order_id], [pd_id], [productName], [productPrice], [quantity]) VALUES (29, 2, N'Iphone 13 128GB | Chính hãng VN/A', 13590000.0000, 1)
 INSERT [dbo].[OrderDetail] ([order_id], [pd_id], [productName], [productPrice], [quantity]) VALUES (29, 4, N'Iphone 13 128GB | Chính hãng VN/A', 13590000.0000, 1)
 INSERT [dbo].[OrderDetail] ([order_id], [pd_id], [productName], [productPrice], [quantity]) VALUES (30, 9, N'Iphone 15 Pro Max 256GB | Chính hãng VN/A', 29290000.0000, 1)
+INSERT [dbo].[OrderDetail] ([order_id], [pd_id], [productName], [productPrice], [quantity]) VALUES (31, 2, N'Iphone 13 128GB | Chính hãng VN/A', 13590000.0000, 1)
+INSERT [dbo].[OrderDetail] ([order_id], [pd_id], [productName], [productPrice], [quantity]) VALUES (32, 2, N'Iphone 13 128GB | Chính hãng VN/A', 13590000.0000, 1)
 GO
 SET IDENTITY_INSERT [dbo].[Orders] ON 
 
@@ -411,12 +369,24 @@ INSERT [dbo].[Orders] ([order_id], [totalPrice], [note], [create_date], [shippin
 INSERT [dbo].[Orders] ([order_id], [totalPrice], [note], [create_date], [shipping_id], [customer_id], [status_id], [payment]) VALUES (28, 101460000, N'fptu', CAST(N'2024-10-23' AS Date), 47, 4, 6, N'VNPAY')
 INSERT [dbo].[Orders] ([order_id], [totalPrice], [note], [create_date], [shipping_id], [customer_id], [status_id], [payment]) VALUES (29, 27180000, N'fptu', CAST(N'2024-10-23' AS Date), 48, 4, 1, N'COD')
 INSERT [dbo].[Orders] ([order_id], [totalPrice], [note], [create_date], [shipping_id], [customer_id], [status_id], [payment]) VALUES (30, 29290000, N'fptu', CAST(N'2024-10-23' AS Date), 49, 4, 1, N'VNPAY')
+INSERT [dbo].[Orders] ([order_id], [totalPrice], [note], [create_date], [shipping_id], [customer_id], [status_id], [payment]) VALUES (31, 13590000, N'', CAST(N'2024-10-29' AS Date), 50, 4, 1, N'COD')
+INSERT [dbo].[Orders] ([order_id], [totalPrice], [note], [create_date], [shipping_id], [customer_id], [status_id], [payment]) VALUES (32, 13590000, N'', CAST(N'2024-10-29' AS Date), 51, 4, 1, N'COD')
 SET IDENTITY_INSERT [dbo].[Orders] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Product] ON 
 
 INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (1, N'Iphone 13 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
 INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (4, N'Iphone 15 Pro Max | Chính hãng VN/A', N'iphone-15-pro-max_3.png', 34990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (8, N'Iphone 16 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (10, N'Iphone 15 Pro Max | Chính hãng VN/A', N'iphone-15-pro-max_3.png', 34990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (11, N'Iphone 13 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (12, N'Iphone 13 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (14, N'Iphone 13 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (15, N'Iphone 13 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (16, N'Iphone 15 Pro Max | Chính hãng VN/A', N'iphone-15-pro-max_3.png', 34990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (17, N'Iphone 13 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (18, N'Iphone 13 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
+INSERT [dbo].[Product] ([product_id], [name], [img], [price], [title], [cid], [brand_id], [seller_id]) VALUES (19, N'Iphone 13 | Chính hãng VN/A', N'iphone-13_2_.png', 18990000, NULL, 1, 1, 2)
 SET IDENTITY_INSERT [dbo].[Product] OFF
 GO
 SET IDENTITY_INSERT [dbo].[ProductDetails] ON 
@@ -429,6 +399,7 @@ INSERT [dbo].[ProductDetails] ([pd_id], [product_id], [pdname], [pdprice_discoun
 INSERT [dbo].[ProductDetails] ([pd_id], [product_id], [pdname], [pdprice_discount], [pdcolor], [pdimg], [pdcriteria], [pdquantity], [pddescribe], [pdspecification]) VALUES (9, 4, N'Iphone 15 Pro Max 256GB | Chính hãng VN/A', 29290000, N'Titan Tự Nhiên', N'iphone15-pro-max-titan-nau.png', N'256GB', 5, NULL, NULL)
 INSERT [dbo].[ProductDetails] ([pd_id], [product_id], [pdname], [pdprice_discount], [pdcolor], [pdimg], [pdcriteria], [pdquantity], [pddescribe], [pdspecification]) VALUES (10, 4, N'Iphone 15 Pro Max 256GB | Chính hãng VN/A', 29290000, N'Titan Trắng', N'iphone15-pro-max-titan-trang.png', N'256GB', 4, NULL, NULL)
 INSERT [dbo].[ProductDetails] ([pd_id], [product_id], [pdname], [pdprice_discount], [pdcolor], [pdimg], [pdcriteria], [pdquantity], [pddescribe], [pdspecification]) VALUES (11, 4, N'Iphone 15 Pro Max 256GB | Chính hãng VN/A', 29290000, N'Titan Đen', N'0020074_iphone-15-pro-max-128gb_550.png', N'256GB', 8, NULL, NULL)
+INSERT [dbo].[ProductDetails] ([pd_id], [product_id], [pdname], [pdprice_discount], [pdcolor], [pdimg], [pdcriteria], [pdquantity], [pddescribe], [pdspecification]) VALUES (12, 8, N'Iphone 16 | Chính hãng VN/A', 13590000, N'Đỏ', N'1730214133370_0000639_product-red_550.png', N'128GB', 10, N'testtestststst', N'abcccc')
 SET IDENTITY_INSERT [dbo].[ProductDetails] OFF
 GO
 INSERT [dbo].[Role] ([role_id], [role_name]) VALUES (1, N'Admin')
@@ -443,18 +414,20 @@ SET IDENTITY_INSERT [dbo].[Seller] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Shipping] ON 
 
-INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (9, N'Vu Dinh Phu', N'0988575467', N'hà nội,ba đình, thanh xuân, bug', NULL)
-INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (21, N'Vu Dinh Phu', N'0988575467', N'big c thang long, abc, xyz', NULL)
-INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (40, N'Vu Dinh Phu', N'0123456789', N'abc, zyz,jsda,jndal', NULL)
+INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (9, N'Phạm Quốc Nguyên', N'0988575467', N'hà nội,ba đình, thanh xuân, bug', NULL)
+INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (21, N'Ph?m Qu?c Nguyên', N'0988575467', N'big c thang long, abc, xyz', NULL)
+INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (40, N'Pham Quoc Nguyen', N'0123456789', N'abc, zyz,jsda,jndal', NULL)
 INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (41, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh', N'Awaiting Confirmation')
 INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (42, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh', N'Awaiting Confirmation')
 INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (43, N'long', N'0123456789', N'ha noi', N'Awaiting Confirmation')
 INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (44, N'long', N'0123456789', N'ha noi', N'Awaiting Confirmation')
 INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (45, N'long', N'0123456789', N'ha noi', N'Awaiting Confirmation')
-INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (46, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh,andb.ancut', N'Preparing Goods')
-INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (47, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh,andb.ancut', N'In Transit')
-INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (48, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh,andb.ancut', N'Preparing For Delivery')
+INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (46, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh,andb.ancut', N'Awaiting Confirmation')
+INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (47, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh,andb.ancut', N'Awaiting Confirmation')
+INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (48, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh,andb.ancut', N'Awaiting Confirmation')
 INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (49, N'Nguyễn Huy Anh', N'0866650703', N'nguyenhuyanh,andb.ancut', N'Awaiting Confirmation')
+INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (50, N'Pham Do Khanh Duy', N'0987654321', N'HANOI', N'Awaiting Confirmation')
+INSERT [dbo].[Shipping] ([shipping_id], [name], [phone], [address], [status]) VALUES (51, N'Pham Do Khanh Duy', N'0987654321', N'HANOI', N'Awaiting Confirmation')
 SET IDENTITY_INSERT [dbo].[Shipping] OFF
 GO
 INSERT [dbo].[Status] ([status_id], [status_name]) VALUES (1, N'Awaiting Confirmation')
@@ -465,6 +438,8 @@ INSERT [dbo].[Status] ([status_id], [status_name]) VALUES (5, N'Delivered')
 INSERT [dbo].[Status] ([status_id], [status_name]) VALUES (6, N'Cancelled')
 INSERT [dbo].[Status] ([status_id], [status_name]) VALUES (7, N'On the way to pickup')
 INSERT [dbo].[Status] ([status_id], [status_name]) VALUES (8, N'Customer not found')
+GO
+ALTER TABLE [dbo].[Feedback] ADD  CONSTRAINT [DF_Feedback_create_date]  DEFAULT (getdate()) FOR [create_date]
 GO
 ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [fk_role] FOREIGN KEY([role_id])
 REFERENCES [dbo].[Role] ([role_id])
@@ -550,56 +525,3 @@ ALTER TABLE [dbo].[Feedback]  WITH CHECK ADD CHECK  (([rating]>=(1) AND [rating]
 GO
 ALTER TABLE [dbo].[Seller]  WITH CHECK ADD CHECK  (([rating]>=(0) AND [rating]<=(5)))
 GO
-USE [master]
-GO
-ALTER DATABASE [mk5] SET  READ_WRITE 
-GO
-
-CREATE TRIGGER trg_UpdateRoleOnAccount
-ON [dbo].[Account]
-AFTER UPDATE
-AS
-BEGIN
-    -- Biến lưu account_id và role_id đã thay đổi
-    DECLARE @account_id INT, @role_id INT;
-    
-    -- Lấy thông tin của account_id và role_id sau khi cập nhật
-    SELECT @account_id = INSERTED.account_id, @role_id = INSERTED.role_id
-    FROM INSERTED;
-
-    -- Kiểm tra nếu role_id là 2 (seller)
-    IF @role_id = 2
-    BEGIN
-        -- Thêm bản ghi vào bảng Seller nếu chưa có
-        IF NOT EXISTS (SELECT 1 FROM [dbo].[Seller] WHERE [account_id] = @account_id)
-        BEGIN
-            INSERT INTO [dbo].[Seller] ([account_id], [store_name], [rating], [join_date])
-            VALUES (@account_id, N'Default Store Name', 0.00, GETDATE());
-        END
-
-        -- Xóa bản ghi khỏi Customer nếu có
-        DELETE FROM [dbo].[Customer] WHERE [account_id] = @account_id;
-    END
-
-    -- Kiểm tra nếu role_id là 3 (customer)
-    IF @role_id = 3
-    BEGIN
-        -- Thêm bản ghi vào bảng Customer nếu chưa có
-        IF NOT EXISTS (SELECT 1 FROM [dbo].[Customer] WHERE [account_id] = @account_id)
-        BEGIN
-            INSERT INTO [dbo].[Customer] ([account_id], [customer_name], [customer_type], [customer_dob], [customer_gender], [customer_images])
-            VALUES (@account_id, N'Default Customer Name', N'normal', NULL, N'unknown', NULL);
-        END
-
-        -- Xóa bản ghi khỏi Seller nếu có
-        DELETE FROM [dbo].[Seller] WHERE [account_id] = @account_id;
-    END
-END
-
--- run before
-ALTER TABLE ProductDetails
-DROP CONSTRAINT FK_ProductDetails_Product;
--- after 
-ALTER TABLE ProductDetails
-ADD CONSTRAINT FK_ProductDetails_Product FOREIGN KEY (product_id)
-    REFERENCES Product(product_id) ON DELETE CASCADE;
