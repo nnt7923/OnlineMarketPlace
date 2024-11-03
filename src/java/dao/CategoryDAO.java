@@ -13,9 +13,10 @@ public class CategoryDAO extends DBContext {
 
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
-        String query = "SELECT c.cid, c.cname, COUNT(p.product_id) AS productCount "
+        String query = "SELECT c.cid, c.cname, COUNT(pd.pd_id) AS productCount "
                 + "FROM Category c "
                 + "LEFT JOIN Product p ON c.cid = p.cid "
+                 + "LEFT JOIN ProductDetails pd ON p.product_id=pd.product_id "
                 + "GROUP BY c.cid, c.cname";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();

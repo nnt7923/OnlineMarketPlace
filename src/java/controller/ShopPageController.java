@@ -19,7 +19,6 @@ import util.Pagination;
  *
  * @author phamd
  */
-
 @WebServlet(name = "ShopPageController", urlPatterns = {"/shop"})
 public class ShopPageController extends HttpServlet {
 
@@ -31,26 +30,23 @@ public class ShopPageController extends HttpServlet {
         CategoryDAO categoryDAO = new CategoryDAO();
         ProductDAO productDAO = new ProductDAO();
 
-        
-
         // L?y danh sách danh m?c v?i s? l??ng s?n ph?m
         List<Category> categories = categoryDAO.getAllCategories();
-        
+
 //        // L?y categoryId t? request
         String cidParam = request.getParameter("cid");
-        List<ProductDetails> products = pd.getAllProducts();
+        
 
+        List<ProductDetails> products = null;
         if (cidParam != null) {
-            
             int cid = Integer.parseInt(cidParam);
-            List<Product> p = productDAO.getProductsByCategoryId(cid);
+            products = pd.getProductDetailsByCategory(cid);
         } else {
             // N?u không có categoryId, l?y t?t c? s?n ph?m
             products = pd.getAllProducts();
         }
-
-
-        // L?y s? trang hi?n t?i t? request, n?u không có thì m?c ??nh là 1
+        
+        
         String pageParam = request.getParameter("page");
         int page = 1;
         if (pageParam != null) {
@@ -63,13 +59,10 @@ public class ShopPageController extends HttpServlet {
                 page = 1; // N?u không th? chuy?n ??i, m?c ??nh là trang 1
             }
         }
-
         // S? s?n ph?m m?i trang 
         int itemsPerPage = 9;
-
         // L?y danh sách s?n ph?m ?ã phân trang
         List<ProductDetails> paginatedProducts = Pagination.getPaginatedList(products, page, itemsPerPage);
-
         // Tính t?ng s? trang
         int totalPages = Pagination.calculateTotalPages(products.size(), itemsPerPage);
 
@@ -78,6 +71,9 @@ public class ShopPageController extends HttpServlet {
         request.setAttribute("categories", categories);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
+        
+      
+        
 
         request.getRequestDispatcher("shopPage.jsp").forward(request, response);
     }

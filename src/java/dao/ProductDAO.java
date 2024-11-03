@@ -10,35 +10,60 @@ import model.ProductDetails;
 public class ProductDAO extends DBContext {
 
     public List<Product> getProductsByCategoryId(int cid) {
-    List<Product> products = new ArrayList<>();
+        List<Product> products = new ArrayList<>();
 
-    String query = "SELECT product_id, name, img, price, title, cid FROM Product WHERE cid = ?";
+        String query = "SELECT product_id, name, img, price, title, cid FROM Product WHERE cid = ?";
 
-    try ( PreparedStatement ps = conn.prepareStatement(query)) {
-        // Gán categoryId vào câu truy v?n SQL
-        ps.setInt(1, cid);
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            // Gán categoryId vào câu truy v?n SQL
+            ps.setInt(1, cid);
 
-        ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
-            int productId = rs.getInt("product_id");
-            String productName = rs.getString("name");
-            String productImage = rs.getString("img");
-            double productPrice = rs.getDouble("price");
-            String productTitle = rs.getString("title");
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                String productName = rs.getString("name");
+                String productImage = rs.getString("img");
+                double productPrice = rs.getDouble("price");
+                String productTitle = rs.getString("title");
 
-            // Ch? t?o ??i t??ng Product mà không c?n thông tin chi ti?t
-            Product product = new Product(productId, productName, productImage, productPrice, productTitle, cid, 0, 0);
-            products.add(product);
+                // Ch? t?o ??i t??ng Product mà không c?n thông tin chi ti?t
+                Product product = new Product(productId, productName, productImage, productPrice, productTitle, cid, 0, 0);
+                products.add(product);
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        rs.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return products;
     }
 
-    return products;
-}
+    public List<Product> getBestSeller() {
+        List<Product> list = new ArrayList<>();
+        String query = null;
+        return list;
+    }
+
+    public List<Product> getHighestPrice() {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT * FROM Product ORDER BY price DESC";
+
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("product_id"),
+                        rs.getString("pdname"),
+                        rs.getString("pdimg"));
+                list.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     
 
@@ -84,7 +109,7 @@ public class ProductDAO extends DBContext {
                         rs.getString("img"),
                         rs.getDouble("price"),
                         rs.getString("title"),
-                        rs.getInt("cateID"),
+                        rs.getInt("cid"),
                         rs.getInt("brand_id"),
                         rs.getInt("seller_id")
                 );
@@ -310,20 +335,39 @@ public class ProductDAO extends DBContext {
 
     // HÃ m cáº­p nháº­t ProductDetails
     public void updateProductDetails(ProductDetails productDetails) throws SQLException {
-        String sql = "UPDATE ProductDetails SET pdprice_discount = ?, pdcolor = ?, pdimg = ?, pdcriteria = ?, pdquantity = ?, pddescribe = ?, pdspecification = ? WHERE pd_id = ?";
+        String sql;
+        boolean hasNewImages = productDetails.getImage() != null && productDetails.getImage().length > 0;
 
-        // Convert the array of image paths to a comma-separated string
-        String pdimgString = String.join(",", productDetails.getImage());
+        if (hasNewImages) {
+            // Query includes pdimg if new images are provided
+            sql = "UPDATE ProductDetails SET pdprice_discount = ?, pdcolor = ?, pdimg = ?, pdcriteria = ?, pdquantity = ?, pddescribe = ?, pdspecification = ? WHERE pd_id = ?";
+        } else {
+            // Query excludes pdimg if no new images are provided
+            sql = "UPDATE ProductDetails SET pdprice_discount = ?, pdcolor = ?, pdcriteria = ?, pdquantity = ?, pddescribe = ?, pdspecification = ? WHERE pd_id = ?";
+        }
 
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDouble(1, productDetails.getPriceDiscount());
             ps.setString(2, productDetails.getColor());
-            ps.setString(3, pdimgString); // Set the concatenated image paths
-            ps.setString(4, productDetails.getCriteria());
-            ps.setInt(5, productDetails.getQuantity());
-            ps.setString(6, productDetails.getDescribe());
-            ps.setString(7, productDetails.getSpecification());
-            ps.setInt(8, productDetails.getId());
+
+            if (hasNewImages) {
+                // Convert image paths to a comma-separated string and set it
+                String pdimgString = String.join(",", productDetails.getImage());
+                ps.setString(3, pdimgString);
+                ps.setString(4, productDetails.getCriteria());
+                ps.setInt(5, productDetails.getQuantity());
+                ps.setString(6, productDetails.getDescribe());
+                ps.setString(7, productDetails.getSpecification());
+                ps.setInt(8, productDetails.getId());
+            } else {
+                // Skip pdimg and adjust indices for remaining parameters
+                ps.setString(3, productDetails.getCriteria());
+                ps.setInt(4, productDetails.getQuantity());
+                ps.setString(5, productDetails.getDescribe());
+                ps.setString(6, productDetails.getSpecification());
+                ps.setInt(7, productDetails.getId());
+            }
+
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

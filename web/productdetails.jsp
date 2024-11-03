@@ -343,6 +343,20 @@
                 color: gray; /* Màu sắc chữ */
                 margin-right: 5px; /* Khoảng cách giữa chữ và các ngôi sao */
             }
+
+            .product-images .main-img {
+                max-width: 360px; /* Kích thước tối đa cho chiều rộng */
+                max-height: 360px; /* Kích thước tối đa cho chiều cao */
+                width: 100%; /* Cho phép tự động điều chỉnh theo chiều rộng của khung chứa */
+                height: auto; /* Chiều cao tự động để giữ tỷ lệ */
+            }
+
+            .product-images .images img {
+                max-width: 126.39px; /* Kích thước tối đa cho chiều rộng */
+                max-height: 126.39px !important; /* Kích thước tối đa cho chiều cao */
+                width: 100%; /* Tự điều chỉnh theo tỷ lệ của khung chứa nhưng không vượt quá kích thước tối đa */
+                height: auto; /* Giữ tỷ lệ */
+            }
         </style>
 
     </head>
@@ -556,11 +570,11 @@
                                     <div class="tab-pane" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
                                         <h5 class="mb-3">Add a Review</h5>
                                         <c:choose>
-                                            
+
                                             <c:when test="${account eq null}">
                                                 <p>Please <a href="${pageContext.request.contextPath}/login" class="text-primary">login</a> to add a review.</p>
                                             </c:when>
-                                            
+
                                             <c:otherwise>
                                                 <form action="feedback" method="post">
                                                     <div class="mb-3 position-relative">
@@ -575,7 +589,7 @@
                                                             <input type="radio" name="rating" id="star1" value="1"><label for="star1" class="star">★</label>
                                                         </div>
                                                     </div>
-                                                    <% String pid = (String) request.getAttribute("pid"); %>
+                                                    <% String pid = (String) request.getAttribute("pid");%>
                                                     <input type="hidden" name="product_id"  value="${productDetail.getProduct().getProductId()}">
                                                     <button type="submit" class="btn btn-primary">Submit</button>
                                                 </form>
@@ -585,7 +599,7 @@
                                         <!-- Phần hiển thị phản hồi -->
                                         <h5 class="mt-5">All Reviews</h5>
                                         <div id="feedback-list">
-                                            
+
                                             <c:forEach var="feedback" items="${feedbacks}">
                                                 <div class="feedback-item mb-4 border p-3">
                                                     <p>

@@ -557,8 +557,8 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             ProductDetails productDetails = new ProductDetails(0, product, pdname, pdpriceDiscount, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
             productDAO.addProductDetails(productDetails);
 
-            request.setAttribute("successMessage", "ThÃªm chi tiáº¿t sáº£n pháº©m thÃ nh cÃ´ng.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/addProductDetail.jsp");
+            request.setAttribute("successMessage", "Thêm thông tin s?n ph?m thành công.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("product?service=addProductDetailForm");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -626,7 +626,7 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             throws ServletException, IOException {
         try {
             int pdId = Integer.parseInt(request.getParameter("pd_id"));
-            double pdpriceDiscount = Double.parseDouble(request.getParameter("pdprice_discount"));
+            float pdpriceDiscount = Float.parseFloat(request.getParameter("pdprice_discount"));
             String pdcolor = request.getParameter("pdcolor");
             String pdcriteria = request.getParameter("pdcriteria");
             int pdquantity = Integer.parseInt(request.getParameter("pdquantity"));
@@ -648,7 +648,7 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             }
 
             String[] imgPathsArray = imgPaths.toArray(new String[0]);
-            ProductDetails productDetails = new ProductDetails(pdId, null, null, pdId, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
+            ProductDetails productDetails = new ProductDetails(pdId, null, null, pdpriceDiscount, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
             productDAO.updateProductDetails(productDetails);
 
             request.setAttribute("successMessage", "Product details updated successfully.");

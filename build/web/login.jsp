@@ -325,7 +325,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="container" id="container">
             <!-- Registration Form -->
             <div class="form-container sign-up-container">
-                <form action="#">
+                <form action="EmailSender">
                     <h1>Create Account</h1>
                     <div class="social-container">                        
                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/OnlineMarketPlace/login&response_type=code&client_id=273365308613-bh0svqt2gvjp973pk4m9g1o54ac5j8v2.apps.googleusercontent.com&approval_prompt=force">

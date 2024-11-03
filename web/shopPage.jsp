@@ -51,6 +51,13 @@
                 text-decoration: line-through;
                 top: 2px;
             }
+
+            .text-truncate {
+                max-width: 100%; /* Giới hạn chiều rộng để chữ không tràn */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         </style>
     </head>
 
@@ -100,17 +107,17 @@
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
                             <a href="home" class="nav-item nav-link ">Home</a>
-                            <a href="shop" class="nav-item nav-link active">Shop</a>
-                            <a href="shop-detail.jsp" class="nav-item nav-link">Shop Detail</a>
+                            <a href="shop" class="nav-item nav-link active" >Shop</a>
+                            <!--                            <a href="shop-detail.jsp" class="nav-item nav-link">Shop Detail</a>-->
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="cart.jsp" class="dropdown-item">Cart</a>
                                     <a href="checkout.jsp" class="dropdown-item">Checkout</a>
-                                    
+
                                 </div>
                             </div>
-                           
+
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
@@ -172,18 +179,18 @@
         <!-- Single Page Header Start -->
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">Shop</h1>
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">Shop</li>
-            </ol>
+            <!--            <ol class="breadcrumb justify-content-center mb-0">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active text-white">Shop</li>
+                        </ol>-->
         </div>
         <!-- Single Page Header End -->
 
         <!-- Fruits Shop Start -->
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
-                <h1 class="mb-4">Fresh fruits shop</h1>
+                <h1 class="mb-4">Tech Store</h1>
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="row g-4">
@@ -195,21 +202,22 @@
                             </div>
                             <div class="col-6"></div>
                             <div class="col-xl-3">
-                                <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                    <label for="fruits">Default Sorting:</label>
-                                    <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform" onchange="loadProduct(this.value)">
-                                        <option value="volvo">All Products</option>
-                                        <option value="saab">Hot Sales</option>
-                                        <option value="opel">Best Seller</option>
-                                        <option value="audi">Highest Price</option>
-                                        <option value="">Lowest Price</option>
-                                    </select>
+                                <div class="bg-light ps-2 py-2 rounded d-flex justify-content-between mb-4 collapse navbar-collapse" id="navbarCollapse">
+                                    <div class="nav-item dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle text-truncate" data-bs-toggle="dropdown">Pages</a>
+                                        <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                            <a href="shop" class="dropdown-item text-truncate">All Products</a>
+                                            <a href="#" class="dropdown-item text-truncate">Sort by Price Descending</a>
+                                            <a href="#" class="dropdown-item text-truncate">Sort by Price Ascending</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                         <div class="row g-4">
                             <div class="row g-4">
-                                <div class="col-lg-2">
+                                <div class="col-lg-3">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <h4>Categories</h4>
@@ -218,7 +226,7 @@
                                                 <c:forEach items="${categories}" var="c">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="${pageContext.request.contextPath}/shop?cid=${c.cid}">
+                                                            <a href="${pageContext.request.contextPath}/shop?cid=${c.cid}">  
                                                                 <i class="fas fa-apple-alt me-2"></i>${c.cname}
                                                             </a>
                                                             <span>(${c.productCount})</span>
@@ -226,10 +234,12 @@
                                                     </li>
                                                 </c:forEach>
                                             </ul>
+
+
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                 </div>
                                 <div class="col-lg-9">
                                     <div class="row g-4 justify-content-center">
@@ -396,6 +406,7 @@
 
             <!-- Template Javascript -->
             <script src="js/main.js"></script>
+
 
 
 

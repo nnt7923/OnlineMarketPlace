@@ -200,7 +200,7 @@
                             <input type="file" id="img" name="img" accept="image/*">
                             <div class="current-image">
                                 <p>Current Image:</p>
-                                <img src="${pageContext.request.contextPath}/${product.img}" alt="Current Image">
+                                <img src="${pageContext.request.contextPath}/images/${product.img}" alt="Current Image">
                             </div>
                         </div>
                         

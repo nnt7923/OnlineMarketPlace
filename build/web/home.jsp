@@ -158,7 +158,7 @@
             <!-- Hero Start -->
             <div class="container-fluid py-5 mb-5 hero-header">
                 <div class="container py-5">
-                    <div class="row g-5 align-items-center">
+<!--                    <div class="row g-5 align-items-center">
                         <div class="col-md-12 col-lg-7">
                             <h4 class="mb-3 text-secondary">100% Organic Foods</h4>
                             <h1 class="mb-5 display-3 text-primary">Organic Veggies & Fruits Foods</h1>
@@ -167,7 +167,7 @@
                                 <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0;
                                         right: 25%;">Submit Now</button>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-md-12 col-lg-5">
                             <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
                                 <div class="carousel-inner" role="listbox">
@@ -218,7 +218,7 @@
                                             <span class="text-dark" style="width: 130px;">All Products</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+<!--                                    <li class="nav-item">
                                         <a class="d-flex py-2 m-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-2">
                                             <span class="text-dark" style="width: 130px;">Vegetables</span>
                                         </a>
@@ -237,7 +237,7 @@
                                         <a class="d-flex m-2 py-2 bg-light rounded-pill" data-bs-toggle="pill" href="#tab-5">
                                             <span class="text-dark" style="width: 130px;">Meat</span>
                                         </a>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </div>
                         </div>
@@ -362,7 +362,7 @@
 
 
 
-            <!-- Featurs Start -->
+<!--             Featurs Start 
             <div class="container-fluid service py-5">
                 <div class="container py-5">
                     <div class="row g-4 justify-content-center">
@@ -408,10 +408,10 @@
                     </div>
                 </div>
             </div>
-            <!-- Featurs End -->
+             Featurs End -->
 
 
-            <!-- Vesitable Shop Start-->
+<!--             Vesitable Shop Start
             <div class="container-fluid vesitable py-5">
                 <div class="container py-5">
                     <h1 class="mb-0">Fresh Organic Vegetables</h1>
@@ -538,11 +538,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- Vesitable Shop End -->
 
 
-            <!-- Banner Section Start-->
+<!--             Banner Section Start
             <div class="container-fluid banner bg-secondary my-5">
                 <div class="container py-5">
                     <div class="row g-4 align-items-center">
@@ -572,7 +572,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Banner Section End -->
+             Banner Section End -->
 
 
             <!-- Bestsaler Product Start -->

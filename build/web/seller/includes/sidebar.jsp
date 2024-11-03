@@ -4,7 +4,7 @@
 <ul class="navbar-nav navbar-seller sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!--     Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home.jsp">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/seller/dashboard">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -40,7 +40,6 @@
                 <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=addProductDetail">Add Product Detail</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=listProductsBySeller">List</a>
                 <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=list">List Product Details</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/departments/store">Create</a>
             </div
         </div>
     </li>
