@@ -226,7 +226,7 @@ public class ProductDetailsDAO extends DBContext {
 
         String sql = "SELECT p.product_id, p.name AS product_name, p.img AS product_image, p.price AS product_price, "
                 + "p.title AS product_title, pd.pddescribe, pd.pdspecification, pd.pd_id, pd.pdname, pd.pdprice_discount, "
-                + "pd.pdcolor, pd.pdimg AS product_detail_image, pd.pdcriteria, pd.pdquantity "
+                + "pd.pdcolor, pd.pdimg AS product_detail_image, pd.pdcriteria, pd.pdquantity, p.seller_id "
                 + "FROM Product p "
                 + "JOIN ProductDetails pd ON p.product_id = pd.product_id "
                 + "WHERE p.product_id = ?";
@@ -242,9 +242,9 @@ public class ProductDetailsDAO extends DBContext {
                 String productImage = rs.getString("product_image");
                 float productPrice = rs.getFloat("product_price");
                 String productTitle = rs.getString("product_title");
-
+                int sellerId = rs.getInt("seller_id");
                 // T?o ??i t??ng Product
-                Product product = new Product(productId, productName, productImage, productPrice, productTitle, 0, 0, 0);
+                Product product = new Product(productId, productName, productImage, productPrice, productTitle, 0, sellerId, 0);
 
                 // L?y chi ti?t s?n ph?m
                 int productDetailId = rs.getInt("pd_id");

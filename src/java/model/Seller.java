@@ -1,22 +1,28 @@
 package model;
 
+import java.util.Date;
+
 public class Seller {
 
     private int sellerId;
     private int accountId;
     private String storeName;
     private double rating;
-    private String joinDate;
-
+    private Date joinDate;
+    private Date lastOnline;
+    private String image;
+    
     public Seller() {
     }
 
-    public Seller(int sellerId, int accountId, String storeName, double rating, String joinDate) {
+    public Seller(int sellerId, int accountId, String storeName, double rating, Date joinDate, Date lastOnline, String image) {
         this.sellerId = sellerId;
         this.accountId = accountId;
         this.storeName = storeName;
         this.rating = rating;
         this.joinDate = joinDate;
+        this.lastOnline = lastOnline;
+        this.image = image;
     }
 
     public int getSellerId() {
@@ -51,12 +57,35 @@ public class Seller {
         this.rating = rating;
     }
 
-    public String getJoinDate() {
+    public Date getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDate(String joinDate) {
+    public void setJoinDate(Date joinDate) {
         this.joinDate = joinDate;
     }
 
+    public Date getLastOnline() {
+        return lastOnline;
+    }
+
+    public void setLastOnline(Date lastOnline) {
+        this.lastOnline = lastOnline;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "Seller{" + "sellerId=" + sellerId + ", accountId=" + accountId + ", storeName=" + storeName + ", rating=" + rating + ", joinDate=" + joinDate + ", lastOnline=" + lastOnline + ", image=" + image + '}';
+    }
+
+    
+    
 }

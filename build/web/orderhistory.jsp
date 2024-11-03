@@ -241,13 +241,23 @@
                                                 <fmt:formatDate value="${order.ordertime}" pattern="dd/MM/yyyy"/>
                                             </td>
                                             <td>
-                                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" 
+<!--                                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" 
                                                         onclick="showUpdateModal(${order.orderId}, '${order.shipping.name}', '${order.shipping.address}', '${order.shipping.phone}')">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
                                                 <button class="btn btn-danger btn-sm trash" type="button" title="Xóa" onclick="cancelOrder(${order.orderId})">
                                                     <i class="fas fa-trash-alt"></i>
-                                                </button>
+                                                </button>-->
+                                                <c:if test="${order.status.name == 'Awaiting Confirmation'}">
+                                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"  
+                                                            onclick="showUpdateModal(${order.orderId}, '${order.shipping.name}', '${order.shipping.address}', '${order.shipping.phone}')">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm trash" type="button" title="Xóa" 
+                                                            onclick="cancelOrder(${order.orderId})">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </c:if>
                                                 <button class="btn btn-info btn-sm eye" type="button" title="Chi tiết" id="show-emp" onclick="toggleDetails(${order.orderId})">
                                                     <i class="fas fa-eye"></i>
                                                 </button>

@@ -19,6 +19,7 @@ import model.Status;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Customer;
+import model.Seller;
 
 /**
  *
@@ -29,7 +30,7 @@ public class OrderDAO extends DBContext {
     Connection connection = new DBContext().conn;
 
     public int addOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO Orders (customer_id, shipping_id, totalPrice, note, create_date, status_id, payment_method) VALUES (?, ?, ?, ?, NOW(), ?, ?)";
+        String sql = "INSERT INTO Orders (customer_id, shipping_id, totalPrice, note, create_date, status_id, payment_method, seller_id) VALUES (?, ?, ?, ?, NOW(), ?, ?, ?)";
         try (PreparedStatement ps = new DBContext().conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, order.getCustomer().getCustomerId());
             ps.setInt(2, order.getShipping().getShippingid());
@@ -37,6 +38,7 @@ public class OrderDAO extends DBContext {
             ps.setString(4, order.getNote());
             ps.setInt(5, order.getStatus().getId());
             ps.setString(6, order.getPayment());
+            ps.setInt(7, order.getSeller().getSellerId());
 
             ps.executeUpdate();
 
@@ -109,17 +111,18 @@ public class OrderDAO extends DBContext {
             }
 
             // B??c 2: Thêm thông tin ??n hàng vào b?ng Orders
-            String sqlOrder = "INSERT INTO Orders (customer_id, shipping_id, totalPrice, note, create_date, status_id, payment) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sqlOrder = "INSERT INTO Orders (customer_id, shipping_id, totalPrice, note, create_date, status_id, payment, seller_id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmOrder = connection.prepareStatement(sqlOrder, PreparedStatement.RETURN_GENERATED_KEYS);
             stmOrder.setInt(1, order.getCustomer().getCustomerId());
-            stmOrder.setInt(2, shippingId); // S? d?ng shipping_id v?a l?y
+            stmOrder.setInt(2, shippingId);
             stmOrder.setDouble(3, order.getTotalPrice());
             stmOrder.setString(4, order.getNote());
             stmOrder.setTimestamp(5, new Timestamp(order.getOrdertime().getTime()));
             stmOrder.setInt(6, status.getId());
             stmOrder.setString(7, order.getPayment());
-
+            stmOrder.setInt(8, order.getSeller().getSellerId());
+            
             stmOrder.executeUpdate();
 
             ResultSet rsOrder = stmOrder.getGeneratedKeys();
@@ -170,7 +173,7 @@ public class OrderDAO extends DBContext {
             String sql = "SELECT o.order_id, o.totalPrice, o.note, o.create_date, o.shipping_id, o.status_id, o.payment, \n"
                     + "       c.customer_id, c.customer_name, c.customer_type, c.customer_dob, c.customer_gender, c.customer_images, \n"
                     + "       s.name AS shipping_name, s.phone AS shipping_phone, s.address AS shipping_address, \n"
-                    + "       st.status_name, \n"
+                    + "       st.status_name, o.seller_id, \n"
                     + "       SUM(od.productPrice * od.quantity) AS total_order_amount\n"
                     + "FROM Orders o \n"
                     + "JOIN Customer c ON o.customer_id = c.customer_id \n"
@@ -180,7 +183,7 @@ public class OrderDAO extends DBContext {
                     + "WHERE c.account_id = ?\n"
                     + "GROUP BY o.order_id, o.totalPrice, o.note, o.create_date, o.shipping_id, o.status_id, o.payment, \n"
                     + "         c.customer_id, c.customer_name, c.customer_type, c.customer_dob, c.customer_gender, c.customer_images, \n"
-                    + "         s.name, s.phone, s.address, st.status_name\n"
+                    + "         s.name, s.phone, s.address, st.status_name, o.seller_id\n"
                     +"ORDER BY o.order_id DESC";
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, aid);
@@ -194,7 +197,10 @@ public class OrderDAO extends DBContext {
                 order.setNote(rs.getString("note"));
                 order.setOrdertime(rs.getDate("create_date"));
                 order.setPayment(rs.getString("payment"));
-
+                
+                Seller seller = new Seller();
+                seller.setSellerId(rs.getInt("seller_id"));
+                
                 // Thi?t l?p thông tin Customer
                 Customer customer = new Customer();
                 customer.setAccountId(rs.getInt("customer_id"));
@@ -257,7 +263,7 @@ public class OrderDAO extends DBContext {
             String sql = "SELECT o.order_id, o.totalPrice, o.note, o.create_date, o.shipping_id, o.status_id, o.payment, \n"
                     + "       c.customer_id, c.customer_name, c.customer_type, c.customer_dob, c.customer_gender, c.customer_images, \n"
                     + "       s.name AS shipping_name, s.phone AS shipping_phone, s.address AS shipping_address, \n"
-                    + "       st.status_name, \n"
+                    + "       st.status_name, o.seller_id, \n"
                     + "       SUM(od.productPrice * od.quantity) AS total_order_amount\n"
                     + "FROM Orders o \n"
                     + "JOIN Customer c ON o.customer_id = c.customer_id \n"
@@ -267,7 +273,7 @@ public class OrderDAO extends DBContext {
                     + "WHERE c.account_id = ? AND o.status_id = ?\n"
                     + "GROUP BY o.order_id, o.totalPrice, o.note, o.create_date, o.shipping_id, o.status_id, o.payment, \n"
                     + "         c.customer_id, c.customer_name, c.customer_type, c.customer_dob, c.customer_gender, c.customer_images, \n"
-                    + "         s.name, s.phone, s.address, st.status_name\n"
+                    + "         s.name, s.phone, s.address, st.status_name, o.seller_id\n"
                     + "ORDER BY o.order_id DESC";
 
             PreparedStatement stm = connection.prepareStatement(sql);
@@ -283,6 +289,8 @@ public class OrderDAO extends DBContext {
                 order.setOrdertime(rs.getDate("create_date"));
                 order.setPayment(rs.getString("payment"));
 
+                Seller seller = new Seller();
+                seller.setSellerId(rs.getInt("seller_id"));
                 // Thi?t l?p thông tin Customer
                 Customer customer = new Customer();
                 customer.setAccountId(rs.getInt("customer_id"));

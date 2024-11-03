@@ -13,11 +13,12 @@ public class Order {
     private List <OrderDetail> orderDetail;
     private Status status;
     private String payment;
+    private Seller seller;
     
     public Order() {
     }
 
-    public Order(int orderId, Customer customer, double totalPrice, String note, Date ordertime, Shipping shipping, List<OrderDetail> orderDetail, Status status, String payment) {
+    public Order(int orderId, Customer customer, double totalPrice, String note, Date ordertime, Shipping shipping, List<OrderDetail> orderDetail, Status status, String payment, Seller seller) {
         this.orderId = orderId;
         this.customer = customer;
         this.totalPrice = totalPrice;
@@ -27,6 +28,7 @@ public class Order {
         this.orderDetail = orderDetail;
         this.status = status;
         this.payment = payment;
+        this.seller = seller;
     }
 
     public int getOrderId() {
@@ -101,9 +103,18 @@ public class Order {
         this.payment = payment;
     }
 
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
     @Override
     public String toString() {
-        return "Order{" + "orderId=" + orderId + ", customer=" + customer + ", totalPrice=" + totalPrice + ", note=" + note + ", ordertime=" + ordertime + ", shipping=" + shipping + ", orderDetail=" + orderDetail + ", status=" + status + ", payment=" + payment + '}';
+        return "Order{" + "orderId=" + orderId + ", customer=" + customer + ", totalPrice=" + totalPrice + ", note=" + note + ", ordertime=" + ordertime + ", shipping=" + shipping + ", orderDetail=" + orderDetail + ", status=" + status + ", payment=" + payment + ", seller=" + seller + '}';
     }
+
 
 }

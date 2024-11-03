@@ -117,16 +117,8 @@
                         <div class="navbar-nav mx-auto">
                             <a href="home" class="nav-item nav-link active">Home</a>
                             <a href="shop" class="nav-item nav-link">Shop</a>
-<!--                            <a href="shop-detail.jsp" class="nav-item nav-link">Shop Detail</a>-->
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="cart.jsp" class="dropdown-item">Cart</a>
-                                    <a href="checkout.jsp" class="dropdown-item">Checkout</a>
-                                    <!--                                    <a href="404.html" class="dropdown-item">404 Page</a>-->
-                                </div>
-                            </div>
-                            <!--                            <a href="contact.html" class="nav-item nav-link">Contact</a>-->
+                            <a href="news" class="nav-item nav-link">News</a>
+
                         </div>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
