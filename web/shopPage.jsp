@@ -120,8 +120,8 @@
 
                         </div>
                         <div class="d-flex m-3 me-0">
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                                <c:if test="${sessionScope.account == null}">
+
+                            <c:if test="${sessionScope.account == null}">
                                 <a id="loginModalbuttoncart" href="#" class="position-relative me-4 my-auto" >
                                     <i class="fa fa-shopping-bag fa-2x"></i>
                                     <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
@@ -157,24 +157,7 @@
         </div>
         <!-- Navbar End -->
 
-        <!-- Modal Search Start -->
-        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content rounded-0">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body d-flex align-items-center">
-                        <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal Search End -->
+
 
         <!-- Single Page Header Start -->
         <div class="container-fluid page-header py-5">
@@ -195,16 +178,23 @@
                     <div class="col-lg-12">
                         <div class="row g-4">
                             <div class="col-xl-3">
-                                <div class="input-group w-100 mx-auto d-flex">
-                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                <div class="input-group w-100 mx-auto d-flex mb-4" style="max-width: 600px;">
+                                    <form action="${pageContext.request.contextPath}/shop" method="get" class="w-100 d-flex">
+                                        <input type="search" name="search" class="form-control p-3" placeholder="Tìm kiếm sản phẩm..." aria-describedby="search-icon-1" style="border-radius: 25px 0 0 25px; border: 1px solid #ced4da;">
+                                        <button type="submit" class="btn btn-primary" style="border-radius: 0 25px 25px 0;">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </form>
                                 </div>
+
+
+
                             </div>
                             <div class="col-6"></div>
                             <div class="col-xl-3">
                                 <div class="bg-light ps-2 py-2 rounded d-flex justify-content-between mb-4 collapse navbar-collapse" id="navbarCollapse">
                                     <div class="nav-item dropdown">
-                                        <a href="#" class="nav-link dropdown-toggle text-truncate" data-bs-toggle="dropdown">Pages</a>
+                                        <a href="#" class="nav-link dropdown-toggle text-truncate" data-bs-toggle="dropdown">Filter</a>
                                         <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                             <a href="shop" class="dropdown-item text-truncate">All Products</a>
                                             <c:if test="${not empty param.cid}">

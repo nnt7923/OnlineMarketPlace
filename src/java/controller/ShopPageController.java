@@ -23,38 +23,44 @@ public class ShopPageController extends HttpServlet {
 
         ProductDetailsDAO pd = new ProductDetailsDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
-        
+
         // L?y danh sách danh m?c v?i s? l??ng s?n ph?m
         List<Category> categories = categoryDAO.getAllCategories();
 
         // L?y categoryId và sort t? request
         String cidParam = request.getParameter("cid");
         String sortParam = request.getParameter("sort");
+        String searchParam = request.getParameter("search");
 
         List<ProductDetails> products;
 
-        // X? lý s?p x?p và l?y danh sách s?n ph?m
-        if ("price_desc".equals(sortParam)) {
-            if (cidParam != null) {
-                int cid = Integer.parseInt(cidParam);
-                products = pd.getProductDetailsByCategorySortedByPriceDescending(cid);
-            } else {
-                products = pd.getAllProductsSortedByPriceDescending();
-            }
-        } else if ("price_asc".equals(sortParam)) {
-            if (cidParam != null) {
-                int cid = Integer.parseInt(cidParam);
-                products = pd.getProductDetailsByCategorySortedByPriceAscending(cid);
-            } else {
-                products = pd.getAllProductsSortedByPriceAscending();
-            }
+        // X? lý tìm ki?m
+        if (searchParam != null && !searchParam.trim().isEmpty()) {
+            products = pd.search(searchParam.trim());
         } else {
-            // N?u không có categoryId, l?y t?t c? s?n ph?m
-            if (cidParam != null) {
-                int cid = Integer.parseInt(cidParam);
-                products = pd.getProductDetailsByCategory(cid);
+            // X? lý s?p x?p và l?y danh sách s?n ph?m
+            if ("price_desc".equals(sortParam)) {
+                if (cidParam != null) {
+                    int cid = Integer.parseInt(cidParam);
+                    products = pd.getProductDetailsByCategorySortedByPriceDescending(cid);
+                } else {
+                    products = pd.getAllProductsSortedByPriceDescending();
+                }
+            } else if ("price_asc".equals(sortParam)) {
+                if (cidParam != null) {
+                    int cid = Integer.parseInt(cidParam);
+                    products = pd.getProductDetailsByCategorySortedByPriceAscending(cid);
+                } else {
+                    products = pd.getAllProductsSortedByPriceAscending();
+                }
             } else {
-                products = pd.getAllProducts();
+                // N?u không có categoryId, l?y t?t c? s?n ph?m
+                if (cidParam != null) {
+                    int cid = Integer.parseInt(cidParam);
+                    products = pd.getProductDetailsByCategory(cid);
+                } else {
+                    products = pd.getAllProducts();
+                }
             }
         }
 
@@ -85,7 +91,7 @@ public class ShopPageController extends HttpServlet {
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
         request.setAttribute("selectedSort", sortParam);
-        
+
         request.getRequestDispatcher("shopPage.jsp").forward(request, response);
     }
 
