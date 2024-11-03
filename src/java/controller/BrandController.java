@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -56,6 +57,11 @@ public class BrandController extends HttpServlet {
             throws ServletException, IOException {
         List<Brand> brandList = brandDAO.listAll();
         request.setAttribute("brands", brandList);
+        // Pass success or error message if any
+        String successMessage = (String) request.getAttribute("success");
+        String errorMessage = (String) request.getAttribute("error");
+        request.setAttribute("message", successMessage != null ? successMessage : errorMessage);
+        request.setAttribute("messageType", successMessage != null ? "success" : errorMessage != null ? "error" : null);
         request.getRequestDispatcher("/admin/manageBrand.jsp").forward(request, response);
     }
 
@@ -65,6 +71,11 @@ public class BrandController extends HttpServlet {
         String keyword = request.getParameter("keyword");
         List<Brand> brandList = brandDAO.search(keyword);
         request.setAttribute("brands", brandList);
+        // Pass success or error message if any
+        String successMessage = (String) request.getAttribute("success");
+        String errorMessage = (String) request.getAttribute("error");
+        request.setAttribute("message", successMessage != null ? successMessage : errorMessage);
+        request.setAttribute("messageType", successMessage != null ? "success" : errorMessage != null ? "error" : null);
         request.getRequestDispatcher("/admin/manageBrand.jsp").forward(request, response);
     }
 
@@ -88,6 +99,7 @@ public class BrandController extends HttpServlet {
             throws ServletException, IOException {
         int brandId = Integer.parseInt(request.getParameter("brand_id"));
         brandDAO.deleteBrand(brandId);
+        request.setAttribute("success", "Brand deleted successfully.");
         response.sendRedirect("brands");
     }
 
@@ -106,8 +118,6 @@ public class BrandController extends HttpServlet {
                 case "update":
                     updateBrand(request, response);
                     break;
-                case "delete":
-                    deleteBrand(request, response);
                 default:
                     doGet(request, response);
                     break;
@@ -115,24 +125,50 @@ public class BrandController extends HttpServlet {
         }
     }
 
-    // Add a new brand
+    // Add a new brand with duplicate check
     private void addBrand(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String brandName = request.getParameter("brandName");
-        Brand brand = new Brand();
-        brand.setBrandName(brandName);
-        brandDAO.addBrand(brand);
-        response.sendRedirect("brands");
+        
+        HttpSession session = request.getSession();
+
+        // Check if brand already exists
+        if (brandDAO.checkDuplicate(brandName)) {
+            // If duplicate, send back to add form with an error message
+            request.setAttribute("error", "Brand name already exists.");
+            request.getRequestDispatcher("/admin/addBrand.jsp").forward(request, response);
+        } else {
+            // If no duplicate, proceed to add
+            Brand brand = new Brand();
+            brand.setBrandName(brandName);
+            brandDAO.addBrand(brand);
+            session.setAttribute("success", "Brand added successful");
+            response.sendRedirect("brands");
+        }
     }
 
-    // Update an existing brand
+    // Update an existing brand with duplicate check
     private void updateBrand(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int brandId = Integer.parseInt(request.getParameter("brand_id"));
         String brandName = request.getParameter("brandName");
-        Brand brand = new Brand(brandId, brandName);
-        brandDAO.updateBrand(brand);
-        response.sendRedirect("brands");
+
+        HttpSession session = request.getSession();
+        
+        // Check if brand name already exists, and is not the current brand being updated
+        Brand existingBrand = brandDAO.getBrandById(brandId);
+        if (existingBrand != null && !existingBrand.getBrandName().equals(brandName) && brandDAO.checkDuplicate(brandName)) {
+            // If duplicate, send back to update form with an error message
+            request.setAttribute("error", "Brand name already exists.");
+            request.setAttribute("brand", existingBrand);
+            request.getRequestDispatcher("/admin/editBrand.jsp").forward(request, response);
+        } else {
+            // If no duplicate, proceed to update
+            Brand brand = new Brand(brandId, brandName);
+            brandDAO.updateBrand(brand);
+            session.setAttribute("success", "Brand updated successful");
+            response.sendRedirect("brands");
+        }
     }
 
     @Override

@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
     <head>
@@ -9,6 +14,7 @@
         <!-- SweetAlert from CDN -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>-->
+        <link rel="stylesheet" href="css/login.css">
     </head>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
@@ -319,7 +325,7 @@
         <div class="container" id="container">
             <!-- Registration Form -->
             <div class="form-container sign-up-container">
-                <form action="EmailSender" method="post">
+                <form action="EmailSender">
                     <h1>Create Account</h1>
                     <div class="social-container">                        
                         <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/OnlineMarketPlace/login&response_type=code&client_id=273365308613-bh0svqt2gvjp973pk4m9g1o54ac5j8v2.apps.googleusercontent.com&approval_prompt=force">
@@ -363,7 +369,9 @@
 
                     <a href="#" id="forgotPasswordLink">Forgot your password?</a>
                     <button type="submit">Login</button>
+
                 </form>
+
             </div>
 
             <!-- Overlay for switching between login and registration -->
@@ -381,8 +389,14 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Forgot Password Popup -->
+            <div class="popup" id="forgotPasswordPopup">
+                <div class="popup-content">
+                    <h3>Reset Password</h3>
+                    <input type="email" placeholder="Enter your email" />
+                    <button>Send</button>
+                    <button class="close-popup" id="closePopupButton">Close</button>
+                </div>
+            </div>
             <form action="EmailSender" method="post">
                 <div class="popup" id="forgotPasswordPopup">
                     <div class="popup-content">
@@ -402,9 +416,6 @@
             const signInButton = document.getElementById('signIn');
             const container = document.getElementById('container');
             const closePopupButton = document.getElementById('closePopupButton');
-            const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-            const forgotPasswordPopup = document.getElementById('forgotPasswordPopup');
-
             signUpButton.addEventListener('click', () => {
                 container.classList.add("right-panel-active");
             });
@@ -418,6 +429,5 @@
                 forgotPasswordPopup.style.display = 'none';
             });
         </script>
-
     </body>
 </html>

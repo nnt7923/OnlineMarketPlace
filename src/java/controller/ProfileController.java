@@ -44,13 +44,13 @@ public class ProfileController extends HttpServlet {
             if (session != null) {
                 Account account = (Account) session.getAttribute("account");
                 if (account != null) {
-                    // Cập nhật thông tin người dùng từ form
+                    // Cập nhật thông tin ngư�?i dùng từ form
                     String username = request.getParameter("username");
                     String email = request.getParameter("email");
                     String phone = request.getParameter("phone");
                     String address = request.getParameter("address");
 
-                    // Gọi DAO để cập nhật thông tin
+                    // G�?i DAO để cập nhật thông tin
                     AccountDAO dao = new AccountDAO();
                     dao.updateAccountInfo(account.getAccountId(), username, email, phone, address);
 
@@ -61,7 +61,7 @@ public class ProfileController extends HttpServlet {
                     account.setAddress(address);
                     session.setAttribute("account", account);
 
-                    // Chuyển hướng về trang profile với thông báo thành công
+                    // Chuyển hướng v�? trang profile với thông báo thành công
                     request.setAttribute("successMessage", "Profile updated successfully!");
                     request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }

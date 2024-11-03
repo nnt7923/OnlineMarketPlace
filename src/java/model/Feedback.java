@@ -1,29 +1,32 @@
 package model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Feedback {
-    private int feedback_id;
-    private int accountId;
-    private int productId;
-    private int rating;
-    private Date createDate;
-    private int customerId;
+    private int feedback_id;     
+    private int account_id;       
+    private int product_id;          
+    private int rating;              
+    private Date create_date;        
+    private int customer_id;         
+    private String feedback_content;  
 
-    // Getters vÃ  Setters
-
+    // Constructor không tham s?
     public Feedback() {
     }
 
-    public Feedback(int feedback_id, int accountId, int productId, int rating, Date createDate, int customerId) {
+    // Constructor có tham s?
+    public Feedback(int feedback_id, int account_id, int product_id, int rating, Date create_date, int customer_id, String feedback_content) {
         this.feedback_id = feedback_id;
-        this.accountId = accountId;
-        this.productId = productId;
+        this.account_id = account_id;
+        this.product_id = product_id;
         this.rating = rating;
-        this.createDate = createDate;
-        this.customerId = customerId;
+        this.create_date = create_date;
+        this.customer_id = customer_id;
+        this.feedback_content = feedback_content;
     }
 
+    // Getter và Setter cho các thu?c tính
     public int getFeedback_id() {
         return feedback_id;
     }
@@ -32,20 +35,20 @@ public class Feedback {
         this.feedback_id = feedback_id;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getAccount_id() {
+        return account_id;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getProduct_id() {
+        return product_id;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
     }
 
     public int getRating() {
@@ -56,21 +59,27 @@ public class Feedback {
         this.rating = rating;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreate_date() {
+        return create_date;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreate_date(Date create_date) {
+        this.create_date = create_date;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getCustomer_id() {
+        return customer_id;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
     }
-    
-    
+
+    public String getFeedback_content() {
+        return feedback_content;
+    }
+
+    public void setFeedback_content(String feedback_content) {
+        this.feedback_content = feedback_content;
+    }
 }

@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/admin/editAccount.jsp</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/admin/dashboard.jsp</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/src/java/context/DBContext.java</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/seller/includes/topbar.jsp</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/admin/header.jsp</file>
-            <file>file:/E:/SWP/SWP391_Group5_SE1868_NJ_OnlineMarketPlace/web/admin/topbar.jsp</file>
+            <file>file:/D:/wjbunhi/OnlineMarketPlace/src/java/context/DBContext.java</file>
+            <file>file:/D:/wjbunhi/OnlineMarketPlace/src/java/dao/ProductDAO.java</file>
+            <file>file:/D:/wjbunhi/OnlineMarketPlace/web/seller/editProduct.jsp</file>
+            <file>file:/D:/wjbunhi/OnlineMarketPlace/src/java/controller/ProductController.java</file>
+            <file>file:/D:/wjbunhi/OnlineMarketPlace/web/seller/editProductDetail.jsp</file>
         </group>
     </open-files>
 </project-private>

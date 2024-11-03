@@ -23,8 +23,8 @@ public class ProductDAO extends DBContext {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Product product = new Product(
-                        rs.getInt("product_id"), 
-                        rs.getString("pdname"), 
+                        rs.getInt("product_id"),
+                        rs.getString("pdname"),
                         rs.getString("pdimg"));
                 list.add(product);
             }
@@ -48,12 +48,12 @@ public class ProductDAO extends DBContext {
                 Product product = new Product(
                         rs.getInt("product_id"),
                         rs.getString("name"),
+                        rs.getString("img"),
                         rs.getDouble("price"),
                         rs.getString("title"),
                         rs.getInt("cid"),
                         rs.getInt("brand_id"),
-                        rs.getInt("seller_id"),
-                        rs.getString("img")
+                        rs.getInt("seller_id")
                 );
                 list.add(product);
             }
@@ -63,46 +63,85 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-public void addProductFromForm(Product product, int accountId) throws SQLException {
-    String sql = "INSERT INTO Product (name, price, title, cid, brand_id, seller_id, img) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, product.getName());
-        ps.setDouble(2, product.getPrice());
-        ps.setString(3, product.getTitle());
-        ps.setInt(4, product.getCid());
-        ps.setInt(5, product.getBrandId());
-        ps.setInt(6, product.getSellerId());
-        ps.setString(7, product.getImg());  // Insert the image path
-        ps.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw e;
+    public List<ProductDetails> getProductDetailsByProductId(int productId) {
+        List<ProductDetails> productDetailsList = new ArrayList<>();
+        String sql = "SELECT pd.pd_id, pd.pdcolor, pd.pdprice_discount, pd.pdquantity, pd.pddescribe "
+                + "FROM ProductDetails pd "
+                + "WHERE pd.product_id = ?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+//                Product product = new Product(productId, null, null);
+                Product product = new Product();
+                product.setProductId(productId);
+                ProductDetails productDetails = new ProductDetails(
+                        rs.getInt("pd_id"),
+                        product,
+                        null,
+                        rs.getFloat("pdprice_discount"),
+                        rs.getString("pdcolor"),
+                        null,
+                        null,
+                        rs.getInt("pdquantity"),
+                        rs.getString("pddescribe"),
+                        null
+                );
+                productDetailsList.add(productDetails);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return productDetailsList;
     }
-}
-public Product getProductById(int productId) throws SQLException {
-    String query = "SELECT * FROM Product WHERE product_id = ?";
-    try (PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setInt(1, productId);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return new Product(
-                rs.getInt("product_id"),
-                rs.getString("name"),
-                rs.getDouble("price"),
-                rs.getString("title"),
-                rs.getString("img")
-            );
+
+    public void addProductFromForm(Product product, int accountId) throws SQLException {
+        String sql = "INSERT INTO Product (name, price, title, cid, brand_id, seller_id, img) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setString(3, product.getTitle());
+            ps.setInt(4, product.getCid());
+            ps.setInt(5, product.getBrandId());
+            ps.setInt(6, product.getSellerId());
+            ps.setString(7, product.getImg());  // Insert the image path
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
     }
-    return null;
-}
-public void deleteProduct(int productId) throws SQLException {
-    String query = "DELETE FROM Product WHERE product_id = ?";
-    try (PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setInt(1, productId);
-        ps.executeUpdate();
+
+    public Product getProductById(int productId) throws SQLException {
+        String query = "SELECT * FROM Product WHERE product_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Product(
+                        rs.getInt("product_id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getString("title"),
+                        rs.getString("img")
+                );
+            }
+        }
+        return null;
     }
-}
+
+    public void deleteProduct(int productId) throws SQLException {
+        String query = "DELETE FROM Product WHERE product_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, productId);
+            ps.executeUpdate();
+        }
+    }
+
     // Method to get product name based on product_id
     public String getProductNameByProductId(int productId) throws SQLException {
         String sql = "SELECT name FROM Product WHERE product_id = ?";
@@ -131,12 +170,12 @@ public void deleteProduct(int productId) throws SQLException {
                 Product product = new Product(
                         rs.getInt("product_id"),
                         rs.getString("name"),
-                         rs.getDouble("price"),  // price not provided in this query
-                        null,  // title not provided in this query
-                        0,  // cid
-                        0,  // brandId
-                        sellerId,
-                        rs.getString("img")
+                        rs.getString("img"),
+                        rs.getDouble("price"),
+                        null,
+                        0,
+                        0,
+                        sellerId
                 );
                 productList.add(product);
             }
@@ -147,48 +186,47 @@ public void deleteProduct(int productId) throws SQLException {
         return productList;
     }
 // Cập nhật sản phẩm
-public void updateProduct(Product product) throws SQLException {
-    String query = "UPDATE Product SET name = ?, price = ?, title = ?, cateID = ?, brand_id = ?, img = ? WHERE product_id = ?";
-    try (PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setString(1, product.getName());
-        ps.setDouble(2, product.getPrice());
-        ps.setString(3, product.getTitle());
-        ps.setInt(4, product.getCid());  // Cập nhật danh mục
-        ps.setInt(5, product.getBrandId());  // Cập nhật thương hiệu
-        ps.setString(6, product.getImg());   // Cập nhật đường dẫn ảnh
-        ps.setInt(7, product.getProductId()); // Điều kiện WHERE cho product_id
-        ps.executeUpdate();
+
+    public void updateProduct(Product product) throws SQLException {
+        String query = "UPDATE Product SET name = ?, price = ?, title = ?, cid = ?, brand_id = ?, img = ? WHERE product_id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setString(3, product.getTitle());
+            ps.setInt(4, product.getCid());  // Cập nhật danh mục
+            ps.setInt(5, product.getBrandId());  // Cập nhật thương hiệu
+            ps.setString(6, product.getImg());   // Cập nhật đư�?ng dẫn ảnh
+            ps.setInt(7, product.getProductId()); // �?i�?u kiện WHERE cho product_id
+            ps.executeUpdate();
+        }
     }
-}
 
     // Hàm thêm chi tiết sản phẩm vào ProductDetails
-public void addProductDetails(ProductDetails productDetails) throws SQLException {
-    String sql = "INSERT INTO ProductDetails (product_id, pdname, pdprice_discount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification) "
-               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public void addProductDetails(ProductDetails productDetails) throws SQLException {
+        String sql = "INSERT INTO ProductDetails (product_id, pdname, pdprice_discount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Lấy tên sản phẩm từ bảng Product dựa vào product_id
-    String pdname = getProductNameByProductId(productDetails.getProductId());
+        // Join image paths array into a single comma-separated string
+        String pdimgString = String.join(",", productDetails.getImage());
 
-    try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, productDetails.getProductId());
-        ps.setString(2, pdname); // pdname tự động lấy từ bảng Product
-        ps.setDouble(3, productDetails.getPdpriceDiscount());
-        ps.setString(4, productDetails.getPdcolor());
-        ps.setString(5, productDetails.getPdimg());  // Chuỗi đường dẫn ảnh
-        ps.setString(6, productDetails.getPdcriteria());
-        ps.setInt(7, productDetails.getPdquantity());
-        ps.setString(8, productDetails.getPddescribe());
-        ps.setString(9, productDetails.getPdspecification());
-        ps.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw e;
+        try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productDetails.getProduct().getProductId());
+            ps.setString(2, productDetails.getName()); // pdname should be set from the product name
+            ps.setDouble(3, productDetails.getPriceDiscount());
+            ps.setString(4, productDetails.getColor());
+            ps.setString(5, pdimgString);  // Use the concatenated string of image paths
+            ps.setString(6, productDetails.getCriteria());
+            ps.setInt(7, productDetails.getQuantity());
+            ps.setString(8, productDetails.getDescribe());
+            ps.setString(9, productDetails.getSpecification());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
-}
-
 
     // Hàm lấy tất cả các chi tiết sản phẩm từ ProductDetails
-
     public List<ProductDetails> getAllProductDetails() throws SQLException {
         List<ProductDetails> productDetailsList = new ArrayList<>();
         String sql = "SELECT * FROM ProductDetails";
@@ -200,15 +238,20 @@ public void addProductDetails(ProductDetails productDetails) throws SQLException
                 int pd_id = rs.getInt("pd_id");
                 int productId = rs.getInt("product_id");
                 String pdname = rs.getString("pdname");
-                double pdpriceDiscount = rs.getDouble("pdprice_discount");
+                float pdpriceDiscount = rs.getFloat("pdprice_discount");
                 String pdcolor = rs.getString("pdcolor");
-                String pdimg = rs.getString("pdimg");
+
+                // Retrieve the image paths as a single string and split it into an array
+                String pdimgString = rs.getString("pdimg");
+                String[] pdimg = pdimgString != null ? pdimgString.split(",") : new String[0];
+
                 String pdcriteria = rs.getString("pdcriteria");
                 int pdquantity = rs.getInt("pdquantity");
                 String pddescribe = rs.getString("pddescribe");
                 String pdspecification = rs.getString("pdspecification");
-
-                ProductDetails productDetails = new ProductDetails(pd_id, productId, pdname, pdpriceDiscount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification);
+                Product product = new Product(productId, null, null);
+                // Create ProductDetails object with image array
+                ProductDetails productDetails = new ProductDetails(pd_id, product, pdname, pdpriceDiscount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification);
                 productDetailsList.add(productDetails);
             }
         } catch (SQLException e) {
@@ -234,18 +277,39 @@ public void addProductDetails(ProductDetails productDetails) throws SQLException
 
     // Hàm cập nhật ProductDetails
     public void updateProductDetails(ProductDetails productDetails) throws SQLException {
-        String sql = "UPDATE ProductDetails SET pdname = ?, pdprice_discount = ?, pdcolor = ?, pdimg = ?, pdcriteria = ?, pdquantity = ?, pddescribe = ?, pdspecification = ? WHERE pd_id = ?";
+        String sql;
+        boolean hasNewImages = productDetails.getImage() != null && productDetails.getImage().length > 0;
+
+        if (hasNewImages) {
+            // Query includes pdimg if new images are provided
+            sql = "UPDATE ProductDetails SET pdprice_discount = ?, pdcolor = ?, pdimg = ?, pdcriteria = ?, pdquantity = ?, pddescribe = ?, pdspecification = ? WHERE pd_id = ?";
+        } else {
+            // Query excludes pdimg if no new images are provided
+            sql = "UPDATE ProductDetails SET pdprice_discount = ?, pdcolor = ?, pdcriteria = ?, pdquantity = ?, pddescribe = ?, pdspecification = ? WHERE pd_id = ?";
+        }
 
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, productDetails.getPdname());
-            ps.setDouble(2, productDetails.getPdpriceDiscount());
-            ps.setString(3, productDetails.getPdcolor());
-            ps.setString(4, productDetails.getPdimg());
-            ps.setString(5, productDetails.getPdcriteria());
-            ps.setInt(6, productDetails.getPdquantity());
-            ps.setString(7, productDetails.getPddescribe());
-            ps.setString(8, productDetails.getPdspecification());
-            ps.setInt(9, productDetails.getPdId());
+            ps.setDouble(1, productDetails.getPriceDiscount());
+            ps.setString(2, productDetails.getColor());
+
+            if (hasNewImages) {
+                // Convert image paths to a comma-separated string and set it
+                String pdimgString = String.join(",", productDetails.getImage());
+                ps.setString(3, pdimgString);
+                ps.setString(4, productDetails.getCriteria());
+                ps.setInt(5, productDetails.getQuantity());
+                ps.setString(6, productDetails.getDescribe());
+                ps.setString(7, productDetails.getSpecification());
+                ps.setInt(8, productDetails.getId());
+            } else {
+                // Skip pdimg and adjust indices for remaining parameters
+                ps.setString(3, productDetails.getCriteria());
+                ps.setInt(4, productDetails.getQuantity());
+                ps.setString(5, productDetails.getDescribe());
+                ps.setString(6, productDetails.getSpecification());
+                ps.setInt(7, productDetails.getId());
+            }
+
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -264,16 +328,20 @@ public void addProductDetails(ProductDetails productDetails) throws SQLException
             if (rs.next()) {
                 int productId = rs.getInt("product_id");
                 String pdname = rs.getString("pdname");
-                double pdpriceDiscount = rs.getDouble("pdprice_discount");
+                float pdpriceDiscount = rs.getFloat("pdprice_discount");
                 String pdcolor = rs.getString("pdcolor");
-                String pdimg = rs.getString("pdimg");
+
+                // Retrieve pdimg as a comma-separated string and convert to array
+                String pdimgString = rs.getString("pdimg");
+                String[] pdimg = pdimgString != null ? pdimgString.split(",") : new String[0];
+
                 String pdcriteria = rs.getString("pdcriteria");
                 int pdquantity = rs.getInt("pdquantity");
                 String pddescribe = rs.getString("pddescribe");
                 String pdspecification = rs.getString("pdspecification");
 
-                // Tạo đối tượng ProductDetails với dữ liệu từ cơ sở dữ liệu
-                productDetails = new ProductDetails(pdId, productId, pdname, pdpriceDiscount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification);
+                Product product = new Product(productId, null, null);
+                productDetails = new ProductDetails(pdId, product, pdname, pdpriceDiscount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -290,22 +358,27 @@ public void addProductDetails(ProductDetails productDetails) throws SQLException
                 + "WHERE p.seller_id = ?";
 
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, sellerId);  // Truyền sellerId vào câu truy vấn
+            ps.setInt(1, sellerId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 int pdId = rs.getInt("pd_id");
                 int productId = rs.getInt("product_id");
                 String pdname = rs.getString("pdname");
-                double pdpriceDiscount = rs.getDouble("pdprice_discount");
+                float pdpriceDiscount = rs.getFloat("pdprice_discount");
                 String pdcolor = rs.getString("pdcolor");
-                String pdimg = rs.getString("pdimg");
+
+                // Retrieve pdimg as a comma-separated string and convert to array
+                String pdimgString = rs.getString("pdimg");
+                String[] pdimg = pdimgString != null ? pdimgString.split(",") : new String[0];
+
                 String pdcriteria = rs.getString("pdcriteria");
                 int pdquantity = rs.getInt("pdquantity");
                 String pddescribe = rs.getString("pddescribe");
                 String pdspecification = rs.getString("pdspecification");
 
-                ProductDetails productDetails = new ProductDetails(pdId, productId, pdname, pdpriceDiscount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification);
+                Product product = new Product(productId, null, null);
+                ProductDetails productDetails = new ProductDetails(pdId, product, pdname, pdpriceDiscount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification);
                 productDetailsList.add(productDetails);
             }
         } catch (SQLException e) {
@@ -318,9 +391,10 @@ public void addProductDetails(ProductDetails productDetails) throws SQLException
 
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
-        List<Product> products = productDAO.newProduct();
-        for (Product product : products) {
-            System.out.println(product.getName());
+        List<ProductDetails> products = productDAO.getProductDetailsByProductId(4);
+        for (ProductDetails p : products) {
+            System.out.println(p.getProduct().getProductId());
         }
+
     }
 }

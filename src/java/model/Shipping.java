@@ -59,5 +59,10 @@ public class Shipping {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Shipping{" + "shippingid=" + shippingid + ", name=" + name + ", phone=" + phone + ", address=" + address + ", status=" + status + '}';
+    }
+
     
 }

@@ -18,6 +18,8 @@ import java.io.File;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,15 +58,18 @@ public class ProductController extends HttpServlet {
                 case "addProduct":
                     addProduct(request, response);
                     break;
-                case "updateProduct":
+                case "showEditForm":
                     showEditForm(request, response);
+                    break;
+                case "updateProduct":
+                    updateProduct(request, response);
                     break;
                 case "deleteProduct":
                     deleteProduct(request, response);
-//                    break;
-//                case "searchProduct":
-//                    searchProduct(request, response);
-//                    break;
+                    break;
+                case "listProductDetailsByProductId":
+                    listProductDetailsByProductId(request, response);
+                    break;
                 case "addProductForm":
                     showAddProductForm(request, response);
                     break;
@@ -86,17 +91,15 @@ public class ProductController extends HttpServlet {
                 case "list":
                     listProductDetails(request, response);
                     break;
-//                case "updateProductForm":
-//                    showUpdateProductForm(request, response);
-//                    break;
-                default:
-                    response.sendRedirect("product?service=listAll");
+                case "updateProductDetailForm":
+                    showEditProductDetailForm(request, response);
                     break;
+
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in processRequest: " + e.getMessage(), e);
             e.printStackTrace(); // In ra toàn bộ thông tin lỗi để dễ debug hơn
-            response.sendRedirect("errorPage.jsp");
+            response.sendRedirect("/seller/errorPage.jsp");
         }
 
     }
@@ -129,13 +132,13 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
 
             // Xử lý hình ảnh
             String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
-            String uploadPath = getServletContext().getRealPath("/") + "uploads";
+            String uploadPath = getServletContext().getRealPath("/") + "images";
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
             }
             filePart.write(uploadPath + File.separator + fileName);
-            String imgPath = "uploads/" + fileName;
+            String imgPath =  fileName;
 
             // Kiểm tra dữ liệu đầu vào
             if (name == null || name.trim().isEmpty() || priceStr == null || priceStr.trim().isEmpty() ||
@@ -167,7 +170,7 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
             int sellerId = sellerDAO.getSellerIdByAccountId(accountId);
 
             // Tạo đối tượng Product
-            Product product = new Product(0, name, price, title, cateID, brandId, sellerId, imgPath);
+            Product product = new Product(0, name, imgPath, price, title, cateID, sellerId, brandId);
             productDAO.addProductFromForm(product, accountId);
 
             // Thông báo thành công
@@ -233,7 +236,7 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
         BrandDAO brandDAO = new BrandDAO();
         List<Category> categories = categoryDAO.listAllNoImg();
         List<Brand> brands = brandDAO.listAll();
-        // Đặt dữ liệu vào request attribute để truyền đến JSP
+        // �?ặt dữ liệu vào request attribute để truy�?n đến JSP
         request.setAttribute("categories", categories);
         request.setAttribute("brands", brands);
         // Chuyển tiếp tới trang addProduct.jsp
@@ -242,7 +245,59 @@ private void addProduct(HttpServletRequest request, HttpServletResponse response
         RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/addProduct.jsp");
         dispatcher.forward(request, response);
     }
-// Hiển thị danh sách sản phẩm của người bán
+    
+    
+//private void listProductDetailsByProductId(HttpServletRequest request, HttpServletResponse response)
+//        throws ServletException, IOException {
+//    int productId = Integer.parseInt(request.getParameter("productId"));
+//
+//    try {
+//        // Lấy danh sách chi tiết sản phẩm theo productId
+//        List<ProductDetails> productDetailsList = productDAO.getProductDetailsByProductId(productId);
+//
+//        // Tạo HTML để trả v�? cho AJAX
+//        StringBuilder htmlResponse = new StringBuilder();
+//        htmlResponse.append("<h3>Chi tiết sản phẩm:</h3>");
+//        htmlResponse.append("<table border='1' cellpadding='5' cellspacing='0' width='100%'>");
+//        htmlResponse.append("<thead><tr><th>ID</th><th>Màu sắc</th><th>Giá khuyến mãi</th><th>Số lượng</th><th>Mô tả</th></tr></thead><tbody>");
+//
+//        for (ProductDetails detail : productDetailsList) {
+//            htmlResponse.append("<tr>")
+//                .append("<td>").append(detail.getPdId()).append("</td>")
+//                .append("<td>").append(detail.getPdcolor()).append("</td>")
+//                .append("<td>").append(detail.getPdpriceDiscount()).append("</td>")
+//                .append("<td>").append(detail.getPdquantity()).append("</td>")
+//                .append("<td>").append(detail.getPddescribe()).append("</td>")
+//                .append("</tr>");
+//        }
+//
+//        htmlResponse.append("</tbody></table>");
+//
+//        // Trả v�? HTML qua response
+//        response.setContentType("text/html");
+//        response.getWriter().write(htmlResponse.toString());
+//
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi lấy dữ liệu sản phẩm.");
+//    }
+//}
+    private void listProductDetailsByProductId(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    int productId = Integer.parseInt(request.getParameter("productId"));
+
+    // Lấy danh sách chi tiết sản phẩm theo productId
+    List<ProductDetails> productDetailsList = productDAO.getProductDetailsByProductId(productId);
+    // �?ưa danh sách vào request
+    request.setAttribute("productDetailsList", productDetailsList);
+    // Chuyển hướng sang trang JSP
+    RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/productDetails.jsp");
+    dispatcher.forward(request, response);
+}
+
+
+
+// Hiển thị danh sách sản phẩm của ngư�?i bán
 private void listProductsBySeller(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     HttpSession session = request.getSession();
@@ -260,7 +315,7 @@ private void listProductsBySeller(HttpServletRequest request, HttpServletRespons
         // Lấy danh sách sản phẩm của seller
         List<Product> products = productDAO.getProductsBySellerId(sellerId);
 
-        // Đặt danh sách sản phẩm vào request attribute để truyền đến JSP
+        // �?ặt danh sách sản phẩm vào request attribute để truy�?n đến JSP
         request.setAttribute("products", products);
 
         // Chuyển tiếp đến trang JSP hiển thị danh sách sản phẩm
@@ -289,7 +344,7 @@ protected void listProductDetails(HttpServletRequest request, HttpServletRespons
         // Lấy danh sách chi tiết sản phẩm của seller dựa vào sellerId
         List<ProductDetails> productDetailsList = productDAO.getProductDetailsBySellerId(sellerId);
 
-        // Đặt danh sách sản phẩm chi tiết vào request attribute để truyền đến JSP
+        // �?ặt danh sách sản phẩm chi tiết vào request attribute để truy�?n đến JSP
         request.setAttribute("productDetailsList", productDetailsList);
 
         // Chuyển tiếp đến trang JSP hiển thị danh sách chi tiết sản phẩm
@@ -315,8 +370,8 @@ private void showEditForm(HttpServletRequest request, HttpServletResponse respon
         List<Brand> brands = brandDAO.listAll(); // Lấy danh sách thương hiệu
 
         request.setAttribute("product", existingProduct);
-        request.setAttribute("categories", categories); // Đặt danh sách danh mục
-        request.setAttribute("brands", brands); // Đặt danh sách thương hiệu
+        request.setAttribute("categories", categories); // �?ặt danh sách danh mục
+        request.setAttribute("brands", brands); // �?ặt danh sách thương hiệu
 
         // Chuyển tiếp đến trang JSP chỉnh sửa sản phẩm
         RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/editProduct.jsp");
@@ -324,13 +379,13 @@ private void showEditForm(HttpServletRequest request, HttpServletResponse respon
     } catch (SQLException e) {
         e.printStackTrace();
         request.setAttribute("errorMessage", "Lỗi khi lấy dữ liệu sản phẩm.");
-        response.sendRedirect("errorPage.jsp");
+        response.sendRedirect("/seller/errorPage.jsp");
     }
 }
 
 
 // Cập nhật sản phẩm
-// Cập nhật sản phẩm
+
 private void updateProduct(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     try {
@@ -338,35 +393,49 @@ private void updateProduct(HttpServletRequest request, HttpServletResponse respo
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
         String title = request.getParameter("title");
-        int cateID = Integer.parseInt(request.getParameter("cateID"));
-        int brandId = Integer.parseInt(request.getParameter("brand_id"));
+        int cid = Integer.parseInt(request.getParameter("cid"));
+        int brandId = Integer.parseInt(request.getParameter("brandId"));
 
-        // Xử lý ảnh tải lên
+        // Handle image upload
         Part filePart = request.getPart("img");
-        String imgPath = null;
+        String imgPath;
         if (filePart != null && filePart.getSize() > 0) {
-            String realPath = getServletContext().getRealPath("/uploads");
+            String realPath = getServletContext().getRealPath("/images");
             String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
             filePart.write(realPath + File.separator + fileName);
-            imgPath = "uploads/" + fileName;
+            imgPath =  fileName;
         } else {
-            // Nếu không có ảnh mới, giữ lại ảnh cũ
-            imgPath = request.getParameter("currentImg");
+            imgPath = request.getParameter("currentImg"); // Use existing image if no new image uploaded
         }
 
-        // Cập nhật sản phẩm vào database
-//        Product product = new Product(productId, name, price, title, cateID, brandId, imgPath);
-        Product product = new Product(productId, name, price, title, cateID, brandId, cateID, imgPath);
+        // Log the values for debugging
+        System.out.println("Updating product with ID: " + productId);
+        System.out.println("Product name: " + name);
+        System.out.println("Price: " + price);
+        System.out.println("Title: " + title);
+        System.out.println("Category ID: " + cid);
+        System.out.println("Brand ID: " + brandId);
+        System.out.println("Image path: " + imgPath);
+
+        // Update the product in the database
+        Product product = new Product(productId, name, imgPath, price, title, cid, 0, brandId);
         productDAO.updateProduct(product);
 
-        // Chuyển hướng về trang danh sách sản phẩm
-        response.sendRedirect("product?service=listProduct");
+        // Redirect to product list after successful update
+        response.sendRedirect("product?service=listProductsBySeller");
     } catch (SQLException e) {
         e.printStackTrace();
-        request.setAttribute("errorMessage", "Lỗi khi cập nhật sản phẩm: " + e.getMessage());
+        request.setAttribute("errorMessage", "Error updating product: " + e.getMessage());
+        showEditForm(request, response);
+    } catch (Exception e) {
+        e.printStackTrace();
+        request.setAttribute("errorMessage", "An unexpected error occurred: " + e.getMessage());
         showEditForm(request, response);
     }
 }
+
+
+
 
 
 
@@ -447,7 +516,7 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
         throws ServletException, IOException {
     if (request.getMethod().equalsIgnoreCase("POST")) {
         try {
-            // Lấy thông tin chi tiết sản phẩm từ form
+            // Retrieve form data
             String productIdStr = request.getParameter("product_id");
             String pdpriceDiscountStr = request.getParameter("pdprice_discount");
             String pdcolor = request.getParameter("pdcolor");
@@ -456,61 +525,52 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
             String pddescribe = request.getParameter("pddescribe");
             String pdspecification = request.getParameter("pdspecification");
 
-            // Kiểm tra đầu vào
-            if (productIdStr == null || pdpriceDiscountStr == null || pdquantityStr == null) {
-                request.setAttribute("errorMessage", "Vui lòng nhập đầy đủ thông tin.");
-                showAddProductDetailForm(request, response);
-                return;
-            }
-
-            // Chuyển đổi giá trị nhập vào
+            // Convert input values
             int productId = Integer.parseInt(productIdStr);
-            double pdpriceDiscount = Double.parseDouble(pdpriceDiscountStr);
+            float pdpriceDiscount = Float.parseFloat(pdpriceDiscountStr);
             int pdquantity = Integer.parseInt(pdquantityStr);
 
-            // Xử lý upload nhiều ảnh
-            Part[] fileParts = request.getParts().stream().filter(part -> "img".equals(part.getName())).toArray(Part[]::new);
-            StringBuilder imgPaths = new StringBuilder();
-
-            // Đường dẫn để lưu ảnh trên server
-            String uploadPath = getServletContext().getRealPath("/uploads");
-
-            // Kiểm tra và tạo thư mục nếu chưa tồn tại
+            // Process multiple image images
+            List<String> imgPaths = new ArrayList<>();
+            String uploadPath = getServletContext().getRealPath("/images");
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
                 uploadDir.mkdirs();
             }
 
-            for (Part filePart : fileParts) {
-                if (filePart.getSize() > 0) {
+            for (Part filePart : request.getParts()) {
+                if ("pdimg".equals(filePart.getName()) && filePart.getSize() > 0) {
                     String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
                     filePart.write(uploadPath + File.separator + fileName);
-                    imgPaths.append("uploads/").append(fileName).append(","); // Lưu đường dẫn ảnh
+                    imgPaths.add( fileName); // Add each image path to the list
                 }
             }
 
-            // Xóa dấu phẩy cuối cùng
-            if (imgPaths.length() > 0) {
-                imgPaths.setLength(imgPaths.length() - 1);
-            }
+            // Convert List to String array
+            String[] imgPathsArray = imgPaths.toArray(new String[0]);
 
-            // Tạo đối tượng chi tiết sản phẩm
-            ProductDetails productDetails = new ProductDetails(0, productId, pdcolor, pdpriceDiscount, pdcolor, imgPaths.toString(), pdcriteria, pdquantity, pddescribe, pdspecification);
+            // Fetch product name using productId
+            String pdname = productDAO.getProductNameByProductId(productId);
+
+            // Create ProductDetails object with image array
+            Product product = new Product(productId, null, null);
+            ProductDetails productDetails = new ProductDetails(0, product, pdname, pdpriceDiscount, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
             productDAO.addProductDetails(productDetails);
 
-            request.setAttribute("successMessage", "Thêm chi tiết sản phẩm thành công.");
-            showAddProductDetailForm(request, response);
-        } catch (NumberFormatException e) {
-            request.setAttribute("errorMessage", "Lỗi định dạng số: " + e.getMessage());
-            showAddProductDetailForm(request, response);
-        } catch (SQLException e) {
-            request.setAttribute("errorMessage", "Lỗi cơ sở dữ liệu: " + e.getMessage());
+            request.setAttribute("successMessage", "Th�m th�ng tin s?n ph?m th�nh c�ng.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("product?service=addProductDetailForm");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Lỗi khi thêm chi tiết sản phẩm: " + e.getMessage());
             showAddProductDetailForm(request, response);
         }
     } else {
         showAddProductDetailForm(request, response);
     }
 }
+
+
 
 
 
@@ -544,23 +604,66 @@ private void addProductDetail(HttpServletRequest request, HttpServletResponse re
         RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/productDetailEdit.jsp");
         dispatcher.forward(request, response);
     }
-
-    private void updateProductDetail(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
+    private void showEditProductDetailForm(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    try {
         int pdId = Integer.parseInt(request.getParameter("pd_id"));
-        String pdname = request.getParameter("pdname");
-        double pdpriceDiscount = Double.parseDouble(request.getParameter("pdprice_discount"));
-        String pdcolor = request.getParameter("pdcolor");
-        String pdimg = request.getParameter("pdimg");
-        String pdcriteria = request.getParameter("pdcriteria");
-        int pdquantity = Integer.parseInt(request.getParameter("pdquantity"));
-        String pddescribe = request.getParameter("pddescribe");
-        String pdspecification = request.getParameter("pdspecification");
+        ProductDetails productDetails = productDAO.getProductDetailsById(pdId); // Fetch details from DB
 
-        ProductDetails productDetails = new ProductDetails(pdId, pdId, pdname, pdpriceDiscount, pdcolor, pdimg, pdcriteria, pdquantity, pddescribe, pdspecification);
-        productDAO.updateProductDetails(productDetails);
-        response.sendRedirect("productDetails?action=list");
+        // Set attributes and forward to the edit JSP
+        request.setAttribute("productDetail", productDetails);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/editProductDetail.jsp");
+        dispatcher.forward(request, response);
+    } catch (Exception e) {
+        e.printStackTrace();
+        request.setAttribute("errorMessage", "Lỗi khi lấy chi tiết sản phẩm để chỉnh sửa.");
+        response.sendRedirect("errorPage.jsp");
     }
+}
+
+
+   private void updateProductDetail(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int pdId = Integer.parseInt(request.getParameter("pd_id"));
+            float pdpriceDiscount = Float.parseFloat(request.getParameter("pdprice_discount"));
+            String pdcolor = request.getParameter("pdcolor");
+            String pdcriteria = request.getParameter("pdcriteria");
+            int pdquantity = Integer.parseInt(request.getParameter("pdquantity"));
+            String pddescribe = request.getParameter("pddescribe");
+            String pdspecification = request.getParameter("pdspecification");
+
+            // Process multiple image images
+            List<String> imgPaths = new ArrayList<>();
+            String uploadPath = getServletContext().getRealPath("/images");
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdirs();
+
+            for (Part filePart : request.getParts()) {
+                if ("pdimg".equals(filePart.getName()) && filePart.getSize() > 0) {
+                    String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+                    filePart.write(uploadPath + File.separator + fileName);
+                    imgPaths.add( fileName);
+                }
+            }
+
+            String[] imgPathsArray = imgPaths.toArray(new String[0]);
+            ProductDetails productDetails = new ProductDetails(pdId, null, null, pdpriceDiscount, pdcolor, imgPathsArray, pdcriteria, pdquantity, pddescribe, pdspecification);
+            productDAO.updateProductDetails(productDetails);
+
+            request.setAttribute("successMessage", "Product details updated successfully.");
+            response.sendRedirect("product?service=list");
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "Error while updating product details: " + e.getMessage());
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/seller/editProductDetail.jsp");
+            dispatcher.forward(request, response);
+        }
+}
+
+
+
+
 
 
     @Override
