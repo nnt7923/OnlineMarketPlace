@@ -24,9 +24,6 @@ import model.Product;
  */
 public class ProductDetailsDAO extends DBContext {
 
-    
-
-
     public List<ProductDetails> getProductDetailsByPidAndCriteria(String pid, String criteria) {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
@@ -363,7 +360,8 @@ public class ProductDetailsDAO extends DBContext {
         }
         return discountedProducts;
     }
-public List<ProductDetails> getProductDetailsByCategory(int cid) {
+
+    public List<ProductDetails> getProductDetailsByCategory(int cid) {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount,  "
@@ -376,7 +374,6 @@ public List<ProductDetails> getProductDetailsByCategory(int cid) {
             stm.setInt(1, cid);
 
             // Ki?m tra và x? lý criteria n?u nó là null
-   
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
@@ -411,6 +408,205 @@ public List<ProductDetails> getProductDetailsByCategory(int cid) {
 
         return list;
     }
+
+    public List<ProductDetails> getAllProductsSortedByPriceDescending() {
+        List<ProductDetails> list = new ArrayList<>();
+        String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
+                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
+                + "pd.product_id, pd.pddescribe, pd.pdspecification "
+                + "FROM ProductDetails pd "
+                + "ORDER BY pd.pdprice_discount DESC"; // S?p x?p gi?m d?n theo giá t? ProductDetails
+
+        try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                int productDetailId = rs.getInt("pd_id");
+                String productDetailName = rs.getString("pdname");
+                String productImage = rs.getString("pdimg");
+                String productCriteria = rs.getString("pdcriteria");
+                String productColor = rs.getString("pdcolor");
+                int productQuantity = rs.getInt("pdquantity");
+                float discountPrice = rs.getFloat("pdprice_discount");
+                String productDescribe = rs.getString("pddescribe");
+                String productSpecification = rs.getString("pdspecification");
+
+                String[] images = productImage.split(",");
+
+                // T?o ??i t??ng ProductDetails
+                ProductDetails productDetail = new ProductDetails(
+                        productDetailId,
+                        new Product(productId, null, null, discountPrice, null, 0, 0, 0),
+                        productDetailName,
+                        discountPrice,
+                        productColor,
+                        images,
+                        productCriteria,
+                        productQuantity,
+                        productDescribe,
+                        productSpecification
+                );
+
+                list.add(productDetail);
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", ex);
+        }
+
+        return list;
+    }
+
+    public List<ProductDetails> getAllProductsSortedByPriceAscending() {
+        List<ProductDetails> list = new ArrayList<>();
+        String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
+                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
+                + "pd.product_id, pd.pddescribe, pd.pdspecification "
+                + "FROM ProductDetails pd "
+                + "ORDER BY pd.pdprice_discount ASC"; // S?p x?p gi?m d?n theo giá t? ProductDetails
+
+        try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                int productDetailId = rs.getInt("pd_id");
+                String productDetailName = rs.getString("pdname");
+                String productImage = rs.getString("pdimg");
+                String productCriteria = rs.getString("pdcriteria");
+                String productColor = rs.getString("pdcolor");
+                int productQuantity = rs.getInt("pdquantity");
+                float discountPrice = rs.getFloat("pdprice_discount");
+                String productDescribe = rs.getString("pddescribe");
+                String productSpecification = rs.getString("pdspecification");
+
+                String[] images = productImage.split(",");
+
+                // T?o ??i t??ng ProductDetails
+                ProductDetails productDetail = new ProductDetails(
+                        productDetailId,
+                        new Product(productId, null, null, discountPrice, null, 0, 0, 0),
+                        productDetailName,
+                        discountPrice,
+                        productColor,
+                        images,
+                        productCriteria,
+                        productQuantity,
+                        productDescribe,
+                        productSpecification
+                );
+
+                list.add(productDetail);
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", ex);
+        }
+
+        return list;
+    }
+
+    public List<ProductDetails> getProductDetailsByCategorySortedByPriceDescending(int cid) {
+        List<ProductDetails> list = new ArrayList<>();
+        String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
+                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
+                + "p.name, p.price, p.product_id, pd.pddescribe, pd.pdspecification "
+                + "FROM ProductDetails pd "
+                + "JOIN Product p ON pd.product_id = p.product_id "
+                + "JOIN Category c ON p.cid = c.cid "
+                + "WHERE c.cid = ? "
+                + "ORDER BY p.price DESC"; // S?p x?p gi?m d?n theo giá
+
+        try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
+            stm.setInt(1, cid);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                int productDetailId = rs.getInt("pd_id");
+                String productDetailName = rs.getString("pdname");
+                String productImage = rs.getString("pdimg");
+                String productCriteria = rs.getString("pdcriteria");
+                String productColor = rs.getString("pdcolor");
+                int productQuantity = rs.getInt("pdquantity");
+                float discountPrice = rs.getFloat("pdprice_discount");
+                String productName = rs.getString("name");
+                float originalPrice = rs.getFloat("price");
+                String productDescribe = rs.getString("pddescribe");
+                String productSpecification = rs.getString("pdspecification");
+
+                String[] images = productImage.split(",");
+
+                // T?o ??i t??ng Product
+                Product product = new Product(productId, productName, null, originalPrice, null, 0, 0, 0);
+
+                // T?o ??i t??ng ProductDetails
+                ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
+
+                list.add(productDetail);
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", ex);
+        }
+
+        return list;
+    }
+
+    public List<ProductDetails> getProductDetailsByCategorySortedByPriceAscending(int cid) {
+        List<ProductDetails> list = new ArrayList<>();
+        String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
+                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
+                + "p.name, p.price, p.product_id, pd.pddescribe, pd.pdspecification "
+                + "FROM ProductDetails pd "
+                + "JOIN Product p ON pd.product_id = p.product_id "
+                + "JOIN Category c ON p.cid = c.cid "
+                + "WHERE c.cid = ? "
+                + "ORDER BY p.price ASC"; // S?p x?p gi?m d?n theo giá
+
+        try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
+            stm.setInt(1, cid);
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                int productDetailId = rs.getInt("pd_id");
+                String productDetailName = rs.getString("pdname");
+                String productImage = rs.getString("pdimg");
+                String productCriteria = rs.getString("pdcriteria");
+                String productColor = rs.getString("pdcolor");
+                int productQuantity = rs.getInt("pdquantity");
+                float discountPrice = rs.getFloat("pdprice_discount");
+                String productName = rs.getString("name");
+                float originalPrice = rs.getFloat("price");
+                String productDescribe = rs.getString("pddescribe");
+                String productSpecification = rs.getString("pdspecification");
+
+                String[] images = productImage.split(",");
+
+                // T?o ??i t??ng Product
+                Product product = new Product(productId, productName, null, originalPrice, null, 0, 0, 0);
+
+                // T?o ??i t??ng ProductDetails
+                ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
+
+                list.add(productDetail);
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", ex);
+        }
+
+        return list;
+    }
+
     public static void main(String[] args) {
         ProductDetailsDAO pd = new ProductDetailsDAO();
         ProductDetails product = pd.getProductByPid("1");

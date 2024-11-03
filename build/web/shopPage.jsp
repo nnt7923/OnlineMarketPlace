@@ -207,8 +207,14 @@
                                         <a href="#" class="nav-link dropdown-toggle text-truncate" data-bs-toggle="dropdown">Pages</a>
                                         <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                             <a href="shop" class="dropdown-item text-truncate">All Products</a>
-                                            <a href="#" class="dropdown-item text-truncate">Sort by Price Descending</a>
-                                            <a href="#" class="dropdown-item text-truncate">Sort by Price Ascending</a>
+                                            <c:if test="${not empty param.cid}">
+                                                <a href="${pageContext.request.contextPath}/shop?sort=price_asc&cid=${param.cid}" class="dropdown-item">Sort by Price Ascending</a>
+                                                <a href="${pageContext.request.contextPath}/shop?sort=price_desc&cid=${param.cid}" class="dropdown-item">Sort by Price Descending</a>
+                                            </c:if>
+                                            <c:if test="${empty param.cid}">
+                                                <a href="${pageContext.request.contextPath}/shop?sort=price_asc" class="dropdown-item">Sort by Price Ascending</a>
+                                                <a href="${pageContext.request.contextPath}/shop?sort=price_desc" class="dropdown-item">Sort by Price Descending</a>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>
@@ -271,6 +277,7 @@
                                                 </div>
                                             </c:if>
                                         </c:forEach>
+
 
                                         <!-- Phần phân trang -->
                                         <div class="col-12">
