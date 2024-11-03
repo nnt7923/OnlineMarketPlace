@@ -9,6 +9,39 @@ import model.ProductDetails;
 
 public class ProductDAO extends DBContext {
 
+    public List<Product> getProductsByCategoryId(int cid) {
+    List<Product> products = new ArrayList<>();
+
+    String query = "SELECT product_id, name, img, price, title, cid FROM Product WHERE cid = ?";
+
+    try ( PreparedStatement ps = conn.prepareStatement(query)) {
+        // Gán categoryId vào câu truy v?n SQL
+        ps.setInt(1, cid);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            int productId = rs.getInt("product_id");
+            String productName = rs.getString("name");
+            String productImage = rs.getString("img");
+            double productPrice = rs.getDouble("price");
+            String productTitle = rs.getString("title");
+
+            // Ch? t?o ??i t??ng Product mà không c?n thông tin chi ti?t
+            Product product = new Product(productId, productName, productImage, productPrice, productTitle, cid, 0, 0);
+            products.add(product);
+        }
+
+        rs.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return products;
+}
+
+    
+
     public List<Product> advertiseProduct() {
         List<Product> list = new ArrayList<>();
         String query = """
@@ -63,20 +96,20 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    public List<ProductDetails> getProductDetailsByProductId(int productId)  {
+    public List<ProductDetails> getProductDetailsByProductId(int productId) {
         List<ProductDetails> productDetailsList = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdcolor, pd.pdprice_discount, pd.pdquantity, pd.pddescribe "
                 + "FROM ProductDetails pd "
                 + "WHERE pd.product_id = ?";
 
-        try  {
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
 //                Product product = new Product(productId, null, null);
-                                Product product = new Product();
+                Product product = new Product();
                 product.setProductId(productId);
                 ProductDetails productDetails = new ProductDetails(
                         rs.getInt("pd_id"),
@@ -94,7 +127,7 @@ public class ProductDAO extends DBContext {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            
+
         }
         return productDetailsList;
     }
@@ -372,10 +405,10 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
-        List<ProductDetails > products = productDAO.getProductDetailsByProductId(4);
+        List<ProductDetails> products = productDAO.getProductDetailsByProductId(4);
         for (ProductDetails p : products) {
             System.out.println(p.getProduct().getProductId());
         }
-        
+
     }
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import dao.CategoryDAO;
+import dao.ProductDAO;
 import dao.ProductDetailsDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Category;
+import model.Product;
 import model.ProductDetails;
 import util.Pagination;
 
@@ -27,6 +29,7 @@ public class ShopPageController extends HttpServlet {
 
         ProductDetailsDAO pd = new ProductDetailsDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
+        ProductDAO productDAO = new ProductDAO();
 
         
 
@@ -34,17 +37,17 @@ public class ShopPageController extends HttpServlet {
         List<Category> categories = categoryDAO.getAllCategories();
         
 //        // L?y categoryId t? request
-//        String cidParam = request.getParameter("cid");
+        String cidParam = request.getParameter("cid");
         List<ProductDetails> products = pd.getAllProducts();
 
-//        if (cidParam != null) {
-//            // N?u categoryId có trong request, l?y s?n ph?m theo danh m?c
-//            int categoryId = Integer.parseInt(cidParam);
-//            products = pd.getProductsByCategory(cid);
-//        } else {
-//            // N?u không có categoryId, l?y t?t c? s?n ph?m
-//            products = pd.getAllProducts();
-//        }
+        if (cidParam != null) {
+            
+            int cid = Integer.parseInt(cidParam);
+            List<Product> p = productDAO.getProductsByCategoryId(cid);
+        } else {
+            // N?u không có categoryId, l?y t?t c? s?n ph?m
+            products = pd.getAllProducts();
+        }
 
 
         // L?y s? trang hi?n t?i t? request, n?u không có thì m?c ??nh là 1

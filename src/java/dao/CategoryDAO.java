@@ -22,7 +22,7 @@ public class CategoryDAO extends DBContext {
             while (rs.next()) {
                 Category category = new Category(
                         rs.getInt("cid"),
-                        rs.getString("cname"), 
+                        rs.getString("cname"),
                         rs.getInt("productCount")
                 );
                 categories.add(category);
@@ -30,7 +30,7 @@ public class CategoryDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return categories;  
+        return categories;
     }
 
     // Add new Category

@@ -24,6 +24,9 @@ import model.Product;
  */
 public class ProductDetailsDAO extends DBContext {
 
+    
+
+
     public List<ProductDetails> getProductDetailsByPidAndCriteria(String pid, String criteria) {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
@@ -364,11 +367,12 @@ public class ProductDetailsDAO extends DBContext {
     public static void main(String[] args) {
         ProductDetailsDAO pd = new ProductDetailsDAO();
         ProductDetails product = pd.getProductByPid("1");
-       // System.out.println(product.get);
+        // System.out.println(product.get);
 
         List<ProductDetails> list = pd.getProductDetailsByPidAndCriteria("1", "128GB");
         for (ProductDetails pr : list) {
             System.out.println(pr);
         }
     }
+
 }

@@ -58,12 +58,12 @@ public class VerifyCodeController extends HttpServlet {
 
                 boolean addAccount = dao.add(new Account(username, password, email, phone, address, role, "active"));
                 session.removeAttribute("authCode");
-                session.setAttribute("message", "Successful account registration");
+                session.setAttribute("successMessage", "Successful account registration");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (authCode.equals(code) && flag.equalsIgnoreCase("forgotPassword")) {
                 request.getRequestDispatcher("newPassword.jsp").forward(request, response);
             } else {
-                session.setAttribute("message", "Confirmation code is incorrect");
+                session.setAttribute("errorMessage", "Confirmation code is incorrect");
                 request.getRequestDispatcher("verifyCode.jsp").forward(request, response);
             }
         } else {

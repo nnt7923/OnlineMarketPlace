@@ -383,12 +383,9 @@
                             <div class="col-lg-6 col-md-12 col-12">
                                 <div class="product-info">
                                     <h2 class="title" id="product-name">${productDetail.name}</h2>
-                                    <div class="rating">
-                                        <div class="rating-detail">
-                                            <a href="#"> đánh giá</a>
-                                        </div>
-                                    </div>
-                                    <br/>
+                                    
+                                    
+                                    
                                     <div class="product-price" id="product-price">
                                         <p class="product-price-show" id="product-price-show">
                                             <currency:formatCurrency value="${productDetail.priceDiscount}" />
