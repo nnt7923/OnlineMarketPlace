@@ -11,9 +11,24 @@ public class Account {
     private int roleId;
     private String status;
     private Customer customer;
+    private Seller seller;
     // Getters và Setters
     public Account() {
     }
+
+    public Account(int accountId, String username, String password, String email, String phone, String address, int roleId, String status, Customer customer, Seller seller) {
+        this.accountId = accountId;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.roleId = roleId;
+        this.status = status;
+        this.customer = customer;
+        this.seller = seller;
+    }
+    
 
     public Account(int accountId, String username, String password, String email, String phone, String address, int roleId, String status, Customer customer) {
         this.accountId = accountId;
@@ -109,10 +124,21 @@ public class Account {
         this.customer = customer;
     }
 
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", address=" + address + ", roleId=" + roleId + ", status=" + status + ", customer=" + customer + '}';
+        return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", address=" + address + ", roleId=" + roleId + ", status=" + status + ", customer=" + customer + ", seller=" + seller + '}';
     }
+    
 
     
 
