@@ -51,6 +51,13 @@
                 text-decoration: line-through;
                 top: 2px;
             }
+
+            .text-truncate {
+                max-width: 100%; /* Giới hạn chiều rộng để chữ không tràn */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         </style>
     </head>
 
@@ -101,20 +108,20 @@
                         <div class="navbar-nav mx-auto">
                             <a href="home" class="nav-item nav-link ">Home</a>
                             <a href="shop" class="nav-item nav-link active" >Shop</a>
-<!--                            <a href="shop-detail.jsp" class="nav-item nav-link">Shop Detail</a>-->
+                            <!--                            <a href="shop-detail.jsp" class="nav-item nav-link">Shop Detail</a>-->
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0 bg-secondary rounded-0">
                                     <a href="cart.jsp" class="dropdown-item">Cart</a>
                                     <a href="checkout.jsp" class="dropdown-item">Checkout</a>
-                                    
+
                                 </div>
                             </div>
-                           
+
                         </div>
                         <div class="d-flex m-3 me-0">
-                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
-                                <c:if test="${sessionScope.account == null}">
+
+                            <c:if test="${sessionScope.account == null}">
                                 <a id="loginModalbuttoncart" href="#" class="position-relative me-4 my-auto" >
                                     <i class="fa fa-shopping-bag fa-2x"></i>
                                     <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
@@ -150,33 +157,16 @@
         </div>
         <!-- Navbar End -->
 
-        <!-- Modal Search Start -->
-        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content rounded-0">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body d-flex align-items-center">
-                        <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal Search End -->
+
 
         <!-- Single Page Header Start -->
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">Shop</h1>
-<!--            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">Shop</li>
-            </ol>-->
+            <!--            <ol class="breadcrumb justify-content-center mb-0">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                            <li class="breadcrumb-item active text-white">Shop</li>
+                        </ol>-->
         </div>
         <!-- Single Page Header End -->
 
@@ -188,28 +178,42 @@
                     <div class="col-lg-12">
                         <div class="row g-4">
                             <div class="col-xl-3">
-                                <div class="input-group w-100 mx-auto d-flex">
-                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                <div class="input-group w-100 mx-auto d-flex mb-4" style="max-width: 600px;">
+                                    <form action="${pageContext.request.contextPath}/shop" method="get" class="w-100 d-flex">
+                                        <input type="search" name="search" class="form-control p-3" placeholder="Tìm kiếm sản phẩm..." aria-describedby="search-icon-1" style="border-radius: 25px 0 0 25px; border: 1px solid #ced4da;">
+                                        <button type="submit" class="btn btn-primary" style="border-radius: 0 25px 25px 0;">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </form>
                                 </div>
+
+
+
                             </div>
                             <div class="col-6"></div>
                             <div class="col-xl-3">
-                                <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                    <label for="fruits">Default Sorting:</label>
-                                    <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform" onchange="loadProduct(this.value)">
-                                        <option value="volvo">All Products</option>
-                                        <option value="saab">Hot Sales</option>
-                                        <option value="opel">Best Seller</option>
-                                        <option value="audi">Highest Price</option>
-                                        <option value="">Lowest Price</option>
-                                    </select>
+                                <div class="bg-light ps-2 py-2 rounded d-flex justify-content-between mb-4 collapse navbar-collapse" id="navbarCollapse">
+                                    <div class="nav-item dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle text-truncate" data-bs-toggle="dropdown">Filter</a>
+                                        <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                            <a href="shop" class="dropdown-item text-truncate">All Products</a>
+                                            <c:if test="${not empty param.cid}">
+                                                <a href="${pageContext.request.contextPath}/shop?sort=price_asc&cid=${param.cid}" class="dropdown-item">Sort by Price Ascending</a>
+                                                <a href="${pageContext.request.contextPath}/shop?sort=price_desc&cid=${param.cid}" class="dropdown-item">Sort by Price Descending</a>
+                                            </c:if>
+                                            <c:if test="${empty param.cid}">
+                                                <a href="${pageContext.request.contextPath}/shop?sort=price_asc" class="dropdown-item">Sort by Price Ascending</a>
+                                                <a href="${pageContext.request.contextPath}/shop?sort=price_desc" class="dropdown-item">Sort by Price Descending</a>
+                                            </c:if>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                         <div class="row g-4">
                             <div class="row g-4">
-                                <div class="col-lg-2">
+                                <div class="col-lg-3">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <h4>Categories</h4>
@@ -218,7 +222,7 @@
                                                 <c:forEach items="${categories}" var="c">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="${pageContext.request.contextPath}/shop?cid=${c.cid}">
+                                                            <a href="${pageContext.request.contextPath}/shop?cid=${c.cid}">  
                                                                 <i class="fas fa-apple-alt me-2"></i>${c.cname}
                                                             </a>
                                                             <span>(${c.productCount})</span>
@@ -226,10 +230,12 @@
                                                     </li>
                                                 </c:forEach>
                                             </ul>
+
+
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                 </div>
                                 <div class="col-lg-9">
                                     <div class="row g-4 justify-content-center">
@@ -261,6 +267,7 @@
                                                 </div>
                                             </c:if>
                                         </c:forEach>
+
 
                                         <!-- Phần phân trang -->
                                         <div class="col-12">
@@ -396,6 +403,7 @@
 
             <!-- Template Javascript -->
             <script src="js/main.js"></script>
+
 
 
 

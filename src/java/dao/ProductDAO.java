@@ -9,6 +9,64 @@ import model.ProductDetails;
 
 public class ProductDAO extends DBContext {
 
+    public List<Product> getProductsByCategoryId(int cid) {
+        List<Product> products = new ArrayList<>();
+
+        String query = "SELECT product_id, name, img, price, title, cid FROM Product WHERE cid = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            // Gán categoryId vào câu truy v?n SQL
+            ps.setInt(1, cid);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                String productName = rs.getString("name");
+                String productImage = rs.getString("img");
+                double productPrice = rs.getDouble("price");
+                String productTitle = rs.getString("title");
+
+                // Ch? t?o ??i t??ng Product mà không c?n thông tin chi ti?t
+                Product product = new Product(productId, productName, productImage, productPrice, productTitle, cid, 0, 0);
+                products.add(product);
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+    public List<Product> getBestSeller() {
+        List<Product> list = new ArrayList<>();
+        String query = null;
+        return list;
+    }
+
+    public List<Product> getHighestPrice() {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT * FROM Product ORDER BY price DESC";
+
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("product_id"),
+                        rs.getString("pdname"),
+                        rs.getString("pdimg"));
+                list.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    
+
     public List<Product> advertiseProduct() {
         List<Product> list = new ArrayList<>();
         String query = """

@@ -28,8 +28,8 @@ public class Account {
         this.customer = customer;
         this.seller = seller;
     }
-
     
+
     public Account(int accountId, String username, String password, String email, String phone, String address, int roleId, String status, Customer customer) {
         this.accountId = accountId;
         this.username = username;
@@ -131,14 +131,15 @@ public class Account {
     public void setSeller(Seller seller) {
         this.seller = seller;
     }
+    
+    
 
     @Override
     public String toString() {
         return "Account{" + "accountId=" + accountId + ", username=" + username + ", password=" + password + ", email=" + email + ", phone=" + phone + ", address=" + address + ", roleId=" + roleId + ", status=" + status + ", customer=" + customer + ", seller=" + seller + '}';
     }
-
     
-   
+
     
 
 }
