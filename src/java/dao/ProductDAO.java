@@ -65,8 +65,6 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
-    
-
     public List<Product> advertiseProduct() {
         List<Product> list = new ArrayList<>();
         String query = """
@@ -96,7 +94,7 @@ public class ProductDAO extends DBContext {
     public List<Product> newProduct() {
         List<Product> list = new ArrayList<>();
         String query = """
-                       select top 3 * 
+                       select top 4 * 
                        from Product
                        order by product_id desc
                        """;
@@ -445,6 +443,36 @@ public class ProductDAO extends DBContext {
         }
 
         return productDetailsList;
+    }
+
+    public List<Product> getProductByCategory(int cid) {
+        List<Product> productList = new ArrayList<>();
+        String sql = "SELECT product_id, name, img, price, title, cid, brand_id, seller_id "
+                + "FROM Product "
+                + "WHERE cid = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cid);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Product product = new Product(
+                        rs.getInt("product_id"),
+                        rs.getString("name"),
+                        rs.getString("img"),
+                        rs.getDouble("price"),
+                        rs.getString("title"),
+                        rs.getInt("cid"),
+                        rs.getInt("brand_id"),
+                        rs.getInt("seller_id")
+                );
+                productList.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return productList;
     }
 
     public static void main(String[] args) {

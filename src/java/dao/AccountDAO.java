@@ -36,6 +36,20 @@ public class AccountDAO extends DBContext {
         return null;
     }
 
+    public int getUserCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM [Account]";
+        try (
+                PreparedStatement pre = conn.prepareStatement(sql); ResultSet rs = pre.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
+
     public Role getRoleByAccountId(int accountId) {
         String query = "SELECT Role.role_id, Role.role_name FROM Role "
                 + "JOIN Account ON Role.role_id = Account.role_id WHERE Account.account_id = ?";
