@@ -99,7 +99,7 @@ private void viewFeedbackByProduct(HttpServletRequest request, HttpServletRespon
     request.setAttribute("productPrice", product.getPrice());  // Assuming Product has getPrice() method
 
     // Forward to JSP
-    request.getRequestDispatcher("/seller/feedback_detail.jsp").forward(request, response);
+    request.getRequestDispatcher("/seller/feedbacks_detail.jsp").forward(request, response);
 }
 
 
