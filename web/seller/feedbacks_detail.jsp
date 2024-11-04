@@ -123,7 +123,6 @@
                 }
             }
 
-
         </script>
     </head>
     <body id="page-top">
@@ -208,9 +207,20 @@
                                                     <a href="javascript:void(0);" onclick="showUpdateArea(${reply.replyId})" class="btn btn-update btn-action">
                                                         <i class="fas fa-edit"></i> Update
                                                     </a>
+                                                    <!-- Button Delete với thẻ <a> -->
                                                     <a href="javascript:void(0);" onclick="deleteReply(${reply.replyId})" class="btn btn-delete btn-action">
                                                         <i class="fas fa-trash-alt"></i> Delete
                                                     </a>
+
+                                <!-- Reply Form -->
+                                <form action="feedbackReply" method="post" class="mt-3">
+                                    <input type="hidden" name="action" value="add">
+                                    <input type="hidden" name="feedback_id" value="${feedback.feedback_id}">
+                                    <textarea name="reply_content" class="form-control" placeholder="Write your reply..." required></textarea>
+                                    <button type="submit" class="btn btn-primary btn-sm btn-reply">Reply</button>
+                                </form>
+
+
                                                 </div>
                                             </div>
 

@@ -123,7 +123,6 @@
                 }
             }
 
-
         </script>
     </head>
     <body id="page-top">
@@ -184,6 +183,34 @@
                                 </div>
                                 <p class="mb-1"><strong>Content:</strong> ${feedback.feedback_content}</p>
                                 <small class="text-muted">Date: ${feedback.create_date}</small>
+
+                                <!-- Reply Form -->
+                                <form action="feedbackReply" method="post" class="mt-3">
+                                    <input type="hidden" name="action" value="add">
+                                    <input type="hidden" name="feedback_id" value="${feedback.feedback_id}">
+                                    <textarea name="reply_content" class="form-control" placeholder="Write your reply..." required></textarea>
+                                    <button type="submit" class="btn btn-primary btn-sm btn-reply">Reply</button>
+                                </form>
+
+                                <!-- View Replies Button -->
+                                <button onclick="toggleReplies(${feedback.feedback_id})" class="btn btn-link btn-sm text-primary mt-2">
+                                    <i class="fas fa-comments"></i> View Replies
+                                </button>
+
+                                <!-- Replies List (Hidden by Default) -->
+                                <div id="replies-${feedback.feedback_id}" class="reply-list mt-3">
+                                    <c:forEach var="reply" items="${feedback.replies}">
+                                        <div class="reply-card shadow-sm">
+                                            <div class="reply-content">
+                                                <p id="reply-text-${reply.replyId}" class="mb-0">${reply.replyContent}</p>
+                                                <div class="d-flex gap-2">
+                                                    <a href="javascript:void(0);" onclick="showUpdateArea(${reply.replyId})" class="btn btn-update btn-action">
+                                                        <i class="fas fa-edit"></i> Update
+                                                    </a>
+                                                    <!-- Button Delete với thẻ <a> -->
+                                                    <a href="javascript:void(0);" onclick="deleteReply(${reply.replyId})" class="btn btn-delete btn-action">
+                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                    </a>
 
                                 <!-- Reply Form -->
                                 <form action="feedbackReply" method="post" class="mt-3">
