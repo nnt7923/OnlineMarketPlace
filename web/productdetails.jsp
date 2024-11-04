@@ -397,9 +397,9 @@
                             <div class="col-lg-6 col-md-12 col-12">
                                 <div class="product-info">
                                     <h2 class="title" id="product-name">${productDetail.name}</h2>
-                                    
-                                    
-                                    
+
+
+
                                     <div class="product-price" id="product-price">
                                         <p class="product-price-show" id="product-price-show">
                                             <currency:formatCurrency value="${productDetail.priceDiscount}" />
@@ -599,19 +599,38 @@
                                         <!-- Phần hiển thị phản hồi -->
                                         <h5 class="mt-5">All Reviews</h5>
                                         <div id="feedback-list">
-
                                             <c:forEach var="feedback" items="${feedbacks}">
                                                 <div class="feedback-item mb-4 border p-3">
+                                                    <!-- Display the rating with stars -->
                                                     <p>
                                                         <span>Đánh giá: 
                                                             <c:forEach var="i" begin="1" end="${feedback.rating}">★</c:forEach>
                                                             <c:forEach var="i" begin="${feedback.rating + 1}" end="5">☆</c:forEach>
                                                             </span>
                                                         </p>
+                                                        <!-- Display feedback content -->
                                                         <p>Nội dung: ${feedback.feedback_content}</p>
+
+                                                    <!-- Section for displaying replies -->
+                                                    <div class="feedback-replies mt-3">
+                                                        <h6>Seller Replies:</h6>
+                                                        <c:choose>
+                                                            <c:when test="${not empty feedback.replies}">
+                                                                <c:forEach var="reply" items="${feedback.replies}">
+                                                                    <div class="reply-item mb-2 p-2 bg-light border rounded">
+                                                                        <p><strong>Reply:</strong> ${reply.replyContent}</p>
+                                                                    </div>
+                                                                </c:forEach>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <p>No replies yet.</p>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
                                                 </div>
                                             </c:forEach>
-                                        </div>                  
+
+                                        </div>                
                                     </div>
 
 

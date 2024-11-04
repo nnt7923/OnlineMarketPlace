@@ -34,32 +34,41 @@
         </a>
 
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_department" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_department" aria-expanded="true" aria-controls="collapse_department">
             <i class="fas fa-building"></i>
-            <span>Department manager</span>
+            <span>Product manager</span>
         </a>
         <div id="collapse_department" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-
                 <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=addProduct">Add Product</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=addProductDetail">Add Product Detail</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=listProductsBySeller">List</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=list">List Product Details</a>
-            </div
-        </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_role" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-pencil-ruler"></i>
-            <span>Role manager</span>
-        </a>
-        <div id="collapse_role" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-
-                <a class="collapse-item" href="${pageContext.request.contextPath}/roles">List</a>
-                <a class="collapse-item" href="${pageContext.request.contextPath}/roles/store">Create</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=listProductsBySeller">List Product</a>
             </div>
         </div>
+    </li>
+
+<!-- Product Detail Manager -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_department2" aria-expanded="true" aria-controls="collapse_department2">
+            <i class="fas fa-building"></i>
+            <span>Product detail manager</span>
+        </a>
+        <div id="collapse_department2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=addProductDetail">Add Product Detail</a>
+                <a class="collapse-item" href="${pageContext.request.contextPath}/seller/product?service=list">List Product Details</a>
+            </div>
+        </div>
+    </li>
+
+<!--Reply Feedback -->
+
+
+    </li>
+        <li class="nav-item">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/feedbackReply">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Reply Feedback</span>
+        </a>
     </li>
     <!--     Divider -->
     <hr class="sidebar-divider d-none d-md-block">

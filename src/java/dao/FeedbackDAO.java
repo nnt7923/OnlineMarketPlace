@@ -6,6 +6,7 @@ import model.Feedback;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.FeedbackReply;
 import model.ProductDetails;
 
 public class FeedbackDAO extends DBContext {
@@ -26,20 +27,53 @@ public class FeedbackDAO extends DBContext {
         }
     }
 
-    public List<Feedback> getFeedbackByProduct(int productId) {
+public List<Feedback> getFeedbackByProduct(int productId) throws SQLException {
+    List<Feedback> feedbacks = new ArrayList<>();
+    String feedbackQuery = "SELECT * FROM Feedback WHERE product_id = ?";
+    try (PreparedStatement ps = conn.prepareStatement(feedbackQuery)) {
+        ps.setInt(1, productId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Feedback feedback = new Feedback();
+            feedback.setFeedback_id(rs.getInt("feedback_id"));
+            feedback.setProduct_id(rs.getInt("product_id"));
+            feedback.setRating(rs.getInt("rating"));
+            feedback.setFeedback_content(rs.getString("feedback_content"));
+            feedback.setCreate_date(rs.getDate("create_date"));
+
+            
+
+            feedbacks.add(feedback);
+        }
+    }
+    return feedbacks;
+}
+
+
+
+    
+    public List<Feedback> getFeedbackBySellerId(int sellerId) {
         List<Feedback> feedbacks = new ArrayList<>();
-        String query = "SELECT * FROM Feedback WHERE product_id = ?";
+        String query = """
+            SELECT f.feedback_id, f.product_id, f.rating, f.feedback_content, f.account_id, f.customer_id, f.create_date
+            FROM Feedback f
+            INNER JOIN Product p ON f.product_id = p.product_id
+            WHERE p.seller_id = ?
+        """;
+
         try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, productId);
+            ps.setInt(1, sellerId);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 Feedback feedback = new Feedback();
                 feedback.setFeedback_id(rs.getInt("feedback_id"));
-                feedback.setAccount_id(rs.getObject("account_id") != null ? rs.getInt("account_id") : null); // cho phép null
                 feedback.setProduct_id(rs.getInt("product_id"));
                 feedback.setRating(rs.getInt("rating"));
                 feedback.setFeedback_content(rs.getString("feedback_content"));
-                feedback.setCustomer_id(rs.getObject("customer_id") != null ? rs.getInt("customer_id") : null); // cho phép null
+                feedback.setAccount_id(rs.getObject("account_id") != null ? rs.getInt("account_id") : null);
+                feedback.setCustomer_id(rs.getObject("customer_id") != null ? rs.getInt("customer_id") : null);
+                feedback.setCreate_date(rs.getDate("create_date"));
                 feedbacks.add(feedback);
             }
         } catch (SQLException e) {
@@ -48,17 +82,6 @@ public class FeedbackDAO extends DBContext {
         return feedbacks;
     }
     
-    public static void main(String[] args) {
-        FeedbackDAO dao = new FeedbackDAO();
-        
-        List<Feedback> list = dao.getFeedbackByProduct(8);
-        
-        for (Feedback feedback : list) {
-            
-            System.out.println(feedback.getCustomer_id());
-        }
 
-        
-    }
 }
     
