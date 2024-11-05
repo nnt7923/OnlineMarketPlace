@@ -363,6 +363,9 @@
 
     <body>
 
+        <!-- Hiển thị thông báo lỗi nếu có -->
+
+
         <!-- Spinner Start -->
         <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
             <div class="spinner-grow text-primary" role="status"></div>
@@ -396,10 +399,9 @@
 
                             <div class="col-lg-6 col-md-12 col-12">
                                 <div class="product-info">
+                                    <c:out value="${productDetail.product.sellerId}" />
                                     <h2 class="title" id="product-name">${productDetail.name}</h2>
-                                    
-                                    
-                                    
+
                                     <div class="product-price" id="product-price">
                                         <p class="product-price-show" id="product-price-show">
                                             <currency:formatCurrency value="${productDetail.priceDiscount}" />
@@ -514,6 +516,8 @@
                                                 aria-controls="nav-reviews" aria-selected="false">Feedbacks</button>
                                     </div>
                                 </nav>
+
+
                                 <div class="tab-content mb-5">
                                     <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                                         <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc.
@@ -593,6 +597,11 @@
                                                     <input type="hidden" name="product_id"  value="${productDetail.getProduct().getProductId()}">
                                                     <button type="submit" class="btn btn-primary">Submit</button>
                                                 </form>
+                                                <c:if test="${not empty errorMessage}">
+                                                    <div style="color: red; font-weight: bold;">
+                                                        <p>${errorMessage}</p>
+                                                    </div>
+                                                </c:if>
                                             </c:otherwise>
                                         </c:choose>
 
@@ -1086,6 +1095,8 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+
+
     </body>
 
 </html>

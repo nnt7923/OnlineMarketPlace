@@ -23,6 +23,7 @@ public class ShopPageController extends HttpServlet {
 
         ProductDetailsDAO pd = new ProductDetailsDAO();
         CategoryDAO categoryDAO = new CategoryDAO();
+        ProductDAO productDAO = new ProductDAO();
 
         // L?y danh sách danh m?c v?i s? l??ng s?n ph?m
         List<Category> categories = categoryDAO.getAllCategories();

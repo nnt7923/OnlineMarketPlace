@@ -21,8 +21,33 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Role;
+import model.Seller;
 
 public class SellerDAO extends DBContext {
+    
+    
+    public List<Seller> getSellerName() {
+        List<Seller> list = new ArrayList<>();
+        
+        String sql = "SELLECT s.store_name FROM Seller s WHERE s.seller = s.seller_id = ?";
+        
+        try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
+            ResultSet rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                String storeName = rs.getString("store_name");
+                
+                Seller seller = new Seller(storeName);
+                
+                list.add(seller);
+            }
+            rs.close();
+            
+        } catch (SQLException e) {
+            Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", e);
+        }
+        return list;
+    }
 
     // C?p nh?t t�i kho?n
     public boolean updateProfile(Account account) {

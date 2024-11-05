@@ -5,9 +5,12 @@ import model.Product;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 import model.ProductDetails;
 
 public class ProductDAO extends DBContext {
+    
+   
 
     public List<Product> getProductsByCategoryId(int cid) {
         List<Product> products = new ArrayList<>();
@@ -40,12 +43,6 @@ public class ProductDAO extends DBContext {
         return products;
     }
 
-    public List<Product> getBestSeller() {
-        List<Product> list = new ArrayList<>();
-        String query = null;
-        return list;
-    }
-
     public List<Product> getHighestPrice() {
         List<Product> list = new ArrayList<>();
         String query = "SELECT * FROM Product ORDER BY price DESC";
@@ -64,8 +61,6 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
-
-    
 
     public List<Product> advertiseProduct() {
         List<Product> list = new ArrayList<>();

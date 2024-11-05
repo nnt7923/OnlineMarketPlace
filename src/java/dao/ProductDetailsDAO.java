@@ -28,7 +28,7 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount,  "
-                + "p.name, p.price, p.product_id, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.seller_id, p.price, p.product_id, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "WHERE pd.product_id = ? AND pd.pdcriteria = ?";
@@ -45,6 +45,8 @@ public class ProductDetailsDAO extends DBContext {
 
             while (rs.next()) {
                 int productId = rs.getInt("product_id");
+                int sellerId = rs.getInt("seller_id");
+
                 int productDetailId = rs.getInt("pd_id");
                 String productDetailName = rs.getString("pdname");
                 String productImage = rs.getString("pdimg");
@@ -60,7 +62,7 @@ public class ProductDetailsDAO extends DBContext {
                 String[] images = productImage.split(",");
 
                 // T?o ??i t??ng Product
-                Product product = new Product(Integer.parseInt(pid), productName, null, originalPrice, null, 0, 0, 0);
+                Product product = new Product(Integer.parseInt(pid), productName, null, originalPrice, null, 0, sellerId, 0);
 
                 // T?o ??i t??ng ProductDetails
                 ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
@@ -79,7 +81,7 @@ public class ProductDetailsDAO extends DBContext {
     public ProductDetails getProductDetailByColorAndCriteria(String pid, String color, String criteria) {
         ProductDetails productDetails = null;
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, p.product_id ,"
-                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, p.name, p.price, pd.pddescribe, pd.pdspecification "
+                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, p.name, p.price, p.seller_id, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "WHERE pd.product_id = ? AND pd.pdcolor LIKE N'%' +? + '%' AND pd.pdcriteria = ?";
@@ -93,6 +95,7 @@ public class ProductDetailsDAO extends DBContext {
 
             if (rs.next()) {
                 int productDetailId = rs.getInt("pd_id");
+                int sellerId = rs.getInt("seller_id");
                 String productDetailName = rs.getString("pdname");
                 String productImage = rs.getString("pdimg");
                 String productCriteria = rs.getString("pdcriteria");
@@ -107,7 +110,7 @@ public class ProductDetailsDAO extends DBContext {
                 String[] images = productImage.split(",");
 
                 // T?o ??i t??ng Product
-                Product product = new Product(Integer.parseInt(pid), productName, null, originalPrice, null, 0, 0, 0);
+                Product product = new Product(Integer.parseInt(pid), productName, null, originalPrice, null, 0, sellerId, 0);
 
                 // T?o ??i t??ng ProductDetails
                 productDetails = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
@@ -224,7 +227,7 @@ public class ProductDetailsDAO extends DBContext {
 
     public ProductDetails getProductByPid(String pid) {
 
-        String sql = "SELECT p.product_id, p.name AS product_name, p.img AS product_image, p.price AS product_price, "
+        String sql = "SELECT p.product_id, p.name AS product_name, p.img AS product_image, p.price AS product_price,  "
                 + "p.title AS product_title, pd.pddescribe, pd.pdspecification, pd.pd_id, pd.pdname, pd.pdprice_discount, "
                 + "pd.pdcolor, pd.pdimg AS product_detail_image, pd.pdcriteria, pd.pdquantity "
                 + "FROM Product p "
@@ -365,7 +368,7 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount,  "
-                + "p.name, p.price, p.product_id, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "JOIN Category c ON p.cid = c.cid "
@@ -377,6 +380,7 @@ public class ProductDetailsDAO extends DBContext {
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
+
                 int productId = rs.getInt("product_id");
                 int productDetailId = rs.getInt("pd_id");
                 String productDetailName = rs.getString("pdname");
@@ -387,13 +391,14 @@ public class ProductDetailsDAO extends DBContext {
                 float discountPrice = rs.getFloat("pdprice_discount");
                 String productName = rs.getString("name");
                 float originalPrice = rs.getFloat("price");
+                String productImg = rs.getString("img");
                 String productDescribe = rs.getString("pddescribe");
                 String productSpecification = rs.getString("pdspecification");
 
                 String[] images = productImage.split(",");
 
                 // T?o ??i t??ng Product
-                Product product = new Product(productId, productName, null, originalPrice, null, 0, 0, 0);
+                Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
 
                 // T?o ??i t??ng ProductDetails
                 ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
@@ -413,8 +418,9 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "pd.product_id, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id,p.img, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
+                + "JOIN Product p ON pd.product_id = p.product_id "
                 + "ORDER BY pd.pdprice_discount DESC"; // S?p x?p gi?m d?n theo giá t? ProductDetails
 
         try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
@@ -429,24 +435,19 @@ public class ProductDetailsDAO extends DBContext {
                 String productColor = rs.getString("pdcolor");
                 int productQuantity = rs.getInt("pdquantity");
                 float discountPrice = rs.getFloat("pdprice_discount");
+                String productName = rs.getString("name");
+                float originalPrice = rs.getFloat("price");
+                String productImg = rs.getString("img");
                 String productDescribe = rs.getString("pddescribe");
                 String productSpecification = rs.getString("pdspecification");
 
                 String[] images = productImage.split(",");
 
                 // T?o ??i t??ng ProductDetails
-                ProductDetails productDetail = new ProductDetails(
-                        productDetailId,
-                        new Product(productId, null, null, discountPrice, null, 0, 0, 0),
-                        productDetailName,
-                        discountPrice,
-                        productColor,
-                        images,
-                        productCriteria,
-                        productQuantity,
-                        productDescribe,
-                        productSpecification
-                );
+                Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
+
+                // T?o ??i t??ng ProductDetails
+                ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
 
                 list.add(productDetail);
             }
@@ -463,8 +464,9 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "pd.product_id, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id,p.img, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
+                + "JOIN Product p ON pd.product_id = p.product_id "
                 + "ORDER BY pd.pdprice_discount ASC"; // S?p x?p gi?m d?n theo giá t? ProductDetails
 
         try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
@@ -479,24 +481,19 @@ public class ProductDetailsDAO extends DBContext {
                 String productColor = rs.getString("pdcolor");
                 int productQuantity = rs.getInt("pdquantity");
                 float discountPrice = rs.getFloat("pdprice_discount");
+                String productName = rs.getString("name");
+                float originalPrice = rs.getFloat("price");
+                String productImg = rs.getString("img");
                 String productDescribe = rs.getString("pddescribe");
                 String productSpecification = rs.getString("pdspecification");
 
                 String[] images = productImage.split(",");
 
                 // T?o ??i t??ng ProductDetails
-                ProductDetails productDetail = new ProductDetails(
-                        productDetailId,
-                        new Product(productId, null, null, discountPrice, null, 0, 0, 0),
-                        productDetailName,
-                        discountPrice,
-                        productColor,
-                        images,
-                        productCriteria,
-                        productQuantity,
-                        productDescribe,
-                        productSpecification
-                );
+                Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
+
+                // T?o ??i t??ng ProductDetails
+                ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
 
                 list.add(productDetail);
             }
@@ -513,7 +510,7 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "p.name, p.price, p.product_id, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "JOIN Category c ON p.cid = c.cid "
@@ -536,13 +533,14 @@ public class ProductDetailsDAO extends DBContext {
                 float discountPrice = rs.getFloat("pdprice_discount");
                 String productName = rs.getString("name");
                 float originalPrice = rs.getFloat("price");
+                String productImg = rs.getString("img");
                 String productDescribe = rs.getString("pddescribe");
                 String productSpecification = rs.getString("pdspecification");
 
                 String[] images = productImage.split(",");
 
                 // T?o ??i t??ng Product
-                Product product = new Product(productId, productName, null, originalPrice, null, 0, 0, 0);
+                Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
 
                 // T?o ??i t??ng ProductDetails
                 ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
@@ -562,7 +560,7 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "p.name, p.price, p.product_id, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id,p.img, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "JOIN Category c ON p.cid = c.cid "
@@ -585,13 +583,14 @@ public class ProductDetailsDAO extends DBContext {
                 float discountPrice = rs.getFloat("pdprice_discount");
                 String productName = rs.getString("name");
                 float originalPrice = rs.getFloat("price");
+                String productImg = rs.getString("img");
                 String productDescribe = rs.getString("pddescribe");
                 String productSpecification = rs.getString("pdspecification");
 
                 String[] images = productImage.split(",");
 
                 // T?o ??i t??ng Product
-                Product product = new Product(productId, productName, null, originalPrice, null, 0, 0, 0);
+                Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
 
                 // T?o ??i t??ng ProductDetails
                 ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
@@ -611,7 +610,7 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "p.name, p.price, p.product_id, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "WHERE pd.pdname LIKE ? OR p.name LIKE ?";
@@ -633,13 +632,14 @@ public class ProductDetailsDAO extends DBContext {
                 float discountPrice = rs.getFloat("pdprice_discount");
                 String productName = rs.getString("name");
                 float originalPrice = rs.getFloat("price");
+                String productImg = rs.getString("img");
                 String productDescribe = rs.getString("pddescribe");
                 String productSpecification = rs.getString("pdspecification");
 
                 String[] images = productImage.split(",");
 
                 // T?o ??i t??ng Product
-                Product product = new Product(productId, productName, null, originalPrice, null, 0, 0, 0);
+                Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
 
                 // T?o ??i t??ng ProductDetails
                 ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);

@@ -30,24 +30,23 @@ public class FeedbackController extends HttpServlet {
         String productIdParam = request.getParameter("product_id");
         String accountIdParam = request.getParameter("account_id");
         String customerIdParam = request.getParameter("customer_id");
+        int productId = Integer.parseInt(productIdParam);
 
         // Ki?m tra n?u các tham s? c?n thi?t không có trong yêu c?u
         if (feedbackContent == null || ratingParam == null || productIdParam == null) {
             request.setAttribute("errorMessage", "Thi?u thông tin yêu c?u.");
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            request.getRequestDispatcher("productdetails?pid=" + productId).forward(request, response);
             return;
         }
 
-    
         int rating = Integer.parseInt(ratingParam);
-        int productId = Integer.parseInt(productIdParam);
+
         HttpSession session = request.getSession();
         Account account = (Account) session.getAttribute("account");
 
-       
         CustomerDAO customerDAO = new CustomerDAO();
         Customer customer = customerDAO.getCustomerByAccountId(account.getAccountId());
-        
+
         Feedback feedback = new Feedback();
         feedback.setAccount_id(account.getAccountId());
         feedback.setProduct_id(productId);
@@ -55,14 +54,9 @@ public class FeedbackController extends HttpServlet {
         feedback.setFeedback_content(feedbackContent);
         feedback.setCustomer_id(customer.getCustomerId());
 
-      
         feedbackDAO.addFeedback(feedback);
 
-   
+        request.getRequestDispatcher("productdetails?pid=" + productId).forward(request, response);
 
-       
-        request.getRequestDispatcher("productdetails?pid="+productId).forward(request, response);
-
-        
     }
 }

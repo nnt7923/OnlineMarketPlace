@@ -10,6 +10,10 @@ public class Seller {
 
     public Seller() {
     }
+    
+    public Seller(String storeName) {
+        this.storeName = storeName; 
+    }
 
     public Seller(int sellerId, int accountId, String storeName, double rating, String joinDate) {
         this.sellerId = sellerId;

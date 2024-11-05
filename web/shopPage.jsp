@@ -58,6 +58,100 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+
+
+
+
+            /* Khung chứa shop */
+            .shop-container {
+                display: flex;
+                align-items: center;
+                border: 1px solid #ddd;
+                padding: 20px;
+                border-radius: 8px;
+                background-color: #fff;
+
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px; /* Tạo khoảng cách với nội dung bên dưới */
+                transition: box-shadow 0.3s ease;
+            }
+            .shop-logo {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                margin-right: 20px;
+                object-fit: cover;
+                border: 2px solid #f43b47;
+            }
+            .shop-info {
+                flex: 1;
+            }
+            .shop-info h2 {
+                font-size: 20px;
+                color: #333;
+                margin-bottom: 5px;
+            }
+
+            .shop-info p {
+                color: #888;
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            .shop-actions {
+                margin-top: 10px;
+            }
+            .btn {
+                padding: 10px 15px;
+                margin-right: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+            .btn-chat {
+                background-color: #f43b47;
+                color: #fff;
+                border: 1px solid #f43b47;
+            }
+            .btn-chat:hover {
+                background-color: #ff6666;
+                border-color: #ff6666;
+            }
+            .btn-view-shop {
+                background-color: #f5f5f5;
+                color: #333;
+                border: 1px solid #ddd;
+            }
+
+            .btn-view-shop:hover {
+                background-color: #e0e0e0;
+            }
+            .shop-stats {
+                display: grid;
+                grid-template-columns: repeat(2, auto);
+                gap: 20px 50px;
+                padding-left: 25px;
+                padding-right: 25px;
+                justify-content: space-around;
+                font-size: 14px;
+                color: #777;
+                margin-top: 10px;
+                margin-right: 25px;
+
+            }
+
+            .shop-stats div {
+                text-align: left;
+                margin-bottom: 5px;
+            }
+            .shop-stats span {
+                color: red;
+                font-weight: bold;
+            }
+
         </style>
     </head>
 
@@ -100,6 +194,7 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
+
                     <a href="home" class="navbar-brand"><h1 class="text-primary display-6">Tech Store</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
@@ -173,7 +268,27 @@
         <!-- Fruits Shop Start -->
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
-                <h1 class="mb-4">Tech Store</h1>
+                <div class="shop-container">
+                    <img src="https://via.placeholder.com/80" alt="Ensure Gold" class="shop-logo">
+
+                    <div class="shop-info">
+                        <h2>Store Name</h2>
+                        <p>Online 10 Phút Trước</p>
+
+                        <div class="shop-actions">
+                            <a href="#" class="btn btn-chat">Chat Ngay</a>
+                            <a href="#" class="btn btn-view-shop">Xem Shop</a>
+                        </div>
+
+
+                    </div>
+                    <div class="shop-stats">
+                        <div>Đánh Giá <span>133,6k</span></div>
+                        <div>Tỉ Lệ Phản Hồi <span>100%</span></div>
+                        <div>Sản Phẩm <span>72</span></div>
+                        <div>Thời Gian Phản Hồi <span>trong vài giờ</span></div>
+                    </div>
+                </div>
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="row g-4">
@@ -218,7 +333,7 @@
                                         <div class="mb-3">
                                             <h4>Categories</h4>
                                             <ul class="list-unstyled fruite-categorie">
-                                                <c:out value="${fn:length(categories)}" />
+                                                
                                                 <c:forEach items="${categories}" var="c">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
@@ -239,6 +354,8 @@
                                 </div>
                                 <div class="col-lg-9">
                                     <div class="row g-4 justify-content-center">
+
+
 
 
                                         <c:forEach items="${products}" var="p" varStatus="status">
