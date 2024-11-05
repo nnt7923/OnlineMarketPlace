@@ -67,7 +67,7 @@ public class FeedbackReplyController extends HttpServlet {
             int sellerId = sellerDAO.getSellerIdByAccountId(accountId);
             List<Product> products = productDAO.getProductsBySellerId(sellerId);
             request.setAttribute("products", products);
-            request.getRequestDispatcher("/seller/feedbacks_product_list.jsp").forward(request, response);
+            request.getRequestDispatcher("/seller/feedback_product_list.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("errorMessage", "Error retrieving product data.");
@@ -99,7 +99,7 @@ private void viewFeedbackByProduct(HttpServletRequest request, HttpServletRespon
     request.setAttribute("productPrice", product.getPrice());  // Assuming Product has getPrice() method
 
     // Forward to JSP
-    request.getRequestDispatcher("/seller/feedbacks_detail.jsp").forward(request, response);
+    request.getRequestDispatcher("/seller/feedback_details.jsp").forward(request, response);
 }
 
 
