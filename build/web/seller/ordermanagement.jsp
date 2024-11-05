@@ -129,6 +129,9 @@
                                                                                 <c:when test="${order.status.name == 'Delivered'}">
                                                                                     <span class="badge bg-success">${order.status.name}</span>
                                                                                 </c:when>
+                                                                                <c:when test="${order.status.name == 'In delivery'}">
+                                                                                    <span class="badge bg-primary">${order.status.name}</span>
+                                                                                </c:when>
                                                                                 <c:otherwise>
                                                                                     <span class="badge bg-info">${order.status.name}</span>
                                                                                 </c:otherwise>

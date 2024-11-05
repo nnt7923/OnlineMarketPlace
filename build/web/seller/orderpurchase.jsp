@@ -158,7 +158,7 @@
             }
             .address h3 {
                 margin: 0 0 10px;
-                font-size: 16px;
+                font-size: 20px;
                 color: #333;
             }
             .address-text {
@@ -442,7 +442,7 @@
                                                     <div class="header">
                                                         <div class="title">
                                                             <img alt="Shop Logo" height="30" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" width="30"/>
-                                                            ${orderDetails[0].order.seller.storeName}
+                                                            ${orderDetails[0].order.shipping.name}
                                                         </div>
 
                                                         <div class="actions">
@@ -508,7 +508,7 @@
                                                     </div>
 
                                                     <div class="payment-method">
-                                                        Payment method: ${orderDetails[0].order.payment} <!-- Lấy thông tin phương thức thanh toán -->
+                                                        Payment method: ${orderDetails[0].order.payment}
                                                     </div>
 
                                                 </div>

@@ -140,122 +140,125 @@
                                                     <i class="fas fa-tasks icon"></i>
                                                     Click To Management
                                                 </button>                                                
-                                                    <table class="table table-bordered">
-                                                        <thead>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Order ID</th>
+                                                            <th>Customer Name</th>
+                                                            <th>Total Amount</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <c:forEach var="order" items="${orderList}">
                                                             <tr>
-                                                                <th>Order ID</th>
-                                                                <th>Customer Name</th>
-                                                                <th>Total Amount</th>
-                                                                <th>Status</th>
+                                                                <td>${order.orderId}</td>
+                                                                <td>${order.shipping.name}</td>
+                                                                <td><currency:formatCurrency value="${order.totalPrice}"/></td>
+                                                                <td>
+                                                                    <c:choose>
+                                                                        <c:when test="${order.status.id == 2}">
+                                                                            <span class="badge bg-warning">${order.status.name}</span>
+                                                                        </c:when>
+                                                                        <c:when test="${order.status.id == 6}">
+                                                                            <span class="badge bg-danger">${order.status.name}</span>
+                                                                        </c:when>
+                                                                        <c:when test="${order.status.name == 'In delivery'}">
+                                                                            <span class="badge bg-primary">${order.status.name}</span>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <span class="badge bg-info">${order.status.name}</span>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </td>
                                                             </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <c:forEach var="order" items="${orderList}">
-                                                                <tr>
-                                                                    <td>${order.orderId}</td>
-                                                                    <td>${order.shipping.name}</td>
-                                                                    <td><currency:formatCurrency value="${order.totalPrice}"/></td>
-                                                                    <td>
-                                                                        <c:choose>
-                                                                            <c:when test="${order.status.id == 2}">
-                                                                                <span class="badge bg-warning">${order.status.name}</span>
-                                                                            </c:when>
-                                                                            <c:when test="${order.status.id == 6}">
-                                                                                <span class="badge bg-danger">${order.status.name}</span>
-                                                                            </c:when>
-                                                                            <c:otherwise>
-                                                                                <span class="badge bg-info">${order.status.name}</span>
-                                                                            </c:otherwise>
-                                                                        </c:choose>
-                                                                    </td>
-                                                                </tr>
+                                                        </c:forEach>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-5"></div>
+                                                <div class="col-sm-12 col-md-7">
+                                                    <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
+                                                        <ul class="pagination">
+
+                                                            <!-- Previous Page Button -->
+                                                            <c:if test="${currentPage > 1}">
+                                                                <li class="paginate_button page-item previous">
+                                                                    <a href="orderstatus?page=${currentPage - 1}" class="page-link">Previous</a>
+                                                                </li>
+                                                            </c:if>
+
+                                                            <!-- First Page Link -->
+                                                            <li class="paginate_button page-item ${currentPage == 1 ? 'active' : ''}">
+                                                                <a href="orderstatus?page=1" class="page-link">1</a>
+                                                            </li>
+
+                                                            <!-- Show "..." if current page is beyond page 4 -->
+                                                            <c:if test="${currentPage > 4}">
+                                                                <li class="paginate_button page-item disabled">
+                                                                    <a href="#" class="page-link">...</a>
+                                                                </li>
+                                                            </c:if>
+
+                                                            <!-- Display middle pages (current page - 1, current page, current page + 1) -->
+                                                            <c:forEach var="i" begin="${currentPage - 1}" end="${currentPage + 1}">
+                                                                <c:if test="${i > 1 && i < totalPages}">
+                                                                    <li class="paginate_button page-item ${currentPage == i ? 'active' : ''}">
+                                                                        <a href="orderstatus?page=${i}" class="page-link">${i}</a>
+                                                                    </li>
+                                                                </c:if>
                                                             </c:forEach>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-md-5"></div>
-                                                    <div class="col-sm-12 col-md-7">
-                                                        <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
-                                                            <ul class="pagination">
 
-                                                                <!-- Previous Page Button -->
-                                                                <c:if test="${currentPage > 1}">
-                                                                    <li class="paginate_button page-item previous">
-                                                                        <a href="orderstatus?page=${currentPage - 1}" class="page-link">Previous</a>
-                                                                    </li>
-                                                                </c:if>
-
-                                                                <!-- First Page Link -->
-                                                                <li class="paginate_button page-item ${currentPage == 1 ? 'active' : ''}">
-                                                                    <a href="orderstatus?page=1" class="page-link">1</a>
+                                                            <!-- Show "..." if current page is less than totalPages - 3 -->
+                                                            <c:if test="${currentPage < totalPages - 3}">
+                                                                <li class="paginate_button page-item disabled">
+                                                                    <a href="#" class="page-link">...</a>
                                                                 </li>
+                                                            </c:if>
 
-                                                                <!-- Show "..." if current page is beyond page 4 -->
-                                                                <c:if test="${currentPage > 4}">
-                                                                    <li class="paginate_button page-item disabled">
-                                                                        <a href="#" class="page-link">...</a>
-                                                                    </li>
-                                                                </c:if>
+                                                            <!-- Last Page Link -->
+                                                            <li class="paginate_button page-item ${currentPage == totalPages ? 'active' : ''}">
+                                                                <a href="orderstatus?page=${totalPages}" class="page-link">${totalPages}</a>
+                                                            </li>
 
-                                                                <!-- Display middle pages (current page - 1, current page, current page + 1) -->
-                                                                <c:forEach var="i" begin="${currentPage - 1}" end="${currentPage + 1}">
-                                                                    <c:if test="${i > 1 && i < totalPages}">
-                                                                        <li class="paginate_button page-item ${currentPage == i ? 'active' : ''}">
-                                                                            <a href="orderstatus?page=${i}" class="page-link">${i}</a>
-                                                                        </li>
-                                                                    </c:if>
-                                                                </c:forEach>
-
-                                                                <!-- Show "..." if current page is less than totalPages - 3 -->
-                                                                <c:if test="${currentPage < totalPages - 3}">
-                                                                    <li class="paginate_button page-item disabled">
-                                                                        <a href="#" class="page-link">...</a>
-                                                                    </li>
-                                                                </c:if>
-
-                                                                <!-- Last Page Link -->
-                                                                <li class="paginate_button page-item ${currentPage == totalPages ? 'active' : ''}">
-                                                                    <a href="orderstatus?page=${totalPages}" class="page-link">${totalPages}</a>
+                                                            <!-- Next Page Button -->
+                                                            <c:if test="${currentPage < totalPages}">
+                                                                <li class="paginate_button page-item next">
+                                                                    <a href="orderstatus?page=${currentPage + 1}" class="page-link">Next</a>
                                                                 </li>
+                                                            </c:if>
 
-                                                                <!-- Next Page Button -->
-                                                                <c:if test="${currentPage < totalPages}">
-                                                                    <li class="paginate_button page-item next">
-                                                                        <a href="orderstatus?page=${currentPage + 1}" class="page-link">Next</a>
-                                                                    </li>
-                                                                </c:if>
-
-                                                            </ul>
-                                                        </div>
+                                                        </ul>
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        </main>
-
                     </div>
+                    </main>
 
                 </div>
 
             </div>
 
         </div>
-        <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/main.js"></script>
-        <script src="${pageContext.request.contextPath}/js/plugins/pace.min.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/plugins/chart.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-        <script type="text/javascript">
+    </div>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
+    <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/main.js"></script>
+    <script src="${pageContext.request.contextPath}/js/plugins/pace.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/plugins/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script type="text/javascript">
                                                     var data = {
                                                         labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6"],
                                                         datasets: [{
@@ -285,49 +288,49 @@
 
                                                     var ctxb = $("#barChartDemo").get(0).getContext("2d");
                                                     var barChart = new Chart(ctxb).Bar(data);
-        </script>
-        <script type="text/javascript">
-            //Thời Gian
-            function time() {
-                var today = new Date();
-                var weekday = new Array(7);
-                weekday[0] = "Chủ Nhật";
-                weekday[1] = "Thứ Hai";
-                weekday[2] = "Thứ Ba";
-                weekday[3] = "Thứ Tư";
-                weekday[4] = "Thứ Năm";
-                weekday[5] = "Thứ Sáu";
-                weekday[6] = "Thứ Bảy";
-                var day = weekday[today.getDay()];
-                var dd = today.getDate();
-                var mm = today.getMonth() + 1;
-                var yyyy = today.getFullYear();
-                var h = today.getHours();
-                var m = today.getMinutes();
-                var s = today.getSeconds();
-                m = checkTime(m);
-                s = checkTime(s);
-                nowTime = h + " giờ " + m + " phút " + s + " giây";
-                if (dd < 10) {
-                    dd = '0' + dd;
-                }
-                if (mm < 10) {
-                    mm = '0' + mm;
-                }
-                today = day + ', ' + dd + '/' + mm + '/' + yyyy;
-                tmp = '<span class="date"> ' + today + ' - ' + nowTime +
-                        '</span>';
-                document.getElementById("clock").innerHTML = tmp;
-                clocktime = setTimeout("time()", "1000", "Javascript");
-
-                function checkTime(i) {
-                    if (i < 10) {
-                        i = "0" + i;
-                    }
-                    return i;
-                }
+    </script>
+    <script type="text/javascript">
+        //Thời Gian
+        function time() {
+            var today = new Date();
+            var weekday = new Array(7);
+            weekday[0] = "Chủ Nhật";
+            weekday[1] = "Thứ Hai";
+            weekday[2] = "Thứ Ba";
+            weekday[3] = "Thứ Tư";
+            weekday[4] = "Thứ Năm";
+            weekday[5] = "Thứ Sáu";
+            weekday[6] = "Thứ Bảy";
+            var day = weekday[today.getDay()];
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            var h = today.getHours();
+            var m = today.getMinutes();
+            var s = today.getSeconds();
+            m = checkTime(m);
+            s = checkTime(s);
+            nowTime = h + " giờ " + m + " phút " + s + " giây";
+            if (dd < 10) {
+                dd = '0' + dd;
             }
-        </script>
-    </body>
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = day + ', ' + dd + '/' + mm + '/' + yyyy;
+            tmp = '<span class="date"> ' + today + ' - ' + nowTime +
+                    '</span>';
+            document.getElementById("clock").innerHTML = tmp;
+            clocktime = setTimeout("time()", "1000", "Javascript");
+
+            function checkTime(i) {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+        }
+    </script>
+</body>
 
 </html>

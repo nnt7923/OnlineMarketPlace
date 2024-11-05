@@ -52,12 +52,12 @@
                 margin-bottom: 10px;
             }
             .sidebar a.active {
-                background-color: #fff5f5;
-                border: 1px solid #cc0c1b;
-                color: #cc0c1b;
+                background-color: #f3feec;
+                border: 1px solid #81c408;
+                color: #81c408;
             }
             .sidebar a.active i, .sidebar a:hover i {
-                color: #cc0c1b;
+                color: #81c408;
             }
             .sidebar i {
                 margin-right: 10px;
@@ -194,7 +194,7 @@
 
                         </div>
                         <div class="order-history-filter">
-<!--                            <input type="date" class="form-control" style="width: 200px;" id="orderDate">-->
+                            <!--                            <input type="date" class="form-control" style="width: 200px;" id="orderDate">-->
                             <div>
                                 <a href="${pageContext.request.contextPath}/orderhistory" 
                                    class="btn ${statusId == -1 ? 'btn-outline-primary' : 'btn-outline-secondary'}">ALL</a>
@@ -216,11 +216,11 @@
                             <table class="table table-hover table-bordered dataTable no-footer" id="sampleTable" role="grid" aria-describedby="sampleTable_info">
                                 <thead>
                                     <tr>
-                                        <th style="width: 50px">Order Code</th>
+                                        <th style="width: 50px">Order ID</th>
                                         <th style="width: 130px">Recipient Name</th>
                                         <th style="width: 120px">Delivery Address</th>
                                         <th style="width: 100px">Delivery Phone Number</th>
-                                        <th style="width: 20px">Method</th>
+                                        <th style="width: 20px">Payment</th>
                                         <th style="width: 100px">Total Amount</th>
                                         <th style="width: 20px">Status</th>
                                         <th style="width: 100px">Order Time</th>
@@ -241,20 +241,12 @@
                                                 <fmt:formatDate value="${order.ordertime}" pattern="dd/MM/yyyy"/>
                                             </td>
                                             <td>
-<!--                                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" 
-                                                        onclick="showUpdateModal(${order.orderId}, '${order.shipping.name}', '${order.shipping.address}', '${order.shipping.phone}')">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-sm trash" type="button" title="Xóa" onclick="cancelOrder(${order.orderId})">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>-->
                                                 <c:if test="${order.status.name == 'Awaiting Confirmation'}">
-                                                <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"  
+                                                    <button class="btn btn-primary btn-sm edit" type="button" title="Sửa" 
                                                             onclick="showUpdateModal(${order.orderId}, '${order.shipping.name}', '${order.shipping.address}', '${order.shipping.phone}')">
                                                         <i class="fas fa-edit"></i>
                                                     </button>
-                                                    <button class="btn btn-danger btn-sm trash" type="button" title="Xóa" 
-                                                            onclick="cancelOrder(${order.orderId})">
+                                                    <button class="btn btn-danger btn-sm trash" type="button" title="Xóa" onclick="cancelOrder(${order.orderId})">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </c:if>
@@ -271,6 +263,11 @@
                                                         <p class="product-quantity">Quantity: ${detail.quantity}</p>
                                                         <p class="product-price">Price: <currency:formatCurrency value="${detail.productPrice}"/></p>
                                                     </c:forEach>
+                                                    <button class="btn btn-info btn-sm eye" type="button" title="Purchase Order" 
+                                                            onclick="window.location.href = 'orderpurchase?orderId=${order.orderId}'"
+                                                            data-id="${order.orderId}">
+                                                        <i class="fas fa-eye"></i> Purchase Order
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -328,93 +325,93 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-                                                    document.addEventListener('DOMContentLoaded', function () {
-                                                        var updateForm = document.getElementById('updateOrderForm');
-                                                        var updateRecipientName = document.getElementById('updateRecipientName');
-                                                        var updateRecipientNameError = document.getElementById('updateRecipientNameError');
-                                                        var updateDeliveryPhone = document.getElementById('updateDeliveryPhone');
-                                                        var updateDeliveryPhoneError = document.getElementById('updateDeliveryPhoneError');
-                                                        var updateDeliveryAddress = document.getElementById('updateDeliveryAddress');
-                                                        var updateDeliveryAddressError = document.getElementById('updateDeliveryAddressError');
+                                                                document.addEventListener('DOMContentLoaded', function () {
+                                                                    var updateForm = document.getElementById('updateOrderForm');
+                                                                    var updateRecipientName = document.getElementById('updateRecipientName');
+                                                                    var updateRecipientNameError = document.getElementById('updateRecipientNameError');
+                                                                    var updateDeliveryPhone = document.getElementById('updateDeliveryPhone');
+                                                                    var updateDeliveryPhoneError = document.getElementById('updateDeliveryPhoneError');
+                                                                    var updateDeliveryAddress = document.getElementById('updateDeliveryAddress');
+                                                                    var updateDeliveryAddressError = document.getElementById('updateDeliveryAddressError');
 
-                                                        // Hàm kiểm tra khoảng trắng đầu/cuối
-                                                        function validateNoSpacesStartEnd(input, errorElement) {
-                                                            if (input && errorElement) {
-                                                                if (input.value.startsWith(' ') || input.value.endsWith(' ')) {
-                                                                    errorElement.textContent = "Không được chứa khoảng trắng ở đầu hoặc cuối!";
-                                                                    return false;
-                                                                } else {
-                                                                    errorElement.textContent = "";
-                                                                    return true;
-                                                                }
-                                                            }
-                                                            return true;
-                                                        }
+                                                                    // Hàm kiểm tra khoảng trắng đầu/cuối
+                                                                    function validateNoSpacesStartEnd(input, errorElement) {
+                                                                        if (input && errorElement) {
+                                                                            if (input.value.startsWith(' ') || input.value.endsWith(' ')) {
+                                                                                errorElement.textContent = "Không được chứa khoảng trắng ở đầu hoặc cuối!";
+                                                                                return false;
+                                                                            } else {
+                                                                                errorElement.textContent = "";
+                                                                                return true;
+                                                                            }
+                                                                        }
+                                                                        return true;
+                                                                    }
 
-                                                        // Hàm kiểm tra số điện thoại
-                                                        function isValidPhoneNumber(input, errorElement) {
-                                                            const phoneRegex = /^0\d{9}$/;
-                                                            if (input && errorElement) {
-                                                                if (!phoneRegex.test(input.value)) {
-                                                                    errorElement.textContent = "Số điện thoại phải bắt đầu bằng số 0 và có đúng 10 chữ số!";
-                                                                    return false;
-                                                                } else {
-                                                                    errorElement.textContent = "";
-                                                                    return true;
-                                                                }
-                                                            }
-                                                            return true;
-                                                        }
+                                                                    // Hàm kiểm tra số điện thoại
+                                                                    function isValidPhoneNumber(input, errorElement) {
+                                                                        const phoneRegex = /^0\d{9}$/;
+                                                                        if (input && errorElement) {
+                                                                            if (!phoneRegex.test(input.value)) {
+                                                                                errorElement.textContent = "Số điện thoại phải bắt đầu bằng số 0 và có đúng 10 chữ số!";
+                                                                                return false;
+                                                                            } else {
+                                                                                errorElement.textContent = "";
+                                                                                return true;
+                                                                            }
+                                                                        }
+                                                                        return true;
+                                                                    }
 
-                                                        // Hàm kiểm tra địa chỉ
-                                                        function isValidAddress(input, errorElement) {
-                                                            const addressRegex = /^[^,]+(,[^,]+)+$/;  // Điều kiện yêu cầu ít nhất một dấu phẩy trở lên
-                                                            if (input && errorElement) {
-                                                                if (!addressRegex.test(input.value)) {
-                                                                    errorElement.textContent = "Địa chỉ phải bao gồm số nhà, khu, phố và cách nhau bởi dấu phẩy!";
-                                                                    return false;
-                                                                } else {
-                                                                    errorElement.textContent = "";
-                                                                    return true;
-                                                                }
-                                                            }
-                                                            return true;
-                                                        }
+                                                                    // Hàm kiểm tra địa chỉ
+                                                                    function isValidAddress(input, errorElement) {
+                                                                        const addressRegex = /^[^,]+(,[^,]+)+$/;  // Điều kiện yêu cầu ít nhất một dấu phẩy trở lên
+                                                                        if (input && errorElement) {
+                                                                            if (!addressRegex.test(input.value)) {
+                                                                                errorElement.textContent = "Địa chỉ phải bao gồm số nhà, khu, phố và cách nhau bởi dấu phẩy!";
+                                                                                return false;
+                                                                            } else {
+                                                                                errorElement.textContent = "";
+                                                                                return true;
+                                                                            }
+                                                                        }
+                                                                        return true;
+                                                                    }
 
 
-                                                        // Sự kiện khi người dùng nhập
-                                                        updateRecipientName.addEventListener('input', function () {
-                                                            validateNoSpacesStartEnd(updateRecipientName, updateRecipientNameError);
-                                                        });
+                                                                    // Sự kiện khi người dùng nhập
+                                                                    updateRecipientName.addEventListener('input', function () {
+                                                                        validateNoSpacesStartEnd(updateRecipientName, updateRecipientNameError);
+                                                                    });
 
-                                                        updateDeliveryPhone.addEventListener('input', function () {
-                                                            isValidPhoneNumber(updateDeliveryPhone, updateDeliveryPhoneError);
-                                                        });
+                                                                    updateDeliveryPhone.addEventListener('input', function () {
+                                                                        isValidPhoneNumber(updateDeliveryPhone, updateDeliveryPhoneError);
+                                                                    });
 
-                                                        updateDeliveryAddress.addEventListener('input', function () {
-                                                            isValidAddress(updateDeliveryAddress, updateDeliveryAddressError);
-                                                        });
+                                                                    updateDeliveryAddress.addEventListener('input', function () {
+                                                                        isValidAddress(updateDeliveryAddress, updateDeliveryAddressError);
+                                                                    });
 
-                                                        // Xử lý khi submit form
-                                                        updateForm.addEventListener('submit', function (event) {
-                                                            var isRecipientNameValid = validateNoSpacesStartEnd(updateRecipientName, updateRecipientNameError);
-                                                            var isDeliveryPhoneValid = isValidPhoneNumber(updateDeliveryPhone, updateDeliveryPhoneError);
-                                                            var isDeliveryAddressValid = isValidAddress(updateDeliveryAddress, updateDeliveryAddressError);
+                                                                    // Xử lý khi submit form
+                                                                    updateForm.addEventListener('submit', function (event) {
+                                                                        var isRecipientNameValid = validateNoSpacesStartEnd(updateRecipientName, updateRecipientNameError);
+                                                                        var isDeliveryPhoneValid = isValidPhoneNumber(updateDeliveryPhone, updateDeliveryPhoneError);
+                                                                        var isDeliveryAddressValid = isValidAddress(updateDeliveryAddress, updateDeliveryAddressError);
 
-                                                            if (!isRecipientNameValid || !isDeliveryPhoneValid || !isDeliveryAddressValid) {
-                                                                event.preventDefault();
+                                                                        if (!isRecipientNameValid || !isDeliveryPhoneValid || !isDeliveryAddressValid) {
+                                                                            event.preventDefault();
 
-                                                                // Thông báo lỗi tùy theo trường hợp cụ thể
-                                                                if (!isRecipientNameValid) {
-                                                                    swal('Lỗi', 'Vui lòng kiểm tra lại tên người nhận! Không được chứa khoảng trắng ở đầu hoặc cuối.', 'error');
-                                                                } else if (!isDeliveryPhoneValid) {
-                                                                    swal('Lỗi', 'Vui lòng kiểm tra lại số điện thoại! Số điện thoại phải bắt đầu bằng số 0 và có đúng 10 chữ số.', 'error');
-                                                                } else if (!isDeliveryAddressValid) {
-                                                                    swal('Lỗi', 'Vui lòng kiểm tra lại địa chỉ! Địa chỉ phải bao gồm số nhà, khu, phố và cách nhau bởi dấu phẩy.', 'error');
-                                                                }
-                                                            }
-                                                        });
-                                                    });
+                                                                            // Thông báo lỗi tùy theo trường hợp cụ thể
+                                                                            if (!isRecipientNameValid) {
+                                                                                swal('Lỗi', 'Vui lòng kiểm tra lại tên người nhận! Không được chứa khoảng trắng ở đầu hoặc cuối.', 'error');
+                                                                            } else if (!isDeliveryPhoneValid) {
+                                                                                swal('Lỗi', 'Vui lòng kiểm tra lại số điện thoại! Số điện thoại phải bắt đầu bằng số 0 và có đúng 10 chữ số.', 'error');
+                                                                            } else if (!isDeliveryAddressValid) {
+                                                                                swal('Lỗi', 'Vui lòng kiểm tra lại địa chỉ! Địa chỉ phải bao gồm số nhà, khu, phố và cách nhau bởi dấu phẩy.', 'error');
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                });
 
         </script>
         <script>

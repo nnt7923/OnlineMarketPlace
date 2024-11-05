@@ -1,52 +1,141 @@
-<%-- 
-    Document   : orderstatus
-    Created on : Nov 1, 2024, 9:48:53 AM
-    Author     : Admin
---%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="currency" uri="/WEB-INF/currency.tld" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Manage Order | Seller</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Main CSS-->
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-        <!-- or -->
-        <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-        <!-- Font-icon css-->
-        <link rel="stylesheet" type="text/css"
-              href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-        <!-- Tải jQuery -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- Tải Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <!-- Tải Bootstrap JS -->
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Order Success</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+        <!-- Icon Font Stylesheet -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="css/style.css" rel="stylesheet">
+
         <style>
+
             body {
-                font-family: Arial, sans-serif;
-                background-color: #f9f9f9;
-                margin: 0;
-                padding: 0;
+                font-family: 'Poppins', sans-serif;
             }
-            .container {
-                display: block;
-                width: 80%;
-                margin: 0 auto;
-                background-color: #fff;
+            .sidebar {
+                padding-top: 100px;
+                height: 200px;
+            }
+            .sidebar a {
+                text-decoration: none;
+                color: #333;
+                display: flex;
+                align-items: center;
+                padding: 10px 15px;
+                border-radius: 5px;
+                transition: background-color 0.3s, color 0.3s;
+                margin-bottom: 10px;
+            }
+            .sidebar a.active {
+                background-color: #f3feec;
+                border: 1px solid #81c408;
+                color: #81c408;
+            }
+            .sidebar a.active i, .sidebar a:hover i {
+                color: #81c408;
+            }
+            .sidebar i {
+                margin-right: 10px;
+                font-size: 1.2em;
+                transition: color 0.3s;
+            }
+            .content {
                 padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .order-history-container {
+                padding: 20px;
+                background-color: #f8f9fa;
+                border-radius: 10px;
+            }
+            .order-history-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .order-history-header .user-info {
+                display: flex;
+                align-items: center;
+            }
+            .order-history-header .user-info img {
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+            .order-history-stats {
+                display: flex;
+                justify-content: space-around;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 10px;
+                margin-bottom: 20px;
+            }
+            .order-history-stats .stat {
+                text-align: center;
+            }
+            .order-history-filter {
+                margin-bottom: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .order-history-filter button {
+                margin-right: 10px;
+            }
+            .order-history-empty {
+                text-align: center;
+                padding: 50px 0;
+            }
+            .order-history-empty img {
+                width: 150px;
+            }
+            .hidden-row {
+                display: none;
+            }
+            .details-container {
+                background-color: #f9f9f9;
+                padding: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                margin-top: 10px;
+            }
+            .details-container p {
+                margin: 5px 0;
+            }
+            .details-container .product-name {
+                font-weight: bold;
+            }
+            .details-container .product-quantity,
+            .details-container .product-price {
+                color: #555;
+            }
+            .details-row td {
+                padding: 0 !important;
             }
             .header {
                 display: flex;
@@ -79,16 +168,6 @@
                 text-align: center;
                 position: relative;
                 flex: 1;
-            }
-            .timeline-item:not(:last-child)::after {
-                content: '';
-                position: absolute;
-                top: 50%;
-                right: -50%;
-                width: 100%;
-                height: 2px;
-                background-color: #28a745;
-                z-index: -1;
             }
             .timeline-item:last-child::after {
                 background-color: #d3d3d3;
@@ -178,7 +257,6 @@
                 font-size: 18px;
             }
             .container-product {
-                width: 80%;
                 margin: 20px auto;
                 border: 1px solid #ddd;
                 padding: 20px;
@@ -317,40 +395,84 @@
                 line-height: 24px;
                 margin-bottom: 0px;
             }
+            .container-note {
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .alert-box {
+                background-color: #fff8e1;
+                border: 1px solid #ffe0b2;
+                padding: 10px 20px;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .alert-box i {
+                color: #ff9800;
+                margin-right: 10px;
+            }
+            .alert-box span {
+                color: #333;
+                font-size: 14px;
+            }
+            .alert-box .amount {
+                color: #e53935;
+                font-weight: bold;
+            }
+            .payment-method {
+                background-color: #fff;
+                border: 1px solid #e0e0e0;
+                padding: 20px;
+                border-radius: 4px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .payment-method .method-title {
+                color: #757575;
+                font-size: 14px;
+            }
+            .payment-method .method-detail {
+                color: #333;
+                font-size: 14px;
+                font-weight: bold;
+            }
         </style>
     </head>
-</head>
+    <body onload="time()" class="app sidebar-mini rtl">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" role="status"></div>
+        </div>
+        <!-- Spinner End -->
 
-<body>
-    <%@include file="includes/head.jsp" %>
-    <div id="wrapper">
-        <%@include file="includes/sidebar.jsp" %>
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <%@include file="includes/topbar.jsp" %>
-                <div class="container-fluid">
-                    <div onload="time()">
+
+        <%@ include file="header.jsp" %>
+        <br/>
+        <br/>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-md-2 sidebar">
+                    <a href="${pageContext.request.contextPath}/home">Home Page</a>
+                    <a href="${pageContext.request.contextPath}/orderhistory">Order History</a>
+                    <a href="${pageContext.request.contextPath}/orderpurchase" class="active">Order Purchase</a>
+                    <!-- Add more links as needed -->
+                </div>
+                <!-- Main Content -->
+                <div class="col-md-10 content">
+                    <div class="container-fluid">
                         <main>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="app-title">
-                                        <ul class="app-breadcrumb breadcrumb">
-                                            <li class="breadcrumb-item"><a href="orderstatus"><b style="font-size: 17px">Order Status</b></a></li>
-                                            <li class="breadcrumb-item"><a href="ordermanagement"><b style="font-size: 17px">Order Management</b></a></li>
-                                            <li class="breadcrumb-item"><a href="ordermanagement"><b style="font-size: 17px">Purchase Order</b></a></li>
-
-                                        </ul>
-                                        <div id="clock"></div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="row">
                                 <!--Right-->
                                 <div class="col-md-12 col-lg-12">
                                     <div class="row">
                                         <div class="tile">
                                             <h3 class="tile-title">Purchase Order</h3>
-                                            <div class="container-fluid">
+                                            <div class="container-fluid" style="padding-top: 70px">
                                                 <c:if test="${orderStatus == 'Cancelled'}">
                                                     <div class="MwCO3u">
                                                         <div class="header">
@@ -361,7 +483,6 @@
                                                 </c:if>
                                                 <c:if test="${orderStatus != 'Cancelled'}">
                                                     <div class="header">
-                                                        <a class="btn btn-warning " data-dismiss="modal" href="ordermanagement">◀ Come Back</a>
                                                         <div class="order-id">Order ID: ${orderDetails[0].order.orderId}</div>
                                                         <div class="order-status">Order in progress</div>
                                                     </div>
@@ -408,23 +529,25 @@
 
 
 
-                                                    <c:if test="${orderStatus == 'Awaiting Confirmation'}">
+                                                    <c:if test="${orderStatus == 'In delivery'}">
                                                         <div class="note">
-                                                            Please carefully check all products in stock before clicking "Confirm Order".
+                                                            Please check the product carefully when opening the package, record the unpacking video to get the earliest support before clicking "Confirm Order".
                                                         </div>
                                                         <div class="actions">
                                                             <button class="confirm quick-confirm" type="button" title="Confirm Order" 
-                                                                    data-id="${orderDetails[0].order.orderId}" data-status-id="2">
+                                                                    data-id="${orderDetails[0].order.orderId}" data-status-id="5">
                                                                 Confirm Order
                                                             </button>
 
-                                                            <button class="contact-seller">Customer Contact</button>
+                                                            <button class="contact-seller" href="tel:${orderDetails[0].order.shipping.phone}" >
+                                                                Shop Contact
+                                                            </button>
                                                         </div>
                                                     </c:if>
-                                                    <c:if test="${orderStatus != 'Awaiting Confirmation'}">
+                                                    <c:if test="${orderStatus != 'In delivery'}">
                                                         <div class="actions">
                                                             <button class="contact-seller" href="tel:${orderDetails[0].order.shipping.phone}" >
-                                                                Customer Contact
+                                                                Shop Contact
                                                             </button>
                                                         </div>
                                                     </c:if>
@@ -507,201 +630,124 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="payment-method">
-                                                        Payment method: ${orderDetails[0].order.payment}
-                                                    </div>
+                                                    <c:if test="${orderDetails[0].order.payment == 'COD'}">
+                                                        <div class="container-note">
+                                                            <div class="alert-box">
+                                                                <i class="fas fa-exclamation-circle"></i>
+                                                                <span>Please pay <span class="amount"><currency:formatCurrency value="${totalMoney}" /></span> upon receipt.</span>
+                                                            </div>
+                                                            <div class="payment-method">
+                                                                <div class="method-title">Payment method: ${orderDetails[0].order.payment}</div>
+                                                            </div>
+                                                        </div>
+                                                    </c:if>
+                                                    <c:if test="${orderDetails[0].order.payment != 'COD'}">
+                                                        <div class="container-note">
+                                                            <div class="payment-method">
+                                                                <div class="method-title">Payment method: ${orderDetails[0].order.payment}</div>
+                                                            </div>
+                                                        </div>
+                                                    </c:if>
 
                                                 </div>
-                                                <a class="btn btn-warning " data-dismiss="modal" href="orderstatus">◀ Come Back</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                         </main>
-
-
-                        <!-- Confirm Order Modal -->
-                        <div class="modal fade" id="confirmOrderModal" tabindex="-1" role="dialog" aria-labelledby="confirmOrderModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="confirmOrderModalLabel">Xác nhận trạng thái đơn hàng</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="confirmOrderForm">
-                                            <input type="hidden" id="orderIdInput" name="orderId" value="${order.orderId}">
-                                            <div class="form-group">
-                                                <label for="statusSelect">Option To Change Order Status</label>
-                                                <select class="form-control" id="statusSelect" name="statusId">
-                                                    <c:forEach var="status" items="${status}">
-                                                        <option value="${status.id}" ${order.status.id == status.id ? 'selected' : ''}>
-                                                            ${status.name}
-                                                        </option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                            <button type="button" class="btn btn-success" id="confirmStatusButton">Confirm</button>
-                                        </form>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/popper.min.js"></script>
-        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/js/main.js"></script>
-        <script src="${pageContext.request.contextPath}/js/plugins/pace.min.js"></script>
-        <script type="text/javascript" src="${pageContext.request.contextPath}/js/plugins/chart.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script type="text/javascript">
-                        document.querySelector('.contact-seller').addEventListener('click', function (e) {
-                            if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                                e.preventDefault();
-                                Swal.fire("Please use a mobile device to initiate a call.");
-                            }
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script type="text/javascript">
+        document.querySelector('.contact-seller').addEventListener('click', function (e) {
+            if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                e.preventDefault();
+                Swal.fire("Please use a mobile device to initiate a call.");
+            }
+        });
+
+        $(document).ready(function () {
+            // Handle Quick Confirm button click
+            $(document).on('click', '.quick-confirm', function () {
+                var orderId = $(this).data('id');
+                var statusId = $(this).data('status-id');
+
+                $.ajax({
+                    url: '/OnlineMarketPlace/orderpurchase',
+                    method: 'GET',
+                    data: {
+                        orderId: orderId,
+                        statusId: statusId
+                    },
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Update Successful!',
+                            text: 'Order status has been updated successfully!',
+                            showConfirmButton: true,
+                            timer: 1500
+                        }).then(() => {
+                            location.reload();  // Reload the page after showing success message
                         });
-
-                        $(document).ready(function () {
-                            // Handle Quick Confirm button click
-                            $(document).on('click', '.quick-confirm', function () {
-                                var orderId = $(this).data('id');
-                                var statusId = $(this).data('status-id');
-
-                                $.ajax({
-                                    url: '/OnlineMarketPlace/seller/orderpurchase',
-                                    method: 'GET',
-                                    data: {
-                                        orderId: orderId,
-                                        statusId: statusId
-                                    },
-                                    success: function (response) {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Update Successful!',
-                                            text: 'Order status has been updated successfully!',
-                                            showConfirmButton: true,
-                                            timer: 1500
-                                        }).then(() => {
-                                            location.reload();  // Reload the page after showing success message
-                                        });
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error('Error updating order status:', error);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Failed!',
-                                            text: 'Failed to update order status!',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        });
-                                    }
-                                });
-                            });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error updating order status:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed!',
+                            text: 'Failed to update order status!',
+                            showConfirmButton: false,
+                            timer: 1500
                         });
+                    }
+                });
+            });
+        });
 
 
 
-                        function setOrderId(orderId, statusId, statusName) {
-                            // Đặt giá trị cho input ẩn
-                            $('#orderIdInput').val(orderId);
+        function setOrderId(orderId, statusId, statusName) {
+            // Đặt giá trị cho input ẩn
+            $('#orderIdInput').val(orderId);
 
-                            // Đặt giá trị cho select với statusId đã chọn
-                            $('#statusSelect').val(statusId); // Chọn trạng thái hiện tại
+            // Đặt giá trị cho select với statusId đã chọn
+            $('#statusSelect').val(statusId); // Chọn trạng thái hiện tại
 
-                            // Kiểm tra giá trị đã nhận
-                            console.log("Order ID:", orderId, "Status ID:", statusId, "Status Name:", statusName);
-                        }
+            // Kiểm tra giá trị đã nhận
+            console.log("Order ID:", orderId, "Status ID:", statusId, "Status Name:", statusName);
+        }
 
-                        $(document).ready(function () {
-                            // Xử lý nút Quick Confirm
-                            $(document).on('click', '.quick-confirm', function () {
-                                var orderId = $(this).data('id');
-                                var statusId = $(this).data('status-id');
+        
+    </script>
+    <%@ include file="footer.jsp" %>
 
-                                $.ajax({
-                                    url: '/OnlineMarketPlace/seller/ordermanagement',
-                                    method: 'GET',
-                                    data: {
-                                        orderId: orderId,
-                                        statusId: statusId
-                                    },
-                                    success: function (response) {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Update Successfully!',
-                                            text: 'Update Order Status Successfully!',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        }).then(() => {
-                                            location.reload();
-                                        });
-                                        $('#confirmOrderModal').modal('hide');
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error('Error updating order status:', error);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Fail!',
-                                            text: 'Update Order Status Failed!',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        });
-                                    }
-                                });
-                            });
-                        });
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
-                        $(document).ready(function () {
-                            $('#confirmStatusButton').on('click', function () {
-                                var orderId = $('#orderIdInput').val();
-                                var statusId = $('#statusSelect').val();
 
-                                $.ajax({
-                                    url: '/OnlineMarketPlace/seller/ordermanagement',
-                                    method: 'GET',
-                                    data: {
-                                        orderId: orderId,
-                                        statusId: statusId
-                                    },
-                                    success: function (response) {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Update Successfully!',
-                                            text: 'Update Order Status Successfully!',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        }).then(() => {
-                                            location.reload();
-                                        });
-                                        $('#confirmOrderModal').modal('hide');
-                                    },
-                                    error: function (xhr, status, error) {
-                                        console.error('Error updating order status:', error);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Fail!',
-                                            text: 'Update Order Status Failed!',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        });
-                                    }
-                                });
-                            });
-                        });
-        </script>
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
 </body>
-
 </html>

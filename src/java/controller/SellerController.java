@@ -47,40 +47,39 @@ public class SellerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String path = request.getServletPath();
-        switch (path) {
-            case "/seller/dashboard": {
-                try {
+        try {
+            String path = request.getServletPath();
+            switch (path) {
+                case "/seller/dashboard":
                     showDashboard(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(SellerController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            break;
+                    break;
 
-            case "/seller/profile":
-                showProfile(request, response);
-                break;
-            case "/seller/edit":
-                editProfile(request, response);
-                break;
-            case "/seller/update":
-                updateProfile(request, response);
-                break;
-            case "/seller/logout":  // Fixed typo in logout path
-                logout(request, response);
-                break;
-            case "/seller/orderstatus":
-                showOrderStatus(request, response);
-                break;
-            case "/seller/ordermanagement":
-                showOrderManagement(request, response);
-                break;
-            case "/seller/orderpurchase":
-                showPurchaseOrder(request, response);
-                break;
-            default:
-                response.sendRedirect("./dashboard.jsp");
+                case "/seller/profile":
+                    showProfile(request, response);
+                    break;
+                case "/seller/edit":
+                    editProfile(request, response);
+                    break;
+                case "/seller/update":
+                    updateProfile(request, response);
+                    break;
+                case "/seller/logout":  // Fixed typo in logout path
+                    logout(request, response);
+                    break;
+                case "/seller/orderstatus":
+                    showOrderStatus(request, response);
+                    break;
+                case "/seller/ordermanagement":
+                    showOrderManagement(request, response);
+                    break;
+                case "/seller/orderpurchase":
+                    showPurchaseOrder(request, response);
+                    break;
+                default:
+                    response.sendRedirect("./dashboard.jsp");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SellerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -99,7 +98,7 @@ public class SellerController extends HttpServlet {
     }
 
     private void showOrderStatus(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("account");
 
@@ -109,7 +108,8 @@ public class SellerController extends HttpServlet {
             user.setSeller(seller);
 
             int sellerId = user.getSeller().getSellerId();
-
+            seller = sellerDAO.getSellerBySellerId(sellerId);
+            request.setAttribute("seller", seller);
             // Default to the first page if "page" parameter is missing or invalid
             int pageIndex = 1;
             String pageParam = request.getParameter("page");
@@ -157,7 +157,7 @@ public class SellerController extends HttpServlet {
     }
 
     private void showOrderManagement(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("account");
 
@@ -167,7 +167,8 @@ public class SellerController extends HttpServlet {
             user.setSeller(seller);
 
             int sellerId = user.getSeller().getSellerId();
-
+            seller = sellerDAO.getSellerBySellerId(sellerId);
+            request.setAttribute("seller", seller);
             int pageIndex = 1;
             String pageParam = request.getParameter("page");
             if (pageParam != null) {
@@ -204,15 +205,19 @@ public class SellerController extends HttpServlet {
                 String searchQuery = request.getParameter("searchQuery");
                 List<Order> orderList;
                 if (statusId == 0) {
-                    orderList = sellerDAO.pagingOrders(sellerId, pageIndex); // Get all orders
+                    orderList = sellerDAO.pagingOrders(sellerId, pageIndex);
                 } else {
-                    orderList = sellerDAO.getFilterByStatus(statusId); // Get orders filtered by statusId
+                    orderList = sellerDAO.getFilterByStatus(statusId);
                 }
 
                 int totalOrders;
                 // N?u có tìm ki?m
                 if (searchQuery != null && !searchQuery.trim().isEmpty()) {
-                    orderList = sellerDAO.searchOrdersByStatus(searchQuery,statusId);
+                    if (statusId == 0) {
+                        orderList = sellerDAO.searchOrders(searchQuery);
+                    } else {
+                        orderList = sellerDAO.searchOrdersByStatus(searchQuery, statusId);
+                    }
                     totalOrders = orderList.size();
                 } else {
                     // N?u không có tìm ki?m
@@ -247,12 +252,17 @@ public class SellerController extends HttpServlet {
     }
 
     private void showPurchaseOrder(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("account");
 
         if (user != null) {
             SellerDAO sellerDAO = new SellerDAO();
+            Seller seller = sellerDAO.getSellerByAccountId(user.getAccountId());
+            user.setSeller(seller);
+            int sellerId = user.getSeller().getSellerId();
+            seller = sellerDAO.getSellerBySellerId(sellerId);
+            request.setAttribute("seller", seller);
             try {
                 String orderIdParam = request.getParameter("orderId");
                 String statusIdParam = request.getParameter("statusId");
@@ -305,9 +315,18 @@ public class SellerController extends HttpServlet {
     }
 
     private void showProfile(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession(false);
         Account account = null;
+
+        Account user = (Account) session.getAttribute("account");
+        SellerDAO sellerDAO = new SellerDAO();
+        Seller seller = sellerDAO.getSellerByAccountId(user.getAccountId());
+        user.setSeller(seller);
+        int sellerId = user.getSeller().getSellerId();
+        seller = sellerDAO.getSellerBySellerId(sellerId);
+
+        request.setAttribute("seller", seller);
 
         if (session != null) {
             account = (Account) session.getAttribute("account");
@@ -322,8 +341,17 @@ public class SellerController extends HttpServlet {
     }
 
     private void editProfile(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession(false);
+
+        Account user = (Account) session.getAttribute("account");
+        SellerDAO sellerDAO = new SellerDAO();
+        Seller seller = sellerDAO.getSellerByAccountId(user.getAccountId());
+        user.setSeller(seller);
+        int sellerId = user.getSeller().getSellerId();
+        seller = sellerDAO.getSellerBySellerId(sellerId);
+
+        request.setAttribute("seller", seller);
         Account account = null;
 
         if (session != null) {
@@ -349,6 +377,13 @@ public class SellerController extends HttpServlet {
             HttpSession session = request.getSession();
             Account account = (Account) session.getAttribute("account");
 
+            SellerDAO sellerDAO = new SellerDAO();
+            Seller seller = sellerDAO.getSellerByAccountId(account.getAccountId());
+            account.setSeller(seller);
+            int sellerId = account.getSeller().getSellerId();
+            seller = sellerDAO.getSellerBySellerId(sellerId);
+
+            request.setAttribute("seller", seller);
             if (account != null) {
                 account.setUsername(username);
                 account.setEmail(email);
@@ -378,21 +413,25 @@ public class SellerController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String path = request.getServletPath();
-        PrintWriter out = response.getWriter();
-        out.println(path); // B?n có th? b? dòng này khi không c?n ghi log
+        try {
+            String path = request.getServletPath();
+            PrintWriter out = response.getWriter();
+            out.println(path); // B?n có th? b? dòng này khi không c?n ghi log
 
-        switch (path) {
-            case "/seller/update":
-                updateProfile(request, response);
-                break;
+            switch (path) {
+                case "/seller/update":
+                    updateProfile(request, response);
+                    break;
 
-            case "/seller/ordermanagement":
-                showOrderManagement(request, response);
-                break;
-            default:
-                response.sendRedirect("./dashboard.jsp");
-                break;
+                case "/seller/ordermanagement":
+                    showOrderManagement(request, response);
+                    break;
+                default:
+                    response.sendRedirect("./dashboard.jsp");
+                    break;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SellerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

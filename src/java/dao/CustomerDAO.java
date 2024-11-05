@@ -65,7 +65,7 @@ public class CustomerDAO extends DBContext {
 
         try (Connection conn = new DBContext().conn; PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, accountId); 
+            ps.setInt(1, accountId);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -84,5 +84,16 @@ public class CustomerDAO extends DBContext {
         return customer;
     }
 
-    
+    public void addCustomer(Customer customer) throws SQLException {
+        String sql = "INSERT INTO Customer (customer_name, account_id) VALUES (?, ?)";
+        try (PreparedStatement st = new DBContext().conn.prepareStatement(sql)) {
+            st.setString(1, customer.getCustomerName()); // Set customer_name from Google account
+            st.setInt(2, customer.getAccountId()); // Set account_id from Account table
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
 }
