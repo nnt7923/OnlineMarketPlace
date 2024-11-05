@@ -44,7 +44,42 @@
         <servlet-name>FeedbackController</servlet-name>
         <servlet-class>controller.FeedbackController</servlet-class>
     </servlet>
-  
+    <servlet>
+        <servlet-name>OrderStatusController</servlet-name>
+        <servlet-class>controller.OrderStatusController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddBlogs</servlet-name>
+        <servlet-class>controller.news.AddBlogs</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>eleteBlogs</servlet-name>
+        <servlet-class>controller.news.DeleteBlogs</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HomeNews</servlet-name>
+        <servlet-class>controller.news.HomeNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewsController</servlet-name>
+        <servlet-class>controller.news.NewsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListNews</servlet-name>
+        <servlet-class>controller.news.ListNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Top10Blogs</servlet-name>
+        <servlet-class>controller.news.Top10Blogs</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateBlogs</servlet-name>
+        <servlet-class>controller.news.UpdateBlogs</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderPurchaseController</servlet-name>
+        <servlet-class>controller.OrderPurchaseController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -89,5 +124,40 @@
         <servlet-name>FeedbackController</servlet-name>
         <url-pattern>/feedbacks</url-pattern>
     </servlet-mapping>
-  
+    <servlet-mapping>
+        <servlet-name>OrderStatusController</servlet-name>
+        <url-pattern>/orderstatus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBlogs</servlet-name>
+        <url-pattern>/addblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>eleteBlogs</servlet-name>
+        <url-pattern>/deleteblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeNews</servlet-name>
+        <url-pattern>/homenews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewsController</servlet-name>
+        <url-pattern>/news</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListNews</servlet-name>
+        <url-pattern>/listnews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Top10Blogs</servlet-name>
+        <url-pattern>/top10blogs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateBlogs</servlet-name>
+        <url-pattern>/updateblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderPurchaseController</servlet-name>
+        <url-pattern>/orderpurchase</url-pattern>
+    </servlet-mapping>
 </web-app>

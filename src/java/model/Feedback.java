@@ -1,21 +1,26 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Feedback {
-    private int feedback_id;     
-    private int account_id;       
-    private int product_id;          
-    private int rating;              
-    private Date create_date;        
-    private int customer_id;         
-    private String feedback_content;  
+    private int feedback_id;
+    private int account_id;
+    private int product_id;
+    private int rating;
+    private Date create_date;
+    private int customer_id;
+    private String feedback_content;
+    private List<FeedbackReply> replies; // List to store replies
 
-    // Constructor không tham s?
+    // No-argument constructor
     public Feedback() {
+        this.replies = new ArrayList<>(); // Initialize replies as empty list
     }
+    
 
-    // Constructor có tham s?
+    // Constructor with arguments
     public Feedback(int feedback_id, int account_id, int product_id, int rating, Date create_date, int customer_id, String feedback_content) {
         this.feedback_id = feedback_id;
         this.account_id = account_id;
@@ -24,9 +29,10 @@ public class Feedback {
         this.create_date = create_date;
         this.customer_id = customer_id;
         this.feedback_content = feedback_content;
+        this.replies = new ArrayList<>(); // Initialize replies as empty list
     }
-
-    // Getter và Setter cho các thu?c tính
+    
+    // Getters and setters for all fields
     public int getFeedback_id() {
         return feedback_id;
     }
@@ -81,5 +87,14 @@ public class Feedback {
 
     public void setFeedback_content(String feedback_content) {
         this.feedback_content = feedback_content;
+    }
+
+    // Getter and setter for replies
+    public List<FeedbackReply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<FeedbackReply> replies) {
+        this.replies = (replies != null) ? replies : new ArrayList<>(); // Ensure non-null list
     }
 }

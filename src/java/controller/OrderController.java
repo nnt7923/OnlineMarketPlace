@@ -4,6 +4,7 @@ import dao.CartDAO;
 import dao.OrderDAO;
 import dao.ShippingDAO;
 import dao.CustomerDAO;
+import dao.SellerDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,6 +24,7 @@ import model.CartDetail;
 import model.Customer;
 import model.Order;
 import model.OrderDetail;
+import model.Seller;
 import model.Shipping;
 
 @WebServlet("/order")
@@ -58,6 +60,7 @@ public class OrderController extends HttpServlet {
         order.setOrdertime(new Date());
         order.setNote(note);
 
+        SellerDAO sellerDAO = new SellerDAO();
         Cart cart = (Cart) session.getAttribute("cart");
         if (cart != null) {
             List<OrderDetail> orderDetails = new ArrayList<>();
@@ -68,6 +71,17 @@ public class OrderController extends HttpServlet {
                 orderDetail.setProductPrice(cartDetail.getPd().getPriceDiscount() > 0 ? cartDetail.getPd().getPriceDiscount() : cartDetail.getPd().getProduct().getPrice());
                 orderDetail.setQuantity(cartDetail.getQuantity());
                 orderDetails.add(orderDetail);
+
+                // Retrieve the seller for each product in the cart (assuming each product has a seller)
+                Seller seller = sellerDAO.getSellerByProductId(cartDetail.getPd().getProduct().getProductId());
+                if (seller != null) {
+                    order.setSeller(seller);
+                    break;
+                }
+                if (order.getSeller() == null) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No seller associated with the products in the cart.");
+                    return;
+                }
             }
             order.setOrderDetail(orderDetails);
         }
@@ -83,7 +97,6 @@ public class OrderController extends HttpServlet {
 
             // X? lý thanh toán COD
             if ("COD".equals(paymentMethod)) {
-                // Xóa gi? hàng sau khi ??t hàng thành công
                 cartDB.clearCart(user.getAccountId());
                 session.removeAttribute("cart");
 

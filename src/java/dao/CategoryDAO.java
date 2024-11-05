@@ -16,7 +16,7 @@ public class CategoryDAO extends DBContext {
         String query = "SELECT c.cid, c.cname, COUNT(p.product_id) AS productCount "
                 + "FROM Category c "
                 + "LEFT JOIN Product p ON c.cid = p.cid "
-                 + "LEFT JOIN ProductDetails pd ON p.product_id=pd.product_id "
+                
                 + "GROUP BY c.cid, c.cname";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
@@ -32,6 +32,21 @@ public class CategoryDAO extends DBContext {
             e.printStackTrace();
         }
         return categories;
+    }
+    
+    public int getCategoryCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM [Category]";
+        try (
+             PreparedStatement pre = conn.prepareStatement(sql);
+             ResultSet rs = pre.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
     }
 
     // Add new Category

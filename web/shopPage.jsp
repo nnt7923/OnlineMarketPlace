@@ -273,11 +273,12 @@
 
                     <div class="shop-info">
                         <h2>Store Name</h2>
-                        <p>Online 10 Phút Trước</p>
+                        <p></p>
 
                         <div class="shop-actions">
                             <a href="#" class="btn btn-chat">Chat Ngay</a>
-                            <a href="#" class="btn btn-view-shop">Xem Shop</a>
+                            <a href="${pageContext.request.contextPath}/shop?sid=${productDetail.product.seller_id}" class="btn btn-view-shop">Xem Shop</a>
+                            <a href="${productDetail.product.getSellerId()}">test</a>
                         </div>
 
 
@@ -333,7 +334,7 @@
                                         <div class="mb-3">
                                             <h4>Categories</h4>
                                             <ul class="list-unstyled fruite-categorie">
-                                                
+                                                    
                                                 <c:forEach items="${categories}" var="c">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
