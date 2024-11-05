@@ -13,7 +13,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
         <!-- SweetAlert from CDN -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>-->
+        <!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>-->
         <link rel="stylesheet" href="css/login.css">
     </head>
     <style>
@@ -264,6 +264,30 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             border-radius: 5px;
             margin-top: 10px;
         }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .home-button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .home-button:hover {
+            background-color: darkgreen;
+        }
+
     </style>
     <body>
 
@@ -277,7 +301,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: '<%= successMessage %>',
+                text: '<%= successMessage%>',
                 imageUrl: 'img/siu.jpeg',
                 imageWidth: 400,
                 imageHeight: 200,
@@ -306,7 +330,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: '<%= errorMessage %>',
+                text: '<%= errorMessage%>',
                 showClass: {
                     popup: 'animate__animated animate__fadeInDown',
                     backdrop: 'animate__animated animate__fadeIn'
@@ -321,6 +345,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <%
             }
         %>
+
+        <div class="home-button">
+            <a href="${pageContext.request.contextPath}/home">HOME PAGE</a>
+        </div>
+
 
         <div class="container" id="container">
             <!-- Registration Form -->
@@ -337,15 +366,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <!-- Retain form values after error -->
                     <input type="text" name="username" placeholder="Username" value="<%= request.getAttribute("username") != null ? request.getAttribute("username") : ""%>" required />
                     <input type="password" name="password" placeholder="Password" required />
-                    <input type="email" name="email" placeholder="Email" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>" required />
-                    <input type="text" name="phone" placeholder="Phone" value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : "" %>" required />
-                    <input type="text" name="address" placeholder="Address" value="<%= request.getAttribute("address") != null ? request.getAttribute("address") : "" %>" required />
+                    <input type="email" name="email" placeholder="Email" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : ""%>" required />
+                    <input type="text" name="phone" placeholder="Phone" value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : ""%>" required />
+                    <input type="text" name="address" placeholder="Address" value="<%= request.getAttribute("address") != null ? request.getAttribute("adress") : ""%>" required />
                     <input type="hidden" name="flag" value="register" />
 
                     <!-- Handle role selection -->
                     <select name="role" id="role" required>
-                        <option value="3" <%= request.getAttribute("role") != null && request.getAttribute("role").equals(3) ? "selected" : "" %>>Customer</option>
-                        <option value="2" <%= request.getAttribute("role") != null && request.getAttribute("role").equals(2) ? "selected" : "" %>>Seller</option>
+                        <option value="3" <%= request.getAttribute("role") != null && request.getAttribute("role").equals(3) ? "selected" : ""%>>Customer</option>
+                        <option value="2" <%= request.getAttribute("role") != null && request.getAttribute("role").equals(2) ? "selected" : ""%>>Seller</option>
                     </select><br>
 
                     <button>Register</button>
@@ -364,7 +393,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <span>or use your account</span>
 
                     <!-- Retain email after login error -->
-                    <input type="email" name="email" placeholder="Enter email" maxlength="30" value="<%= request.getAttribute("emailLogin") != null ? request.getAttribute("emailLogin") : "" %>" required="required" autocomplete="off" />
+                    <input type="email" name="email" placeholder="Enter email" maxlength="30" value="<%= request.getAttribute("emailLogin") != null ? request.getAttribute("emailLogin") : ""%>" required="required" autocomplete="off" />
                     <input type="password" name="password" placeholder="Enter password" maxlength="16" required="required" autocomplete="off" />
 
                     <a href="#" id="forgotPasswordLink">Forgot your password?</a>

@@ -3,8 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/web/seller/feedback_product_list.jsp</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/src/java/context/DBContext.java</file>
-            <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/web/seller/feedbacks_product_list.jsp</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/src/java/dao/FeedbackDAO.java</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/web/seller/includes/sidebar.jsp</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/src/java/controller/ProductDetailsController.java</file>
@@ -12,10 +12,10 @@
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/src/java/dao/FeedbackReplyDAO.java</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/src/java/model/FeedbackReply.java</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/src/java/controller/FeedbackController.java</file>
-            <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/web/seller/feedbacks_detail.jsp</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/web/productdetails.jsp</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/src/java/model/Feedback.java</file>
             <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/src/java/controller/FeedbackReplyController.java</file>
+            <file>file:/C:/Users/admin/Documents/SWP291k5/OnlineMarketPlace/web/seller/feedback_details.jsp</file>
         </group>
     </open-files>
 </project-private>

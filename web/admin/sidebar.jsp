@@ -46,12 +46,7 @@
             <span>Brand</span>
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-            <i class="fas fa-pencil-ruler"></i>
-            <span>Report</span>
-        </a>
-    </li>
+    
     <!--     Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

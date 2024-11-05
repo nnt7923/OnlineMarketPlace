@@ -33,6 +33,21 @@ public class CategoryDAO extends DBContext {
         }
         return categories;
     }
+    
+    public int getCategoryCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM [Category]";
+        try (
+             PreparedStatement pre = conn.prepareStatement(sql);
+             ResultSet rs = pre.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
 
     // Add new Category
     public boolean addCategory(Category category) {

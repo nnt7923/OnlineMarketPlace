@@ -41,6 +41,21 @@ public class NewsDAO extends DBContext {
             Logger.getLogger(NewsDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public int getNewsCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM [News]";
+        try (
+             PreparedStatement pre = conn.prepareStatement(sql);
+             ResultSet rs = pre.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
 
     public News selectBlog(int blogId) {
         News blog = null;

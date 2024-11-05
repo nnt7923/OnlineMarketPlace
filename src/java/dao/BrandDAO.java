@@ -19,6 +19,21 @@ public class BrandDAO extends DBContext {
         }
         return false;
     }
+    
+    public int getBrandCount() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM [Brand]";
+        try (
+             PreparedStatement pre = conn.prepareStatement(sql);
+             ResultSet rs = pre.executeQuery()) {
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count;
+    }
 
     // Get Brand by ID
     public Brand getBrandById(int id) {
