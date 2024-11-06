@@ -14,6 +14,7 @@
         <!-- SweetAlert from CDN -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/ckeditor/ckeditor.js"></script>
     <title>Add Product Detail</title>
     <style>
         .image-container { margin-top: 10px; }
@@ -88,6 +89,7 @@
                                 <div class="form-group">
                                     <label for="pddescribe">Description:</label>
                                     <textarea name="pddescribe" id="pddescribe" class="form-control" rows="3" required></textarea>
+                                    <script>CKEDITOR.replace('pddescribe');</script>
                                 </div>
 
                                 <div class="form-group">

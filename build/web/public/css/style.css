@@ -17,17 +17,16 @@
     left: auto; /* Căn trái */
     right: auto;
     bottom: 0; /* Căn đáy */
-    width: 100%; /* Chiếm toàn bộ chiều rộng */
-    min-width: 300px; /* Đặt chiều rộng tối thiểu */
-    background-color: #ffffff; /* Màu nền trắng */
+    width: 100%; /* Chiếm toàn bộ chi�?u rộng */
+    min-width: 300px; /* �?ặt chi�?u rộng tối thiểu */
+    background-color: #ffffff; /* Màu n�?n trắng */
     padding: 10px 0; /* Thêm khoảng đệm trên và dưới */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Bóng đổ cho footer */
 }
 
 .container {
-    display: flex; /* Sử dụng flexbox */
     justify-content: center; /* Căn giữa nội dung */
-    align-items: center; /* Căn giữa theo chiều dọc */
+    align-items: center; /* Căn giữa theo chi�?u d�?c */
 }
 
 .copyright {

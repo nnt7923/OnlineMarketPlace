@@ -129,13 +129,7 @@
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <label class="labels">User Name</label>
-                                        <input type="text" class="form-control" id="username" name="username" value="${account.username}" disabled> 
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <label class="labels">Full Name</label>
-                                        <input type="text" class="form-control" id="fullName" name="fullName" value="${customer != null ? customer.customerName : ''}" disabled> 
+                                        <input type="text" class="form-control" id="username" placeholder="User Name: Not Updated" name="username" value="${account.username}" disabled> 
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -173,13 +167,16 @@
                                 <div class="col-md-12 mt-5 text-center">
                                     <button type="button" class="btn btn-success profile-button" id="saveButton" onclick="saveProfile()" style="display: none;">Save</button>
                                 </div>
+                                <div class="col-md-12 mt-5 text-center">
+                                    <a href="changePassword.jsp" class="btn btn-primary profile-button" style="color: white;">Change Password</a>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-                                    
+
         <script>
             function enableEdit() {
                 // Cho phép chỉnh sửa các trường input và select

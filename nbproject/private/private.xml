@@ -3,11 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/wjbunhi/OnlineMarketPlace/src/java/context/DBContext.java</file>
-            <file>file:/D:/wjbunhi/OnlineMarketPlace/src/java/dao/ProductDAO.java</file>
-            <file>file:/D:/wjbunhi/OnlineMarketPlace/web/seller/editProduct.jsp</file>
-            <file>file:/D:/wjbunhi/OnlineMarketPlace/src/java/controller/ProductController.java</file>
-            <file>file:/D:/wjbunhi/OnlineMarketPlace/web/seller/editProductDetail.jsp</file>
+            <file>file:/E:/Project/OnlineMarketPlace/src/java/context/DBContext.java</file>
         </group>
     </open-files>
 </project-private>

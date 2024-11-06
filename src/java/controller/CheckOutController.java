@@ -3,6 +3,7 @@ package controller;
 import dao.AccountDAO;
 import dao.OrderDAO;
 import dao.ProductDetailsDAO;
+import dao.SellerDAO;
 import dao.ShippingDAO;
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +24,7 @@ import model.CartDetail;
 import model.Order;
 import model.OrderDetail;
 import model.ProductDetails;
+import model.Seller;
 import model.Shipping;
 import model.Status;
 
@@ -56,7 +58,7 @@ public class CheckOutController extends HttpServlet {
         session.setAttribute("cart", cart);
         session.setAttribute("totalMoney", totalMoney);
         session.setAttribute("listItemsInCart", cart.getItems());
-        
+
         request.setAttribute("listDC", listDC);
         request.setAttribute("cart", cart);
         request.setAttribute("totalMoney", totalMoney);
@@ -78,24 +80,20 @@ public class CheckOutController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processOrder(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(CheckOutController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processOrder(request, response);
     }
 
-    protected void processOrder(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+    public void processOrder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
-
         Account account = (Account) session.getAttribute("account");
+
         if (account == null) {
             response.sendRedirect("login");
             return;
         }
 
-        // L?y thông tin t? form
+        // L?y thông tin ??n hàng t? form
         String recipientName = request.getParameter("recipientName");
         String deliveryAddress = request.getParameter("deliveryAddress");
         String deliveryPhone = request.getParameter("deliveryPhone");
@@ -108,7 +106,7 @@ public class CheckOutController extends HttpServlet {
             return;
         }
 
-        // T?o ??i t??ng ??n hàng và thêm thông tin
+        // Kh?i t?o Order
         Order order = new Order();
         order.setCustomer(account.getCustomer());
         order.setTotalPrice(totalAmount);
@@ -120,14 +118,20 @@ public class CheckOutController extends HttpServlet {
         shipping.setPhone(deliveryPhone);
         shipping.setAddress(deliveryAddress);
         shipping.setStatus("Pending");
-
-        // Ánh x? shipping_id vào ??i t??ng Order
         order.setShipping(shipping);
 
-        // L?u thông tin ??n hàng vào b?ng Orders
-        OrderDAO orderDAO = new OrderDAO();
-        int orderId = orderDAO.insertOrder(order);
-        // L?u thông tin chi ti?t ??n hàng
+        // L?y Seller t? s?n ph?m trong gi? hàng
+        SellerDAO sellerDAO = new SellerDAO();
+
+        for (CartDetail cartDetail : cart.getItems()) {
+            // L?y seller d?a trên product_id c?a s?n ph?m trong CartDetail
+            Seller seller = sellerDAO.getSellerByProductId(cartDetail.getPd().getProduct().getProductId());
+            if (seller != null) {
+                order.setSeller(seller); // Gán Seller cho Order
+                break; // D?ng l?i khi tìm th?y Seller
+            }
+        }
+        // Gán các chi ti?t ??n hàng
         List<OrderDetail> orderDetails = new ArrayList<>();
         for (CartDetail cartDetail : cart.getItems()) {
             OrderDetail orderDetail = new OrderDetail();
@@ -138,6 +142,10 @@ public class CheckOutController extends HttpServlet {
             orderDetails.add(orderDetail);
         }
         order.setOrderDetail(orderDetails);
+
+        // G?i ph??ng th?c insertOrder ?? l?u ??n hàng vào c? s? d? li?u
+        OrderDAO orderDAO = new OrderDAO();
+        int orderId = orderDAO.insertOrder(order);
 
         if (orderId != -1) {
             cart.clear();

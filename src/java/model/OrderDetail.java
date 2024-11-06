@@ -6,18 +6,21 @@ public class OrderDetail {
     private String productName;
     private double productPrice;
     private int quantity;
-
+    private Order order;
+    private ProductDetails productdetail;
     // Getters và Setters
 
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderId, int pdId, String productName, double productPrice, int quantity) {
+    public OrderDetail(int orderId, int pdId, String productName, double productPrice, int quantity, Order order, ProductDetails productdetail) {
         this.orderId = orderId;
         this.pdId = pdId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.quantity = quantity;
+        this.order = order;
+        this.productdetail = productdetail;
     }
 
     public int getOrderId() {
@@ -44,7 +47,6 @@ public class OrderDetail {
         this.productName = productName;
     }
 
-    
     public double getProductPrice() {
         return productPrice;
     }
@@ -61,9 +63,26 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    @Override
-    public String toString() {
-        return "OrderDetail{" + "orderId=" + orderId + ", pdId=" + pdId + ", productName=" + productName + ", productPrice=" + productPrice + ", quantity=" + quantity + '}';
+    public Order getOrder() {
+        return order;
     }
 
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public ProductDetails getProductdetail() {
+        return productdetail;
+    }
+
+    public void setProductdetail(ProductDetails productdetail) {
+        this.productdetail = productdetail;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" + "orderId=" + orderId + ", pdId=" + pdId + ", productName=" + productName + ", productPrice=" + productPrice + ", quantity=" + quantity + ", order=" + order + ", productdetail=" + productdetail + '}';
+    }
+
+    
 }
