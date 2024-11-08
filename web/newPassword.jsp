@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="home-guest/favicon.png">
     <title>New Password</title>
-    
     <style>
         body {
             background: linear-gradient(135deg, #30BD36, #5A84E6);
