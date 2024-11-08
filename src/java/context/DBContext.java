@@ -26,7 +26,6 @@ public class DBContext {
             ex.printStackTrace();
         }
     }
-
     
     public DBContext() {
         this("jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=mk9",
