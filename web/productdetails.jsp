@@ -9,7 +9,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en">
 
-    
     <head>
         <meta charset="utf-8">
         <title>Little UK - Shop Online</title>
