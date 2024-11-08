@@ -4,7 +4,6 @@
     Author     : Admin
 --%>
 
-
 <%@ taglib prefix="currency" uri="/WEB-INF/currency.tld" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
