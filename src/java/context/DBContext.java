@@ -26,7 +26,7 @@ public class DBContext {
             ex.printStackTrace();
         }
     }
-
+    
     public DBContext() {
         this("jdbc:sqlserver://localhost:1433;databaseName=mk12;encrypt=true;trustServerCertificate=true",
                 "khanhduy583","sa");

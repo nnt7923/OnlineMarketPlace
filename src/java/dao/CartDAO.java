@@ -172,7 +172,7 @@ public class CartDAO extends DBContext {
 
     public void insertCart(Cart cart) {
         try {
-            String sql = "INSERT INTO Cart (aid) VALUES (?)";
+            String sql = "INSERT INTO Cart (account_id) VALUES (?)";
             PreparedStatement ps = new DBContext().conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, cart.getAccount().getAccountId());
             ps.executeUpdate();

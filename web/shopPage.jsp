@@ -204,15 +204,8 @@
                             <a href="home" class="nav-item nav-link ">Home</a>
                             <a href="shop" class="nav-item nav-link active" >Shop</a>
                             <!--                            <a href="shop-detail.jsp" class="nav-item nav-link">Shop Detail</a>-->
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                                    <a href="cart.jsp" class="dropdown-item">Cart</a>
-                                    <a href="checkout.jsp" class="dropdown-item">Checkout</a>
-
-                                </div>
-                            </div>
-
+                            <a href="news" class="nav-item nav-link">News</a>
+                            <a href="VoucherController?service=listAllVoucher" class="nav-item nav-link">Voucher</a>
                         </div>
                         <div class="d-flex m-3 me-0">
 
@@ -268,48 +261,20 @@
         <!-- Fruits Shop Start -->
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
-                <body>
-                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg">
-                        <div class="flex items-center">
-                            <img alt="Store logo" class="w-20 h-20 rounded-full" height="80" src="./images/${seller.image}" width="80"/>
-                            <div class="ml-4">
-                                <div class="text-lg font-semibold">
-                                    ${seller.storeName}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            <div class="flex items-center">
-                                
-                            </div>
-                        </div>
-                        <div class="ml-8">
-                            <div class="flex space-x-8">
-                                
-                                
-                                <div class="text-center">
-                                    <div class="text-gray-500">
-                                        Tham Gia
-                                    </div>
-                                    <div class="text-red-600">
-                                        ${seller.joinDate}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex space-x-8 mt-2">
-                                <div class="text-center">
-                                    <div class="text-gray-500">
-                                        Sản Phẩm
-                                    </div>
-                                    <div class="text-red-600">
-                                        ${totalProducts}
-                                    </div>
-                                </div>
-                            </div>
+                <div class="shop-container">
+                    <img src="https://via.placeholder.com/80" alt="Ensure Gold" class="shop-logo">
+
+                    <div class="shop-info">
+                        <h2>${seller.storeName}</h2>
+                        <p></p>
+                        <div class="shop-actions">
                         </div>
                     </div>
-                </body>
-
+                    <div class="shop-stats">                     
+                        <div>Sản Phẩm <span>${totalProducts}</span></div>
+                        <div>Tham Gia <span>${seller.joinDate}</span></div>
+                    </div>
+                </div>
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="row g-4">
@@ -358,15 +323,13 @@
                                                 <c:forEach items="${categories}" var="c">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="${pageContext.request.contextPath}/shop?cid=${c.cid}">
+                                                            <a href="${pageContext.request.contextPath}/shop?cid=${c.cid}">  
                                                                 <i class="fas fa-apple-alt me-2"></i>${c.cname}
                                                             </a>
                                                             <span>(${c.productCount})</span>
                                                         </div>
                                                     </li>
                                                 </c:forEach>
-
-
                                             </ul>
 
 
@@ -550,4 +513,3 @@
 
     </body>
 </html>
-

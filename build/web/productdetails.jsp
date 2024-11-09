@@ -30,6 +30,8 @@
         <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -357,6 +359,11 @@
                 width: 100%; /* Tự điều chỉnh theo tỷ lệ của khung chứa nhưng không vượt quá kích thước tối đa */
                 height: auto; /* Giữ tỷ lệ */
             }
+            .blog-container {
+                font-family: 'Roboto', sans-serif;
+                color: #333;
+                line-height: 1.6;
+            }
         </style>
 
     </head>
@@ -505,7 +512,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div id="tailwind-container"></div>
 
                             <body>
                                 <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg">
@@ -589,56 +596,7 @@
 
                                 <div class="tab-content mb-5">
                                     <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-                                        <p>The generated Lorem Ipsum is therefore always free from repetition injected humour, or non-characteristic words etc.
-                                            Susp endisse ultricies nisi vel quam suscipit </p>
-                                        <p>Sabertooth peacock flounder; chain pickerel hatchetfish, pencilfish snailfish filefish Antarctic
-                                            icefish goldeye aholehole trumpetfish pilot fish airbreathing catfish, electric ray sweeper.</p>
-                                        <div class="px-2">
-                                            <div class="row g-4">
-                                                <div class="col-6">
-                                                    <div class="row bg-light align-items-center text-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Weight</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">1 kg</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row text-center align-items-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Country of Origin</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Agro Farm</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row bg-light text-center align-items-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Quality</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Organic</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row text-center align-items-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Сheck</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Healthy</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row bg-light text-center align-items-center justify-content-center py-2">
-                                                        <div class="col-6">
-                                                            <p class="mb-0">Min Weight</p>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <p class="mb-0">250 Kg</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <p class="blog-container">${productDetail.describe}</p>
                                     </div>
                                     <div class="tab-pane" id="nav-reviews" role="tabpanel" aria-labelledby="nav-reviews-tab">
                                         <h5 class="mb-3">Add a Review</h5>
@@ -710,196 +668,70 @@
 
                                         </div>                
                                     </div>
-
-
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-xl-3">
-                        <div class="row g-4 fruite">
-                            <div class="col-lg-12">
-                                <div class="input-group w-100 mx-auto d-flex mb-4">
-                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                                </div>
-                                <div class="mb-4">
-                                    <h4>Categories</h4>
-                                    <ul class="list-unstyled fruite-categorie">
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
-                                                <span>(3)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Oranges</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Strawbery</a>
-                                                <span>(2)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Banana</a>
-                                                <span>(8)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Pumpkin</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <h4 class="mb-4">Featured products</h4>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-1.jpg" class="img-fluid rounded" alt="Image">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-2.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded" style="width: 100px; height: 100px;">
-                                        <img src="img/featur-3.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/vegetable-item-4.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/vegetable-item-5.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-start">
-                                    <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                        <img src="img/vegetable-item-6.jpg" class="img-fluid rounded" alt="">
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-2">Big Banana</h6>
-                                        <div class="d-flex mb-2">
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star text-secondary"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                        <div class="d-flex mb-2">
-                                            <h5 class="fw-bold me-2">2.99 $</h5>
-                                            <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-center my-4">
-                                    <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="position-relative">
-                                    <img src="img/banner-fruits.jpg" class="img-fluid w-100 rounded" alt="">
-                                    <div class="position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%);">
-                                        <h3 class="text-secondary fw-bold">Fresh <br> Fruits <br> Banner</h3>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
         <!-- Single Product End -->
 
         <%@ include file="footer.jsp" %>
+        <script>
+            // Load Tailwind CSS within Shadow DOM
+            document.addEventListener("DOMContentLoaded", function () {
+                const container = document.querySelector("#tailwind-container");
 
+                // Create shadow root for isolation
+                const shadow = container.attachShadow({mode: "open"});
+
+                // Add style and HTML content within shadow DOM
+                shadow.innerHTML = `
+                    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg">
+                        <div class="flex items-center">
+                            <img alt="Store logo" class="w-20 h-20 rounded-full" height="80" src="./images/${seller.image}" width="80"/>
+                            <div class="ml-4">
+                                <div class="text-lg font-semibold">${seller.storeName}</div>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <div class="flex items-center">
+                                <button class="flex items-center px-4 py-2 text-red-600 border border-red-600 rounded-md">
+                                    <i class="fas fa-comments mr-2"></i>Chat Ngay
+                                </button>
+                                <button class="flex items-center px-4 py-2 ml-2 text-gray-600 border border-gray-600 rounded-md">
+                                    <i class="fas fa-store mr-2"></i>Xem Shop
+                                </button>
+                            </div>
+                        </div>
+                        <div class="ml-8">
+                            <div class="flex space-x-8">
+                                <div class="text-center">
+                                    <div class="text-gray-500">Đánh Giá</div>
+                                    <div class="text-red-600">${seller.rating}</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-gray-500">Tỉ Lệ Phản Hồi</div>
+                                    <div class="text-red-600">100%</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-gray-500">Tham Gia</div>
+                                    <div class="text-red-600">${seller.joinDate}</div>
+                                </div>
+                            </div>
+                            <div class="flex space-x-8 mt-2">
+                                <div class="text-center">
+                                    <div class="text-gray-500">Sản Phẩm</div>
+                                    <div class="text-red-600">${totalProducts}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        </script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var loginModal = document.getElementById('loginModal');

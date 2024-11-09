@@ -83,6 +83,25 @@ public class SellerDAO extends DBContext {
         return seller;
     }
 
+    public Seller getSellerByProductId(int id) {
+        Seller seller = null;
+        String sql = "SELECT s.seller_id FROM Seller s \n"
+                + "JOIN Product p ON s.seller_id = p.seller_id \n"
+                + "WHERE p.product_id = ?";
+        try (PreparedStatement ps = new DBContext().conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                seller = new Seller();
+                seller.setSellerId(rs.getInt("seller_id"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return seller;
+    }
+
     // C?p nh?t t�i kho?n
     public boolean updateProfile(Account account) {
         String query = "UPDATE Account SET username = ?, email = ?, phone = ?, address = ? WHERE email = ?";

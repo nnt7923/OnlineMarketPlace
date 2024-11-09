@@ -82,6 +82,32 @@
                 cursor: pointer;
                 border: solid 1px #BA68C8
             }
+            
+            .card{
+                border: none;
+                border-radius: 10px;
+                width: 100%;
+                margin-top: -10%;
+            }
+
+            .text-darkk{
+                font-weight: bold;
+                margin-top: 18px;
+                font-size: 20px;
+                letter-spacing: 0.5px;
+            }
+            .card-bottom{
+                background: #3E454D;
+                border-radius: 6px;
+            }
+            
+            .btn-secondary{
+                height: 40px!important;
+                margin-top: 3px;
+            }
+            .btn-secondary:focus{
+                box-shadow: none;
+            }
         </style>
     </head>
 
@@ -95,87 +121,105 @@
 
 
         <%@ include file="header.jsp" %>
-            <div class="container mt-5">
-        <!-- Hiển thị thông báo thành công -->
-        <c:if test="${not empty successMessage}">
-            <div class="alert alert-success" role="alert">
-                ${successMessage}
-            </div>
-        </c:if>
+        <div class="container mt-5">
+            <!-- Hiển thị thông báo thành công -->
+            <c:if test="${not empty successMessage}">
+                <div class="alert alert-success" role="alert">
+                    ${successMessage}
+                </div>
+            </c:if>
 
-        <div class="body">
-            <div class="container rounded bg-white mt-5 mb-5">
-                <div class="row">
-                    <div class="col-md-3 border-right">
-                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-                            <span class="font-weight-bold">${account.username}</span> 
-                            <span class="text-black-50">${account.email}</span>
-                            <span> </span>
-                            <a class="btn mt-3" href="orderhistory">Purchase History</a>
-                        </div>
-                    </div>
-                    <div class="col-md-5 border-right">
-                        <div class="p-3 py-5">
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <h4 class="text-right">Profile Settings</h4>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="labels">Username</label>
-                                    <input type="text" class="form-control" placeholder="Họ và tên: Chưa cập nhật" 
-                                           value="${account.username}" disabled> 
+            <div class="body">
+                <div class="container rounded bg-white mt-5 mb-5">
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="card mb-4 mb-xl-0">
+                                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                    <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                                    <span class="font-weight-bold">${account.username}</span> 
+                                    <span class="text-black-50">${account.email}</span>
+                                    <span> </span>
+                                    <a class="btn mt-3" href="orderhistory">Purchase History</a>
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="labels">Gmail</label>
-                                    <input type="text" class="form-control" placeholder="Gmail: Chưa cập nhật" 
-                                           value="${account.email}" disabled>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="labels">Address </label>
-                                    <input type="text" class="form-control" placeholder="Địa chỉ: Chưa cập nhật" 
-                                           value="${account.address}" disabled>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12">
-                                    <label class="labels">Phone Number</label>
-                                    <input type="text" class="form-control" placeholder="Số điện thoại: Chưa cập nhật" 
-                                           value="${account.phone}" disabled>
+                            <div class="card mb-4 mb-xl-0">
+                                <div class="container d-flex justify-content-center">
+                                    <div class="card p-3" style="margin: 10px 0">
+                                        <div class="d-flex flex-row justify-content-center text-align-center">
+                                                <p class="text-darkk"><i class="fas fa-wallet"></i> TechPays</p>
+                                        </div>
+                                        <div class="card-bottom pt-3 px-3 mb-2" style="padding: 10px">
+                                            <div class="d-flex flex-row justify-content-between text-align-center">
+                                                <div class="d-flex flex-column"><span>Balance amount</span><p>đ <span class="text-white">${sessionScope.wallet.balance}</span></p></div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12 mt-5 text-center">
-                            <a href="editprofile" class="btn btn-primary profile-button" style="color: white;">Edit Information</a>
-                            <a href="changePassword.jsp" class="btn btn-primary profile-button" style="color: white;">Change Password</a>
+                        <div class="col-md-6 border-right">
+                            <div class="p-3 py-5">
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <h4 class="text-right">Profile Settings</h4>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Username</label>
+                                        <input type="text" class="form-control" placeholder="Họ và tên: Chưa cập nhật" 
+                                               value="${account.username}" disabled> 
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Gmail</label>
+                                        <input type="text" class="form-control" placeholder="Gmail: Chưa cập nhật" 
+                                               value="${account.email}" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Address </label>
+                                        <input type="text" class="form-control" placeholder="Địa chỉ: Chưa cập nhật" 
+                                               value="${account.address}" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="labels">Phone Number</label>
+                                        <input type="text" class="form-control" placeholder="Số điện thoại: Chưa cập nhật" 
+                                               value="${account.phone}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 mt-5 text-center">
+                                <a href="editprofile" class="btn btn-primary profile-button" style="color: white;">Edit Information</a>
+                                <a href="changePassword.jsp" class="btn btn-primary profile-button" style="color: white;">Change Password</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div> 
+            </div> 
 
 
-        <%@ include file="footer.jsp" %>
+            <%@ include file="footer.jsp" %>
 
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
 
 
-        <!-- JavaScript Libraries -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+            <!-- JavaScript Libraries -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="lib/easing/easing.min.js"></script>
+            <script src="lib/waypoints/waypoints.min.js"></script>
+            <script src="lib/lightbox/js/lightbox.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-        <!-- Template Javascript -->
-        <script src="js/main.js"></script>
+            <!-- Template Javascript -->
+            <script src="js/main.js"></script>
     </body>
 
 </html>

@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script type="text/javascript" src="${pageContext.request.contextPath}/ckeditor/ckeditor.js"></script>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -159,6 +160,7 @@
                             <div class="form-group">
                                 <label for="pddescribe">Description:</label>
                                 <textarea id="pddescribe" name="pddescribe" rows="4">${productDetail.describe}</textarea>
+                                <script>CKEDITOR.replace('pddescribe');</script>
                             </div>
 
                             <div class="form-group">
