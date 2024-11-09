@@ -268,28 +268,48 @@
         <!-- Fruits Shop Start -->
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
-                <div class="shop-container">
-                    <img src="https://via.placeholder.com/80" alt="Ensure Gold" class="shop-logo">
-
-                    <div class="shop-info">
-                        <h2>Store Name</h2>
-                        <p></p>
-
-                        <div class="shop-actions">
-                            <a href="#" class="btn btn-chat">Chat Ngay</a>
-                            <a href="${pageContext.request.contextPath}/shop?sid=${productDetail.product.seller_id}" class="btn btn-view-shop">Xem Shop</a>
-                            <a href="${productDetail.product.getSellerId()}">test</a>
+                <body>
+                    <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg">
+                        <div class="flex items-center">
+                            <img alt="Store logo" class="w-20 h-20 rounded-full" height="80" src="./images/${seller.image}" width="80"/>
+                            <div class="ml-4">
+                                <div class="text-lg font-semibold">
+                                    ${seller.storeName}
+                                </div>
+                            </div>
                         </div>
-
-
+                        <div class="ml-4">
+                            <div class="flex items-center">
+                                
+                            </div>
+                        </div>
+                        <div class="ml-8">
+                            <div class="flex space-x-8">
+                                
+                                
+                                <div class="text-center">
+                                    <div class="text-gray-500">
+                                        Tham Gia
+                                    </div>
+                                    <div class="text-red-600">
+                                        ${seller.joinDate}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex space-x-8 mt-2">
+                                <div class="text-center">
+                                    <div class="text-gray-500">
+                                        Sản Phẩm
+                                    </div>
+                                    <div class="text-red-600">
+                                        ${totalProducts}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="shop-stats">
-                        <div>Đánh Giá <span>133,6k</span></div>
-                        <div>Tỉ Lệ Phản Hồi <span>100%</span></div>
-                        <div>Sản Phẩm <span>72</span></div>
-                        <div>Thời Gian Phản Hồi <span>trong vài giờ</span></div>
-                    </div>
-                </div>
+                </body>
+
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="row g-4">
@@ -334,17 +354,19 @@
                                         <div class="mb-3">
                                             <h4>Categories</h4>
                                             <ul class="list-unstyled fruite-categorie">
-                                                    
+
                                                 <c:forEach items="${categories}" var="c">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
-                                                            <a href="${pageContext.request.contextPath}/shop?cid=${c.cid}">  
+                                                            <a href="${pageContext.request.contextPath}/shop?cid=${c.cid}">
                                                                 <i class="fas fa-apple-alt me-2"></i>${c.cname}
                                                             </a>
                                                             <span>(${c.productCount})</span>
                                                         </div>
                                                     </li>
                                                 </c:forEach>
+
+
                                             </ul>
 
 

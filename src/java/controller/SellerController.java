@@ -88,12 +88,45 @@ public class SellerController extends HttpServlet {
         HttpSession session = request.getSession();
         Account user = (Account) session.getAttribute("account");
 
-        SellerDAO sellerDAO = new SellerDAO();
-        Seller seller = sellerDAO.getSellerByAccountId(user.getAccountId());
-        user.setSeller(seller);
-        int sellerId = user.getSeller().getSellerId();
-        seller = sellerDAO.getSellerBySellerId(sellerId);
-        request.setAttribute("seller", seller);
+        if (user != null) {
+            SellerDAO sellerDAO = new SellerDAO();
+            Seller seller = sellerDAO.getSellerByAccountId(user.getAccountId());
+            user.setSeller(seller);
+
+            int sellerId = user.getSeller().getSellerId();
+            seller = sellerDAO.getSellerBySellerId(sellerId);
+            request.setAttribute("seller", seller);
+            // Default to the first page if "page" parameter is missing or invalid
+           
+            try {
+                // Fetch total products, orders, and out-of-stock count
+                int totalProducts = sellerDAO.getTotalProductsBySellerId(sellerId);
+                int totalOrders = sellerDAO.getTotalOrdersBySellerId(sellerId);
+                int outOfStockCount = sellerDAO.getOutOfStockProductsCountBySellerId(sellerId, 4);
+
+               
+
+                // Calculate the total number of pages
+                int pageSize = 5; // Number of orders per page
+                int totalPages = (int) Math.ceil((double) totalOrders / pageSize);
+
+                // Set attributes in the request to pass data to JSP
+                request.setAttribute("totalProducts", totalProducts);
+                request.setAttribute("totalOrders", totalOrders);
+                request.setAttribute("outOfStockCount", outOfStockCount);
+
+                request.setAttribute("totalPages", totalPages);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                request.setAttribute("errorMessage", "Error fetching order status data: " + e.getMessage());
+            }
+        } else {
+            // Redirect to login or an error page if user is not logged in
+            request.setAttribute("errorMessage", "User is not logged in.");
+        }
+
+
         request.getRequestDispatcher("./dashboard.jsp").forward(request, response);
     }
 

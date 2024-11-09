@@ -24,6 +24,62 @@ import model.Product;
  */
 public class ProductDetailsDAO extends DBContext {
 
+    public List<ProductDetails> getProductBySid(String sid) {
+
+        String sql = "SELECT p.product_id, p.name AS product_name, p.img AS product_image, p.price AS product_price, "
+                + "p.title AS product_title, pd.pddescribe, pd.pdspecification, pd.pd_id, pd.pdname, pd.pdprice_discount, "
+                + "pd.pdcolor, pd.pdimg AS product_detail_image, pd.pdcriteria, pd.pdquantity, p.seller_id "
+                + "FROM Product p "
+                + "JOIN ProductDetails pd ON p.product_id = pd.product_id "
+                + "WHERE p.seller_id = ?";
+        List<ProductDetails> list = new ArrayList<>();
+
+        try (PreparedStatement stmt = new DBContext().conn.prepareStatement(sql)) {
+            stmt.setString(1, sid);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) { // ??i t? if thành while ?? duy?t toàn b? k?t qu?
+                int productId = rs.getInt("product_id");
+                String productName = rs.getString("product_name");
+                String productImage = rs.getString("product_image");
+                float productPrice = rs.getFloat("product_price");
+                String productTitle = rs.getString("product_title");
+                int sellerId = rs.getInt("seller_id");
+
+                // T?o ??i t??ng Product
+                Product product = new Product(productId, productName, productImage, productPrice, productTitle, 0, sellerId, 0);
+
+                // L?y chi ti?t s?n ph?m
+                int productDetailId = rs.getInt("pd_id");
+                String productDetailName = rs.getString("pdname");
+                float priceDiscount = rs.getFloat("pdprice_discount");
+                String productColor = rs.getString("pdcolor");
+                String productDetailImage = rs.getString("product_detail_image");
+                String productCriteria = rs.getString("pdcriteria");
+                int productQuantity = rs.getInt("pdquantity");
+                String productDescribe = rs.getString("pddescribe");
+                String productSpecification = rs.getString("pdspecification");
+
+                // Tách chu?i hình ?nh n?u có nhi?u hình ?nh
+                String[] images = productDetailImage.split(",");
+
+                // T?o ??i t??ng ProductDetails
+                ProductDetails productDetails = new ProductDetails(
+                        productDetailId, product, productDetailName, priceDiscount, productColor,
+                        images, productCriteria, productQuantity, productDescribe, productSpecification
+                );
+                list.add(productDetails);
+            }
+
+            rs.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", ex);
+        }
+
+        return list;
+    }
+
     public List<ProductDetails> getProductDetailsByPidAndCriteria(String pid, String criteria) {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
@@ -367,20 +423,69 @@ public class ProductDetailsDAO extends DBContext {
     public List<ProductDetails> getProductDetailsByCategory(int cid) {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
-                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount,  "
-                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification "
+                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
+                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification, p.seller_id "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "JOIN Category c ON p.cid = c.cid "
-                + "WHERE c.cid = ?";
+                + "WHERE c.cid = ? AND p.seller_id = ?"; // Thêm ?i?u ki?n seller_id
         try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
-            stm.setInt(1, cid);
+            stm.setInt(1, cid); // Thi?t l?p tham s? category ID
+           
 
             // Ki?m tra và x? lý criteria n?u nó là null
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
+                int productId = rs.getInt("product_id");
+                int productDetailId = rs.getInt("pd_id");
+                String productDetailName = rs.getString("pdname");
+                String productImage = rs.getString("pdimg");
+                String productCriteria = rs.getString("pdcriteria");
+                String productColor = rs.getString("pdcolor");
+                int productQuantity = rs.getInt("pdquantity");
+                float discountPrice = rs.getFloat("pdprice_discount");
+                String productName = rs.getString("name");
+                float originalPrice = rs.getFloat("price");
+                String productImg = rs.getString("img");
+                String productDescribe = rs.getString("pddescribe");
+                String productSpecification = rs.getString("pdspecification");
 
+                String[] images = productImage.split(",");
+
+                // T?o ??i t??ng Product v?i seller_id
+                Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
+
+                // T?o ??i t??ng ProductDetails
+                ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
+
+                list.add(productDetail);
+            }
+
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", ex);
+        }
+
+        return list;
+    }
+
+    public List<ProductDetails> getAllProductsSortedByPriceDescending() {
+        List<ProductDetails> list = new ArrayList<>();
+        String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
+                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
+                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification "
+                + "FROM ProductDetails pd "
+                + "JOIN Product p ON pd.product_id = p.product_id "
+                + "WHERE p.seller_id = ? " // Thêm ?i?u ki?n l?c theo seller_id
+                + "ORDER BY pd.pdprice_discount DESC"; // S?p x?p giá gi?m d?n theo ProductDetails
+
+        try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
+            
+
+            ResultSet rs = stm.executeQuery();
+
+            while (rs.next()) {
                 int productId = rs.getInt("product_id");
                 int productDetailId = rs.getInt("pd_id");
                 String productDetailName = rs.getString("pdname");
@@ -414,62 +519,19 @@ public class ProductDetailsDAO extends DBContext {
         return list;
     }
 
-    public List<ProductDetails> getAllProductsSortedByPriceDescending() {
-        List<ProductDetails> list = new ArrayList<>();
-        String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
-                + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "p.name, p.price, p.product_id,p.img, pd.pddescribe, pd.pdspecification "
-                + "FROM ProductDetails pd "
-                + "JOIN Product p ON pd.product_id = p.product_id "
-                + "ORDER BY pd.pdprice_discount DESC"; // S?p x?p gi?m d?n theo giá t? ProductDetails
-
-        try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
-            ResultSet rs = stm.executeQuery();
-
-            while (rs.next()) {
-                int productId = rs.getInt("product_id");
-                int productDetailId = rs.getInt("pd_id");
-                String productDetailName = rs.getString("pdname");
-                String productImage = rs.getString("pdimg");
-                String productCriteria = rs.getString("pdcriteria");
-                String productColor = rs.getString("pdcolor");
-                int productQuantity = rs.getInt("pdquantity");
-                float discountPrice = rs.getFloat("pdprice_discount");
-                String productName = rs.getString("name");
-                float originalPrice = rs.getFloat("price");
-                String productImg = rs.getString("img");
-                String productDescribe = rs.getString("pddescribe");
-                String productSpecification = rs.getString("pdspecification");
-
-                String[] images = productImage.split(",");
-
-                // T?o ??i t??ng ProductDetails
-                Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
-
-                // T?o ??i t??ng ProductDetails
-                ProductDetails productDetail = new ProductDetails(productDetailId, product, productDetailName, discountPrice, productColor, images, productCriteria, productQuantity, productDescribe, productSpecification);
-
-                list.add(productDetail);
-            }
-
-            rs.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", ex);
-        }
-
-        return list;
-    }
-
     public List<ProductDetails> getAllProductsSortedByPriceAscending() {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "p.name, p.price, p.product_id,p.img, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
-                + "ORDER BY pd.pdprice_discount ASC"; // S?p x?p gi?m d?n theo giá t? ProductDetails
+                + "WHERE p.seller_id = ? " // Thêm ?i?u ki?n l?c theo seller_id
+                + "ORDER BY pd.pdprice_discount ASC"; // S?p x?p giá gi?m d?n theo ProductDetails
 
         try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
+            
+
             ResultSet rs = stm.executeQuery();
 
             while (rs.next()) {
@@ -489,7 +551,7 @@ public class ProductDetailsDAO extends DBContext {
 
                 String[] images = productImage.split(",");
 
-                // T?o ??i t??ng ProductDetails
+                // T?o ??i t??ng Product
                 Product product = new Product(productId, productName, productImg, originalPrice, null, 0, 0, 0);
 
                 // T?o ??i t??ng ProductDetails
@@ -514,11 +576,12 @@ public class ProductDetailsDAO extends DBContext {
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "JOIN Category c ON p.cid = c.cid "
-                + "WHERE c.cid = ? "
-                + "ORDER BY p.price DESC"; // S?p x?p gi?m d?n theo giá
+                + "WHERE c.cid = ? AND p.seller_id = ? "
+                + "ORDER BY p.price DESC"; // S?p x?p giá gi?m d?n
 
         try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
-            stm.setInt(1, cid);
+            stm.setInt(1, cid); // Thi?t l?p tham s? category ID
+            
 
             ResultSet rs = stm.executeQuery();
 
@@ -560,15 +623,16 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "p.name, p.price, p.product_id,p.img, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification, p.seller_id "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
                 + "JOIN Category c ON p.cid = c.cid "
-                + "WHERE c.cid = ? "
-                + "ORDER BY p.price ASC"; // S?p x?p gi?m d?n theo giá
+                + "WHERE c.cid = ?"
+                + "ORDER BY p.price ASC"; // S?p x?p giá t? th?p ??n cao
 
         try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
             stm.setInt(1, cid);
+           
 
             ResultSet rs = stm.executeQuery();
 
@@ -610,14 +674,15 @@ public class ProductDetailsDAO extends DBContext {
         List<ProductDetails> list = new ArrayList<>();
         String sql = "SELECT pd.pd_id, pd.pdname, pd.pdimg, pd.pdcriteria, "
                 + "pd.pdcolor, pd.pdquantity, pd.pdprice_discount, "
-                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification "
+                + "p.name, p.price, p.product_id, p.img, pd.pddescribe, pd.pdspecification, p.seller_id "
                 + "FROM ProductDetails pd "
                 + "JOIN Product p ON pd.product_id = p.product_id "
-                + "WHERE pd.pdname LIKE ? OR p.name LIKE ?";
+                + "WHERE (pd.pdname LIKE ? OR p.name LIKE ?) AND p.seller_id = ?";
 
         try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
             stm.setString(1, "%" + keyword + "%");
             stm.setString(2, "%" + keyword + "%");
+           
 
             ResultSet rs = stm.executeQuery();
 

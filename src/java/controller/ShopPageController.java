@@ -27,15 +27,19 @@ public class ShopPageController extends HttpServlet {
         // L?y danh sách danh m?c v?i s? l??ng s?n ph?m
         List<Category> categories = categoryDAO.getAllCategories();
 
-        // L?y categoryId và sort t? request
+        // L?y các tham s? t? request
         String cidParam = request.getParameter("cid");
         String sortParam = request.getParameter("sort");
         String searchParam = request.getParameter("search");
+        String sidParam = request.getParameter("sid"); // Thêm sidParam ?? l?y s?n ph?m c?a m?t seller c? th?
 
         List<ProductDetails> products;
 
-        // X? lý tìm ki?m
-        if (searchParam != null && !searchParam.trim().isEmpty()) {
+        // Ki?m tra n?u có sellerId (sidParam) thì l?y s?n ph?m theo sellerId
+        if (sidParam != null && !sidParam.trim().isEmpty()) {
+            products = pd.getProductBySid(sidParam); // L?y s?n ph?m theo seller ID
+        } else if (searchParam != null && !searchParam.trim().isEmpty()) {
+            // X? lý tìm ki?m
             products = pd.search(searchParam.trim());
         } else {
             // X? lý s?p x?p và l?y danh sách s?n ph?m
@@ -54,7 +58,6 @@ public class ShopPageController extends HttpServlet {
                     products = pd.getAllProductsSortedByPriceAscending();
                 }
             } else {
-                // N?u không có categoryId, l?y t?t c? s?n ph?m
                 if (cidParam != null) {
                     int cid = Integer.parseInt(cidParam);
                     products = pd.getProductDetailsByCategory(cid);
@@ -70,22 +73,18 @@ public class ShopPageController extends HttpServlet {
         if (pageParam != null) {
             try {
                 page = Integer.parseInt(pageParam);
-                if (page < 1) { // ??m b?o trang không nh? h?n 1
+                if (page < 1) {
                     page = 1;
                 }
             } catch (NumberFormatException e) {
-                page = 1; // N?u không th? chuy?n ??i, m?c ??nh là trang 1
+                page = 1;
             }
         }
 
-        // S? s?n ph?m m?i trang 
         int itemsPerPage = 9;
-        // L?y danh sách s?n ph?m ?ã phân trang
         List<ProductDetails> paginatedProducts = Pagination.getPaginatedList(products, page, itemsPerPage);
-        // Tính t?ng s? trang
         int totalPages = Pagination.calculateTotalPages(products.size(), itemsPerPage);
 
-        // Thi?t l?p vào request
         request.setAttribute("products", paginatedProducts);
         request.setAttribute("categories", categories);
         request.setAttribute("totalPages", totalPages);

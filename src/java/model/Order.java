@@ -17,6 +17,10 @@ public class Order {
     
     public Order() {
     }
+    
+    public Order(Seller seller) {
+        this.seller = seller;
+    }
 
     public Order(int orderId, Customer customer, double totalPrice, String note, Date ordertime, Shipping shipping, List<OrderDetail> orderDetail, Status status, String payment, Seller seller) {
         this.orderId = orderId;

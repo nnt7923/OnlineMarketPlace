@@ -33,27 +33,35 @@ import model.Status;
 public class SellerDAO extends DBContext {
     
     
-    public List<Seller> getSellerName() {
-        List<Seller> list = new ArrayList<>();
+    public Seller getSellerById(int sellerId) {
+        Seller seller = null;
         
-        String sql = "SELLECT s.store_name FROM Seller s WHERE s.seller = s.seller_id = ?";
+        String sql = "SELLECT * FROM Seller  WHERE seller_id = ?";
         
         try (PreparedStatement stm = new DBContext().conn.prepareStatement(sql)) {
+            stm.setInt(1, sellerId);
             ResultSet rs = stm.executeQuery();
             
+            
             while (rs.next()) {
-                String storeName = rs.getString("store_name");
+                seller = new Seller(
+                        rs.getInt("seller_id"),
+                        rs.getInt("account_id"),
+                        rs.getString("store_name"),
+                        rs.getDouble("rating"),
+                        rs.getDate("join_date"),
+                        rs.getDate("last_online"),
+                        rs.getString("seller_image")
+                );
                 
-                Seller seller = new Seller(storeName);
                 
-                list.add(seller);
             }
             rs.close();
             
         } catch (SQLException e) {
             Logger.getLogger(ProductDetailsDAO.class.getName()).log(Level.SEVERE, "SQL exception occurred", e);
         }
-        return list;
+        return seller;
     }
 
     public Seller getSellerByProductId(int id) {

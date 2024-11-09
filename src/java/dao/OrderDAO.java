@@ -28,6 +28,23 @@ import model.Seller;
 public class OrderDAO extends DBContext {
 
     Connection connection = new DBContext().conn;
+    
+    
+    public int countOrder(int sellerId) {
+        int countOrder = 0;
+        String sql = "select count(*) from Order where seller_id = ?";
+        try (PreparedStatement stm = conn.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
+            stm.setInt(1, sellerId);
+            if(rs.next()){
+                countOrder = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return countOrder;
+
+    }
 
     public int addOrder(Order order) throws SQLException {
         String sql = "INSERT INTO Orders (customer_id, shipping_id, totalPrice, note, create_date, status_id, payment_method, seller_id) VALUES (?, ?, ?, ?, NOW(), ?, ?, ?)";

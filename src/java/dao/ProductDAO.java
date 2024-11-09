@@ -9,8 +9,21 @@ import java.util.List;
 import model.ProductDetails;
 
 public class ProductDAO extends DBContext {
-    
-   
+
+    public int countProduct() {
+        int count = 0;
+        String sql = "select count(*) from Product";
+        try (PreparedStatement stm = conn.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
+            if(rs.next()){
+                count = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+
+    }
 
     public List<Product> getProductsByCategoryId(int cid) {
         List<Product> products = new ArrayList<>();
@@ -441,7 +454,6 @@ public class ProductDAO extends DBContext {
 
         return productDetailsList;
     }
-    
 
     public List<Product> getProductByCategory(int cid) {
         List<Product> productList = new ArrayList<>();

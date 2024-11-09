@@ -399,7 +399,7 @@
 
                             <div class="col-lg-6 col-md-12 col-12">
                                 <div class="product-info">
-                                    <a href="${pageContext.request.contextPath}/shop?sid=${productDetail.product.getSellerId()}">test</a>
+
                                     <h2 class="title" id="product-name">${productDetail.name}</h2>
 
 
@@ -505,6 +505,73 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <body>
+                                <div class="flex items-center p-4 bg-white border border-gray-200 rounded-lg">
+                                    <div class="flex items-center">
+                                        <img alt="Store logo" class="w-20 h-20 rounded-full" height="80" src="./images/${seller.image}" width="80"/>
+                                        <div class="ml-4">
+                                            <div class="text-lg font-semibold">
+                                                ${seller.storeName}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="flex items-center">
+                                            <button class="flex items-center px-4 py-2 text-red-600 border border-red-600 rounded-md">
+                                                <i class="fas fa-comments mr-2">
+                                                </i>
+                                                Chat Ngay
+                                            </button>
+                                            <a class="flex items-center px-4 py-2 ml-2 text-gray-600 border border-gray-600 rounded-md" href="${pageContext.request.contextPath}/shop?sid=${productDetail.product.getSellerId()}">
+                                                <i class="fas fa-store mr-2" >
+
+                                                </i>
+                                                Xem Shop
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="ml-8">
+                                        <div class="flex space-x-8">
+                                            <div class="text-center">
+                                                <div class="text-gray-500">
+                                                    Đánh Giá
+                                                </div>
+                                                <div class="text-red-600">
+                                                    ${seller.rating}
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="text-gray-500">
+                                                    Tỉ Lệ Phản Hồi
+                                                </div>
+                                                <div class="text-red-600">
+                                                    100%
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="text-gray-500">
+                                                    Tham Gia
+                                                </div>
+                                                <div class="text-red-600">
+                                                    ${seller.joinDate}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex space-x-8 mt-2">
+                                            <div class="text-center">
+                                                <div class="text-gray-500">
+                                                    Sản Phẩm
+                                                </div>
+                                                <div class="text-red-600">
+                                                    ${totalProducts}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </body>
 
 
                             <div class="col-lg-12">
